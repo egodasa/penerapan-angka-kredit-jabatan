@@ -73,7 +73,7 @@
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
                       <?php if($d['status_proses'] == 'Sedang Proses Verifikasi' || $d['status_proses'] == 'Verifikasi Gagal'): ?>
-                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Verifikasi Data</a>
+                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Verifikasi Angka Kredir</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                       <?php if($d['status_proses'] == 'Sedang Proses Penilaian' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
@@ -88,7 +88,7 @@
                       <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="dropdown-header">Data Usulan</li>
-                        <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Berkas</a></li>
+                        <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>

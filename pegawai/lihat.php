@@ -7,11 +7,21 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Profil Saya";
   if(isset($_SESSION['nip'])){
-    $detail = $db->query("SELECT a.*, b.nm_posisi, d.nm_jabatan, e.nm_pangkat FROM tbl_pegawai a 
-                            JOIN tbl_posisi b ON a.id_posisi = b.id_posisi 
-                            JOIN tbl_jabatan_pangkat c ON a.id_jabatan_pangkat = c.id_jabatan_pangkat 
-                            JOIN tbl_jabatan d ON c.id_jabatan = d.id_jabatan 
-                            JOIN tbl_pangkat e ON c.id_pangkat = e.id_pangkat WHERE a.nip = :nip", ["nip" => $_SESSION['nip']])->fetch(); 
+    $detail = $db->query("SELECT a.*,
+                                 f.nm_posisi,
+                                 d.nm_jabatan,
+                                 e.nm_pangkat
+                          FROM   tbl_pegawai a
+                                 JOIN tbl_unit_kerja b
+                                   ON a.id_unit_kerja = b.id_unit_kerja
+                                 JOIN tbl_jabatan_pangkat c
+                                   ON a.id_jabatan_pangkat = c.id_jabatan_pangkat
+                                 JOIN tbl_jabatan d
+                                   ON c.id_jabatan = d.id_jabatan
+                                 JOIN tbl_pangkat e
+                                   ON c.id_pangkat = e.id_pangkat
+                                 JOIN tbl_posisi f
+                                   ON b.id_posisi = f.id_posisi WHERE a.nip = :nip", ["nip" => $_SESSION['nip']])->fetch(); 
     // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
     if(empty($detail)){
       header("Location: $alamat_web/pegawai");
