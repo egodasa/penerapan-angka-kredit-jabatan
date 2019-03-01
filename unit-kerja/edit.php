@@ -44,7 +44,7 @@
                 <label class="form-label">Atasan</label>
                 <select class="form-control custom-select"  name="nip_atasan" required>
                   <?php foreach($pegawai as $d): ?>
-                    <option value="<?=$d['nip']?>"><?=$d['nip']." ".$d['nm_lengkap']?></option>
+                    <option value="<?=$d['nip']?>"><?=$d['nm_lengkap']." (".$d['nip'].")"?></option>
                   <?php endforeach; ?>
                 </select>
               </div>

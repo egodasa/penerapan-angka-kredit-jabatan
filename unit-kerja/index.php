@@ -52,7 +52,7 @@ if(count($data) > 0){
                     <?=$d['nm_posisi']?>
                   </td>
                   <td>
-                    <?=$d['nip']." ".$d['nm_pegawai']?>
+                    <?=$d['nm_lengkap']." (".$d['nip'].")"?>
                   </td>
                   <td>
                     <a href="<?=$alamat_web?>/unit-kerja/proses_hapus.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-danger">Hapus</a>
