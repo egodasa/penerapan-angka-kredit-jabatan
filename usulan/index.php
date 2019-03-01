@@ -90,9 +90,12 @@
                         <li class="dropdown-header">Data Usulan</li>
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
-                        <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
-                        <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
-                        <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
+                        <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
+                        <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
+                        <?php endif; ?>
                         <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                           <li class="dropdown-header">Aksi</li>
                           <li><a href="<?=$alamat_web?>/usulan/proses_hapus.php?id_usulan=<?=$d['id_usulan']?>">Hapus Usulan</a></li>
