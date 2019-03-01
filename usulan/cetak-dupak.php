@@ -97,7 +97,7 @@
 <body>
   <div style="width: 100%;">
     <p style="width: 50%; float: right;font-weight: bold;">
-      ANAK LAMPIRAN lg <br/>
+      ANAK LAMPIRAN 1-g <br/>
       PERATURAN BERSAMA <br/>
       KEPALA PERPUSTAKAAN NASIONAL REPUBLIK INDONESIA <br/>
       DAN KEPALA BADAN KEPEGAWAIAN NEGARA<br/>
@@ -236,6 +236,8 @@
       </tr>
       <?php
         $no_unsur = 0;
+        $total_ak = 0;
+        $total_ak_baru = 0;
         foreach($data_usulan_utama as $index=>$d):
       ?>
       <tr>
@@ -251,8 +253,6 @@
       </tr>
       <?php
           $no_kegiatan = 0;
-          $total_ak = 0;
-          $total_ak_baru = 0;
           $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND a.id_unsur = :id_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
           foreach($detail_usulan as $i=>$u):
           $total_ak += $u['angka_kredit'];
@@ -308,6 +308,8 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
       </tr>
       <?php
+        $total_ak_penunjang = 0;
+        $total_ak_penunjang_baru = 0;
         $no_unsur = 0;
         foreach($data_usulan_penunjang as $index=>$d):
       ?>
@@ -324,8 +326,6 @@
       </tr>
       <?php
           $no_kegiatan = 0;
-          $total_ak_penunjang = 0;
-          $total_ak_penunjang_baru = 0;
           $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND a.id_unsur = :id_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
           foreach($detail_usulan as $i=>$u):
           $total_ak_penunjang += $u['angka_kredit'];
