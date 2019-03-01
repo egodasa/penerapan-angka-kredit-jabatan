@@ -5,7 +5,7 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Unit Kerja";
   require("../pengaturan/medoo.php");
-  $data = $db->query("SELECT a.*, b.nm_posisi, c.nip, c.nm_pegawai FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi JOIN tbl_pegawai c ON a.nip_atasan = c.nip")->fetchAll();
+  $data = $db->query("SELECT a.*, b.nm_posisi, c.nip, c.nm_lengkap FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi JOIN tbl_pegawai c ON a.nip_atasan = c.nip")->fetchAll();
 ?>
 <html>
 <head>
