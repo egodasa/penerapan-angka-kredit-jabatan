@@ -1,0 +1,2 @@
+1. Cek folder pengaturan/pengaturan.php untuk mengatur website
+2. Cek di folder pengaturan/database.php untuk konfigurasi database.
