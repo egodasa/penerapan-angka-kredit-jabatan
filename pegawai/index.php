@@ -94,8 +94,8 @@ if(count($data) > 0){
                     <?=$d['nm_posisi']." - ".$d['nm_unit_kerja']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/pegawai/proses_hapus.php?id_pegawai=<?=$d[id_pegawai]?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/pegawai/edit.php?id_pegawai=<?=$d[id_pegawai]?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/pegawai/proses_hapus.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/pegawai/edit.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-primary">Edit</a></td>
                 </tr>
                 <?php 
   $no++;
@@ -103,7 +103,7 @@ if(count($data) > 0){
 }else{
 ?>
                 <tr>
-                  <td colspan=9 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=10 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
                 <?php
 }

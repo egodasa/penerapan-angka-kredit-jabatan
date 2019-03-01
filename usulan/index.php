@@ -111,7 +111,7 @@
             }else{
             ?>
                 <tr>
-                  <td colspan=8 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=7 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
             <?php
             }

@@ -44,8 +44,8 @@
                   <td><?=$no?></td>
                   <td><?=$d['nm_pangkat']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/pangkat/proses_hapus.php?id_pangkat=<?=$d[id_pangkat]?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/pangkat/edit.php?id_pangkat=<?=$d[id_pangkat]?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/pangkat/proses_hapus.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/pangkat/edit.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;
@@ -53,7 +53,7 @@
             }else{
             ?>
                 <tr>
-                  <td colspan=4 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=3 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
             <?php
             }

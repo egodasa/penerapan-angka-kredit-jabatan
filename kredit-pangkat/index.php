@@ -57,7 +57,7 @@
             }else{
             ?>
                 <tr>
-                  <td colspan=4 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=5 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
             <?php
             }
