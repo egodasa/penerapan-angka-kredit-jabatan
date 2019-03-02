@@ -264,10 +264,10 @@
         <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
         <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit_baru']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit_baru'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
       </tr>
       <?php
@@ -337,10 +337,10 @@
         <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
         <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit_baru']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit_baru'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
       </tr>
       <?php

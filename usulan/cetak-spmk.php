@@ -205,8 +205,8 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=tanggal_indo($u['tgl_mulai_kegiatan'])." - ".tanggal_indo($u['tgl_selesai_kegiatan'])?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['satuan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['jumlah_volume_kegiatan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=($u['angka_kredit_murni']*$u['angka_kredit_murni'])?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round(($u['angka_kredit_murni']*$u['angka_kredit_murni']), 4)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;">
           <?php
             if($u['bukti_kegiatan'] != '')
@@ -352,8 +352,8 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=tanggal_indo($u['tgl_mulai_kegiatan'])." - ".tanggal_indo($u['tgl_selesai_kegiatan'])?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['satuan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['jumlah_volume_kegiatan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=($u['angka_kredit_murni']*$u['angka_kredit_murni'])?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['angka_kredit']?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round(($u['angka_kredit_murni']*$u['angka_kredit_murni']), 4)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;">
           <?php
             if($u['bukti_kegiatan'] != '')

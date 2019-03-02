@@ -237,9 +237,9 @@
           <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
           <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
           <td class="isi_tabel_bergaris" style="text-align: left;"><?=$d['butir_kegiatan']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$d['angka_kredit']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$d['angka_kredit_baru']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($d['angka_kredit']+$d['angka_kredit_baru'])?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($d['angka_kredit'], 4)?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($d['angka_kredit_baru'], 4)?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($d['angka_kredit']+$d['angka_kredit_baru']))?></td>
         </tr>
       <?php endforeach; ?>
       <tr>
@@ -247,9 +247,9 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: left;">Jumlah Unsur Utama</td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$angka_kredit?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$angka_kredit_baru?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($angka_kredit+$angka_kredit_baru)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($angka_kredit, 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($angka_kredit_baru, 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($angka_kredit+$angka_kredit_baru), 4)?></td>
       </tr>
       <tr>
         <th class="isi_tabel_bergaris" style="text-align: center;"> </th>
@@ -271,9 +271,9 @@
           <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
           <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
           <td class="isi_tabel_bergaris" style="text-align: left;"><?=$d['butir_kegiatan']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$d['angka_kredit']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$d['angka_kredit_baru']?></td>
-          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($d['angka_kredit']+$d['angka_kredit_baru'])?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($d['angka_kredit'], 4)?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($d['angka_kredit_baru'], 4)?></td>
+          <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($d['angka_kredit']+$d['angka_kredit_baru']), 4)?></td>
         </tr>
       <?php endforeach; ?>
       <tr>
@@ -281,16 +281,16 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: left;">Jumlah Unsur Penunjang</td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$angka_kredit_penjunjang?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=$angka_kredit_penjunjang_baru?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($angka_kredit_penjunjang_baru+$angka_kredit_penjunjang)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($angka_kredit_penjunjang, 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round($angka_kredit_penjunjang_baru, 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($angka_kredit_penjunjang_baru+$angka_kredit_penjunjang), 4)?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td colspan="3" class="isi_tabel_bergaris" style="text-align: left;">Jumlah Unsur Utama dan Unsur Penunjang</td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($angka_kredit_penjunjang + $angka_kredit)?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=($angka_kredit_penjunjang_baru + $angka_kredit_baru)?></td>
-        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=(($angka_kredit_penjunjang + $angka_kredit)+($angka_kredit_penjunjang_baru + $angka_kredit_baru))?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($angka_kredit_penjunjang + $angka_kredit), 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round(($angka_kredit_penjunjang_baru + $angka_kredit_baru), 4)?></td>
+        <td colspan="2" class="isi_tabel_bergaris" style="text-align: center;"><?=round((($angka_kredit_penjunjang + $angka_kredit)+($angka_kredit_penjunjang_baru + $angka_kredit_baru)), 4)?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris"> </td>

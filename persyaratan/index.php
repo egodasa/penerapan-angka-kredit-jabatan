@@ -27,9 +27,9 @@
           </div>
           <div class="box-body table-responsive ">
             Golongan Anda saat ini <b><?=$_SESSION['pangkat']?></b> akan naik pangkat ke <b><?=$_SESSION['pangkat_selanjutnya']?></b> <br/>
-            Total Ak saat ini <?=$ak_sekarang?> (Unsur Utama <?=$detail_ak[0]['angka_kredit']?>, Unsur Penunjang <?=$detail_ak[1]['angka_kredit']?>)<br/>
+            Total Ak saat ini <?=round($ak_sekarang, 4)?> (Unsur Utama <?=round($detail_ak[0]['angka_kredit'], 4)?>, Unsur Penunjang <?=round($detail_ak[1]['angka_kredit'], 4)?>)<br/>
             Total AK yang harus dicapai untuk naik pangkat : <b><?=$_SESSION['angka_kredit_selanjutnya']?></b><br/>
-            Total kekurangan Angka Kredit Anda <b><?=abs($ak_sekarang-$_SESSION['angka_kredit_selanjutnya'])?></b><br/>
+            Total kekurangan Angka Kredit Anda <b><?=round(abs($ak_sekarang-$_SESSION['angka_kredit_selanjutnya']), 4)?></b><br/>
             Untuk memenuhi kenaikan pangkat <b><?=$_SESSION['pangkat_selanjutnya']?></b><br/>
           </div>
         </div>

@@ -61,8 +61,8 @@
                   <td><?=$d['tempat']?></td>
                   <td><a href="<?=$alamat_web."/assets/img/foto/".$d['bukti_kegiatan']?>"><img src="<?=$alamat_web."/assets/img/foto/".$d['bukti_kegiatan']?>" width="100" height="125" /></a></td>
                   <td><?=$d['jumlah_volume_kegiatan']?></td>
-                  <td><?=$d['angka_kredit']?></td>
-                  <td><?=$d['angka_kredit_baru']?></td>
+                  <td><?=round($d['angka_kredit'], 4)?></td>
+                  <td><?=round($d['angka_kredit_baru'], 4)?></td>
                   <td><?=$d['jenis_unsur']?></td>
                   <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                     <td>
