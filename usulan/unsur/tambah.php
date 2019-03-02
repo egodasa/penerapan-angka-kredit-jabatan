@@ -68,13 +68,13 @@
                 <div class="col-xs-6">
                   <div class="form-group">
                     <label class="form-label">Angka Kredit Murni</label>
-                    <input class="form-control"  type="number" name="angka_kredit_murni" onkeyup="hitungKredit()" required />
+                    <input class="form-control"  type="text" name="angka_kredit_murni" onkeyup="hitungKredit()" required />
                   </div>
                 </div>
                 <div class="col-xs-6">
                   <div class="form-group">
                     <label class="form-label">Angka Kredit Persentase</label>
-                    <input class="form-control"  type="number" name="angka_kredit_persentase" onkeyup="hitungKredit()" required />
+                    <input class="form-control"  type="text" name="angka_kredit_persentase" onkeyup="hitungKredit()" required />
                   </div>
                 </div>
               </div>
