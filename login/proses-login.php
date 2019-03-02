@@ -14,7 +14,8 @@
                                    c.nm_jabatan,
                                    d.nm_pangkat,
                                    a.id_unit_kerja,
-                                   f.nm_unit_kerja
+                                   f.nm_unit_kerja,
+                                   f.id_posisi
                             FROM   tbl_pegawai a
                                    JOIN tbl_jabatan_pangkat b
                                      ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
