@@ -1,4 +1,5 @@
 <?php
+  session_start();
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
@@ -109,9 +110,21 @@
       TENTANG<br/>
       KETENTUAN PELAKSANAAN PERATURAN MENTERI <br/>
       PENDAYAGUNAAN APARATUR NEGARA DAN REFORMASI<br/>
-      BIROKRASI REPUBLIK INDONESIA NOMOR 9 TAHUN 2014 <br/>
-      TENTANG JABATAN FUNGSIONAL <?=strtoupper($d['nm_posisi'])?> DAN <br/>
-      ANGKA KREDITNYA
+      BIROKRASI REPUBLIK INDONESIA 
+      <?php if($_SESSION['nm_posisi'] == 'Pustakawan'): ?>
+        NOMOR 9 TAHUN 2014 <br/>
+        TENTANG JABATAN FUNGSIONAL PUSTAKAWAN DAN <br/>
+        ANGKA KREDITNYA
+      <?php elseif($_SESSION['nm_posisi'] == 'Arsiparis'): ?>
+        NOMOR 3 TAHUN 2009  <br/>
+        TENTANG JABATAN FUNGSIONAL
+        ARSIPARIS DAN <br/> ANGKA KREDITNYA
+      <?php elseif($_SESSION['nm_posisi'] == 'Pranata Laboratorium Pendidikan'): ?>
+        NOMOR 03 TAHUN 2010 <br/>
+        TENTANG JABATAN FUNGSIONAL
+        PRANATA LABORATORIUM PENDIDIKAN DAN <br/> ANGKA KREDITNYA
+      <?php endif; ?>
+      
     </p>
     <div style="clear: both;"></div>
   </div>

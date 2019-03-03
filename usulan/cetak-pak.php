@@ -337,8 +337,8 @@
       <br/>
       <br/>
       TEMBUSAN disampaikan kepada: <br/>
-      1. Pustakawan yang bersangkutan. <br/>
-      2. Pimpinan Unit Kerja Pustakawan yang bersangkutan. <br/>
+      1. <?=$pegawai['nm_posisi']?> yang bersangkutan. <br/>
+      2. Pimpinan Unit Kerja <?=$pegawai['nm_posisi']?> yang bersangkutan. <br/>
       3. Pejabat yang menetapkan angka kredit.<br/>
       4. Kepala Bagian Kepegawaian & HKTL Universitas Andalas. <br/>
     </div>
