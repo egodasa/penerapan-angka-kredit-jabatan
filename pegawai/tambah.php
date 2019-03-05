@@ -106,8 +106,12 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Kredit Awal</label>
-              <input class="form-control"  type="number" name="kredit_awal" required />
+              <label class="form-label">Kredit Awal Unsur Utama</label>
+              <input class="form-control"  type="number" name="kredit_awal_utama" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kredit Awal Unsur Penunjang</label>
+              <input class="form-control"  type="number" name="kredit_awal_penunjang" required />
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary" >Simpan</button>

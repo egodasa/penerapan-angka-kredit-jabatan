@@ -19,7 +19,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     'tgl_lulus' => $_POST['tgl_lulus'],
     'id_jabatan_pangkat' => $_POST['id_jabatan_pangkat'],
     'id_unit_kerja' => $_POST['id_unit_kerja'],
-    'kredit_awal' => $_POST['kredit_awal'],
+    'kredit_awal_utama' => $_POST['kredit_awal_utama'],
+    'kredit_awal_penunjang' => $_POST['kredit_awal_penunjang'],
     'foto' => $nama_file,
     'tmt_jabatan' => $_POST['tmt_jabatan'],
   ]);

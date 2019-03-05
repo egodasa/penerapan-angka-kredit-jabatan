@@ -31,7 +31,7 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Kategori</h3>
+          <h3 class="box-title">Edit Pegawai</h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/pegawai/proses_edit.php" enctype="multipart/form-data">
@@ -130,8 +130,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Kredit Awal</label>
-                <input class="form-control"  type="number" name="kredit_awal" required />
+                <label class="form-label">Kredit Awal Unsur Utama</label>
+                <input class="form-control"  type="number" name="kredit_awal_utama" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kredit Awal Unsur Penunjang</label>
+                <input class="form-control"  type="number" name="kredit_awal_penunjang" required />
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-primary" >Simpan perubahan</button>
@@ -154,7 +158,8 @@
     document.getElementsByName("pendidikan")[0].value = "<?=$detail['pendidikan']?>";
     document.getElementsByName("id_jabatan_pangkat")[0].value = "<?=$detail['id_jabatan_pangkat']?>";
     document.getElementsByName("id_unit_kerja")[0].value = "<?=$detail['id_unit_kerja']?>";
-    document.getElementsByName("kredit_awal")[0].value = "<?=$detail['kredit_awal']?>";
+    document.getElementsByName("kredit_awal_utama")[0].value = "<?=$detail['kredit_awal_utama']?>";
+    document.getElementsByName("kredit_awal_penunjang")[0].value = "<?=$detail['kredit_awal_penunjang']?>";
     document.getElementsByName("tmt_jabatan")[0].value = "<?=$detail['tmt_jabatan']?>";
     document.getElementsByName("tgl_lulus")[0].value = "<?=$detail['tgl_lulus']?>";
   </script>
