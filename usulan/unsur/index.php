@@ -45,6 +45,7 @@
                   <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan" || $_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                     <th>Aksi</th>
                   <?php endif; ?>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -74,6 +75,7 @@
                     <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Angka Kredit</a>
                     </td>
                   <?php endif; ?>
+                  <td><?=$d['status']?></td>
                 </tr>
             <?php 
               $no++;
@@ -81,7 +83,7 @@
             }else{
             ?>
                 <tr>
-                  <td colspan=12 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=13 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
             <?php
             }

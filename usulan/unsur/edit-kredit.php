@@ -108,10 +108,18 @@
                 </div>
                 <div class="col-xs-6">
                   <div class="form-group">
-                  <label class="form-label">Total Kredit</label>
-                  <input class="form-control"  type="text" name="angka_kredit" required />
+                    <label class="form-label">Total Kredit</label>
+                    <input class="form-control"  type="text" name="angka_kredit" required />
+                  </div>
                 </div>
-                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Status Unsur Kegiatan</label>
+                <select name="status" class="form-control">
+                  <option value="">-- Pilih Status --</option>
+                  <option value="Diterima">Diterima</option>
+                  <option value="Ditolak">Ditolak</option>
+                </select>
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-primary" >Simpan</button>
@@ -142,6 +150,7 @@
     document.getElementsByName("angka_kredit_persentase")[0].value = "<?=$detail['angka_kredit_persentase_baru']?>";
     document.getElementsByName("jumlah_volume_kegiatan")[0].value = "<?=$detail['jumlah_volume_kegiatan']?>";
     document.getElementsByName("angka_kredit")[0].value = "<?=$detail['angka_kredit']?>";
+    document.getElementsByName("status")[0].value = "<?=$detail['status']?>";
     hitungKredit();
   </script>
   <?php include "../../template/footer.php"; ?>
