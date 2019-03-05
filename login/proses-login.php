@@ -5,7 +5,8 @@
     require_once('../pengaturan/database.php');
     $query = $db->prepare("SELECT e.nm_posisi,
                                    e.jenis_posisi,
-                                   a.kredit_awal,
+                                   a.kredit_awal_utama,
+                                   a.kredit_awal_penunjang,
                                    a.nip,
                                    a.nm_lengkap,
                                    a.jk,
@@ -40,7 +41,9 @@
       $_SESSION['jenis_posisi'] = $data['jenis_posisi'];
       $_SESSION['jk'] = $data['jk'];
       $_SESSION['foto'] = $data['foto'];
-      $_SESSION['angka_kredit'] = $data['kredit_awal'];
+      $_SESSION['angka_kredit'] = $data['kredit_awal_utama']+$data['kredit_awal_penunjang'];
+      $_SESSION['kredit_awal_utama'] = $data['kredit_awal_utama'];
+      $_SESSION['kredit_awal_penunjang'] = $data['kredit_awal_penunjang'];
       $_SESSION['jabatan'] = $data['nm_jabatan'];
       $_SESSION['pangkat'] = $data['nm_pangkat'];
       
