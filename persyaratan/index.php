@@ -5,7 +5,7 @@
   require("../pengaturan/medoo.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Beranda";
-  $detail_ak = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' GROUP BY c.jenis_unsur")->fetchAll();
+  $detail_ak = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' GROUP BY c.jenis_unsur")->fetchAll();
   $ak_sekarang = $detail_ak[0]['angka_kredit']+$detail_ak[1]['angka_kredit']+$_SESSION['angka_kredit'];
 ?>
 <html>
