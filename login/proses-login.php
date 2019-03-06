@@ -34,7 +34,7 @@
     // Cek apakah nip betul atau tidak
     if($data){
       // Cek apakah pegawai tersebut atasan disebuah unit kerja atau tidak
-      $atasan = $db->query("SELECT nip_atasan FROM tb_unit_kerja WHERE nip_atasan = :nip_atasan", ['nip_atasan' => $data['nip']])->fetch();
+      $atasan = $db->query("SELECT nip_atasan FROM tbl_unit_kerja WHERE nip_atasan = :nip_atasan", ['nip_atasan' => $data['nip']])->fetch();
       // Jika pegawai tersebut atasan, maka tandai pegawai tersebut lewat session
       if($atasan)
       {
