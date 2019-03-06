@@ -3,23 +3,25 @@
   require("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   require("../pengaturan/medoo.php");
+  use Medoo\Medoo;
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Usulan";
-  $sql = "SELECT * FROM tbl_usulan ";
-  $where = null;
-  if($_SESSION['posisi'] == 'Tenaga Kependidikan')
+  $sql = "SELECT * FROM tbl_usulan WHERE 1";
+  $where = [];
+  if($_SESSION['jenis_posisi'] == 'Tenaga Kependidikan')
   {
+    $sql .= " AND nip = :nip";
     $where = ['nip' => $_SESSION['nip']];
   }
-  else if($_SESSION['posisi'] == 'Staff Kepegawaian')
+  else if($_SESSION['jenis_posisi'] == 'Staff Kepegawaian')
   {
-    $where = ['status_proses' => Medoo::raw("IS NOT NULL")];
+    $sql .= " AND status_proses <> ''";
   }
-  else if($_SESSION['posisi'] == 'Tim Penilai')
+  else if($_SESSION['jenis_posisi'] == 'Tim Penilai')
   {
-    $where = ['status_proses' => "Sedang Proses Penilaian"];
+    $sql .= " AND status_proses = 'Sedang Proses Penilaian'";
   }
-  $data = $db->select("tbl_usulan", "*", $where);
+  $data = $db->query($sql, $where)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <html>
