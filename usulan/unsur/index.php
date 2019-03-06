@@ -67,12 +67,15 @@
                   <td><?=$d['jenis_unsur']?></td>
                   <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                     <td>
+                      <?php if($_SESSION['atasan'] == "1"): ?>
+                        <a href="<?=$alamat_web?>/usulan/unsur/edit-status-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Status</a>
+                      <?php endif; ?>
                     <a href="<?=$alamat_web?>/usulan/unsur/proses_hapus.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-danger">Hapus</a> 
                     <a href="<?=$alamat_web?>/usulan/unsur/edit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit</a>
                     </td>
                   <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                     <td>
-                    <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Angka Kredit</a>
+                      <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Angka Kredit</a>
                     </td>
                   <?php endif; ?>
                   <td><?=$d['status']?></td>
