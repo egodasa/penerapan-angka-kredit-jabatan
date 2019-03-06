@@ -1,9 +1,12 @@
 <?
   session_start();
   require('../pengaturan/helper.php');
+  require('../vendor/autoload.php');
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    require_once('../pengaturan/database.php');
-    $query = $db->prepare("SELECT e.nm_posisi,
+    require_once('../pengaturan/medoo.php');
+    
+    // Cek login pengguna
+    $data = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
                                    a.kredit_awal_utama,
                                    a.kredit_awal_penunjang,
@@ -27,13 +30,20 @@
                                    JOIN tbl_unit_kerja f
                                      ON a.id_unit_kerja = f.id_unit_kerja
                                    JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1");
-    $query->bindParam('nip', $_POST['nip']); 
-    $query->bindParam('password', $_POST['password']); 
-    $query->execute();
-    $data = $query->fetch();
+                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch();
     // Cek apakah nip betul atau tidak
     if($data){
+      // Cek apakah pegawai tersebut atasan disebuah unit kerja atau tidak
+      $atasan = $db->query("SELECT nip_atasan FROM tb_unit_kerja WHERE nip_atasan = :nip_atasan", ['nip_atasan' => $data['nip']])->fetch();
+      // Jika pegawai tersebut atasan, maka tandai pegawai tersebut lewat session
+      if($atasan)
+      {
+        $_SESSION['atasan'] = "1";
+      }
+      else
+      {
+        $_SESSION['atasan'] = "0";
+      }
       $_SESSION['nip'] = $data['nip'];
       $_SESSION['id_posisi'] = $data['id_posisi'];
       $_SESSION['nm_lengkap'] = $data['nm_lengkap'];
@@ -47,11 +57,7 @@
       $_SESSION['jabatan'] = $data['nm_jabatan'];
       $_SESSION['pangkat'] = $data['nm_pangkat'];
       
-      $query = $db->prepare("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1");
-      $query->bindParam('peringkat', $data['peringkat']);
-      $query->execute();
-      $data = $query->fetchAll();
-      
+      $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
       
       $_SESSION['angka_kredit_selanjutnya'] = $data[1]['nilai_kredit'];
       $_SESSION['id_jabatan_selanjutnya'] = $data[1]['id_jabatan'];
