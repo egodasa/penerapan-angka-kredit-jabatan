@@ -5,8 +5,10 @@
   require("../pengaturan/medoo.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Beranda";
-  $detail_ak = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' GROUP BY c.jenis_unsur")->fetchAll();
-  $ak_sekarang = $detail_ak[0]['angka_kredit']+$detail_ak[1]['angka_kredit']+$_SESSION['angka_kredit'];
+  $detail_ak_utama = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Utama'")->fetchAll();
+  $detail_ak_penunjang = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Penunjang'")->fetchAll();
+
+  $ak_sekarang = $detail_ak_utama[0]['angka_kredit']+$detail_ak_penunjang[0]['angka_kredit']+$_SESSION['angka_kredit'];
 ?>
 <html>
 
@@ -27,7 +29,7 @@
           </div>
           <div class="box-body table-responsive ">
             Golongan Anda saat ini <b><?=$_SESSION['pangkat']?></b> akan naik pangkat ke <b><?=$_SESSION['pangkat_selanjutnya']?></b> <br/>
-            Total KUM saat ini <?=round($ak_sekarang, 4)?> (Unsur Utama <?=round($detail_ak[0]['angka_kredit']+$_SESSION['kredit_awal_utama'], 4)?>, Unsur Penunjang <?=round($detail_ak[1]['angka_kredit']+$_SESSION['kredit_awal_penunjang'], 4)?>)<br/>
+            Total KUM saat ini <?=round($ak_sekarang, 4)?> (Unsur Utama <?=round($detail_ak_utama[0]['angka_kredit']+$_SESSION['kredit_awal_utama'], 4)?>, Unsur Penunjang <?=round($detail_ak_penunjang[0]['angka_kredit']+$_SESSION['kredit_awal_penunjang'], 4)?>)<br/>
             Total KUM yang harus dicapai untuk naik pangkat : <b><?=$_SESSION['angka_kredit_selanjutnya']?></b><br/>
             Total kekurangan Angka Kredit Anda <b><?=round(abs($ak_sekarang-$_SESSION['angka_kredit_selanjutnya']), 4)?></b><br/>
             Untuk memenuhi kenaikan pangkat <b><?=$_SESSION['pangkat_selanjutnya']?></b><br/>
