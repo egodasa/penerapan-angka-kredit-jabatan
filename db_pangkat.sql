@@ -44,20 +44,7 @@ INSERT INTO `tbl_berkas_penilaian` (`id_berkas_penilaian`, `id_usulan`, `id_berk
 (24,	2,	10,	NULL),
 (25,	2,	11,	NULL),
 (26,	2,	12,	NULL),
-(27,	2,	13,	NULL),
-(60,	5,	1,	NULL),
-(61,	5,	2,	NULL),
-(62,	5,	3,	NULL),
-(63,	5,	4,	NULL),
-(64,	5,	5,	NULL),
-(65,	5,	6,	NULL),
-(66,	5,	7,	NULL),
-(67,	5,	8,	NULL),
-(68,	5,	9,	NULL),
-(69,	5,	10,	NULL),
-(70,	5,	11,	NULL),
-(71,	5,	12,	NULL),
-(72,	5,	13,	NULL);
+(27,	2,	13,	NULL);
 
 DROP TABLE IF EXISTS `tbl_jabatan`;
 CREATE TABLE `tbl_jabatan` (
@@ -226,54 +213,19 @@ INSERT INTO `tbl_posisi` (`id_posisi`, `nm_posisi`, `jenis_posisi`) VALUES
 (6,	'Tim Penilai',	'Tim Penilai'),
 (7,	'admin',	'');
 
-DROP TABLE IF EXISTS `tbl_unit_kerja`;
-CREATE TABLE `tbl_unit_kerja` (
-  `id_unit_kerja` int(11) NOT NULL AUTO_INCREMENT,
-  `nm_unit_kerja` varchar(100) NOT NULL,
-  `nip_atasan` varchar(20) NOT NULL,
-  `id_posisi` int(11) NOT NULL,
-  PRIMARY KEY (`id_unit_kerja`),
-  KEY `id_posisi` (`id_posisi`),
-  CONSTRAINT `tbl_unit_kerja_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `tbl_unit_kerja` (`id_unit_kerja`, `nm_unit_kerja`, `nip_atasan`, `id_posisi`) VALUES
-(1,	'UPT Perpustakaan Pusat',	'77777',	4),
-(2,	'Ekonomi',	'12345',	4),
-(3,	'Hukum',	'12345',	4),
-(4,	'Pasca Sarjana',	'12345',	4),
-(5,	'Tata Usaha',	'12345',	2),
-(6,	'Kepegawaian dan HKTL',	'12345',	2),
-(7,	'Farmasi',	'12345',	2),
-(8,	'Ilmu Budaya',	'12345',	2),
-(9,	'Kedokteran',	'12345',	2),
-(10,	'Keperawatan',	'12345',	2),
-(11,	'Rektorat',	'12345',	2),
-(12,	'Ekonomi',	'12345',	2),
-(13,	'Pasca Sarjana',	'12345',	2),
-(14,	'UPT Perpustakaan Pusat',	'12345',	2),
-(15,	'MIPA',	'12345',	3),
-(16,	'Pertanian',	'12345',	3),
-(17,	'Rektorat',	'12345',	5),
-(18,	'Teknik ',	'12345',	3),
-(19,	'Teknologi Pertanian',	'12345',	3),
-(20,	'Ekonomi',	'12345',	3),
-(21,	'Farmasi',	'12345',	3),
-(22,	'Kedokteran',	'12345',	3);
-
-DROP TABLE IF EXISTS `tbl_unsur`;
-CREATE TABLE `tbl_unsur` (
-  `id_unsur` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `tbl_sub_unsur`;
+CREATE TABLE `tbl_sub_unsur` (
+  `id_sub_unsur` int(11) NOT NULL AUTO_INCREMENT,
   `nm_unsur` varchar(255) NOT NULL,
   `id_posisi` int(11) NOT NULL,
   `jenis_unsur` enum('Unsur Utama','Unsur Penunjang') NOT NULL,
   `kategori_unsur` enum('Pendidikan','Tugas Pokok','Pengembangan Profesi') NOT NULL DEFAULT 'Tugas Pokok',
-  PRIMARY KEY (`id_unsur`),
+  PRIMARY KEY (`id_sub_unsur`),
   KEY `id_posisi` (`id_posisi`),
-  CONSTRAINT `tbl_unsur_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `tbl_sub_unsur_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`, `id_posisi`, `jenis_unsur`, `kategori_unsur`) VALUES
+INSERT INTO `tbl_sub_unsur` (`id_sub_unsur`, `nm_unsur`, `id_posisi`, `jenis_unsur`, `kategori_unsur`) VALUES
 (2,	'Pengelolaan Perpustakaan',	4,	'Unsur Utama',	'Tugas Pokok'),
 (3,	'Pelayanan Perpustakaan',	4,	'Unsur Utama',	'Tugas Pokok'),
 (4,	'Pengembangan Sistem Kepustakawanan',	4,	'Unsur Utama',	'Tugas Pokok'),
@@ -308,6 +260,49 @@ INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`, `id_posisi`, `jenis_unsur`, `ka
 (34,	'Perolehan gelar kesarjanaan lainnya',	4,	'Unsur Penunjang',	'Pendidikan'),
 (35,	'Peran serta dalam seminar/lokakarya/ konferensi di bidang kepustakawanan',	4,	'Unsur Penunjang',	'Tugas Pokok');
 
+DROP TABLE IF EXISTS `tbl_unit_kerja`;
+CREATE TABLE `tbl_unit_kerja` (
+  `id_unit_kerja` int(11) NOT NULL AUTO_INCREMENT,
+  `nm_unit_kerja` varchar(100) NOT NULL,
+  `nip_atasan` varchar(20) NOT NULL,
+  `id_posisi` int(11) NOT NULL,
+  PRIMARY KEY (`id_unit_kerja`),
+  KEY `id_posisi` (`id_posisi`),
+  CONSTRAINT `tbl_unit_kerja_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `tbl_unit_kerja` (`id_unit_kerja`, `nm_unit_kerja`, `nip_atasan`, `id_posisi`) VALUES
+(1,	'UPT Perpustakaan Pusat',	'12345',	4),
+(2,	'Ekonomi',	'12345',	4),
+(3,	'Hukum',	'12345',	4),
+(4,	'Pasca Sarjana',	'12345',	4),
+(5,	'Tata Usaha',	'12345',	2),
+(6,	'Kepegawaian dan HKTL',	'12345',	2),
+(7,	'Farmasi',	'12345',	2),
+(8,	'Ilmu Budaya',	'12345',	2),
+(9,	'Kedokteran',	'12345',	2),
+(10,	'Keperawatan',	'12345',	2),
+(11,	'Rektorat',	'12345',	2),
+(12,	'Ekonomi',	'12345',	2),
+(13,	'Pasca Sarjana',	'12345',	2),
+(14,	'UPT Perpustakaan Pusat',	'12345',	2),
+(15,	'MIPA',	'12345',	3),
+(16,	'Pertanian',	'12345',	3),
+(17,	'Rektorat',	'12345',	5),
+(18,	'Teknik ',	'12345',	3),
+(19,	'Teknologi Pertanian',	'12345',	3),
+(20,	'Ekonomi',	'12345',	3),
+(21,	'Farmasi',	'12345',	3),
+(22,	'Kedokteran',	'12345',	3);
+
+DROP TABLE IF EXISTS `tbl_unsur`;
+CREATE TABLE `tbl_unsur` (
+  `id_unsur` int(11) NOT NULL AUTO_INCREMENT,
+  `nm_unsur` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_unsur`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 DROP TABLE IF EXISTS `tbl_usulan`;
 CREATE TABLE `tbl_usulan` (
   `id_usulan` int(11) NOT NULL AUTO_INCREMENT,
@@ -330,8 +325,7 @@ CREATE TABLE `tbl_usulan` (
 
 INSERT INTO `tbl_usulan` (`id_usulan`, `tgl_usulan`, `status_proses`, `keterangan`, `nip`, `masa_penilaian_awal`, `masa_penilaian_akhir`, `tgl_penyesuaian`, `tgl_pengesahan`, `id_jabatan_pangkat_selanjutnya`, `id_jabatan_pangkat_sekarang`, `masa_kerja_golongan_lama`, `masa_kerja_golongan_baru`) VALUES
 (1,	'2019-02-02',	'Angka Kredit Diterima',	'',	'11111',	'2019-03-02',	'2019-07-02',	'2019-02-21',	'2019-02-01',	3,	2,	'1 tahun',	'2 tahun'),
-(2,	'2019-03-02',	'Verifikasi Gagal',	'bukti tidak sesuai',	'11111',	'2013-01-02',	'2015-12-02',	NULL,	NULL,	4,	3,	'9 Tahun 10 Bulan',	'12 Tahun 10 Bulan'),
-(5,	'0000-00-00',	NULL,	NULL,	'11111',	'0000-00-00',	'0000-00-00',	NULL,	NULL,	4,	3,	'9 Tahun 10 Bulan',	'12 Tahun 10 Bulan');
+(2,	'2019-03-02',	'Verifikasi Gagal',	'bukti tidak sesuai',	'11111',	'2013-01-02',	'2015-12-02',	NULL,	NULL,	4,	3,	'9 Tahun 10 Bulan',	'12 Tahun 10 Bulan');
 
 DROP TABLE IF EXISTS `tbl_usulan_unsur`;
 CREATE TABLE `tbl_usulan_unsur` (
@@ -350,18 +344,18 @@ CREATE TABLE `tbl_usulan_unsur` (
   `id_usulan` int(11) NOT NULL,
   `tingkat_kesulitan` varchar(30) NOT NULL,
   `jumlah_volume_kegiatan` int(11) NOT NULL,
-  `id_unsur` int(11) NOT NULL,
+  `id_sub_unsur` int(11) NOT NULL,
   `status` varchar(20) DEFAULT NULL,
   `bukti_kegiatan` text NOT NULL,
   `keterangan` varchar(255) NOT NULL,
   PRIMARY KEY (`id_usulan_unsur`),
-  KEY `id_unsur` (`id_unsur`),
+  KEY `id_unsur` (`id_sub_unsur`),
   KEY `id_usulan` (`id_usulan`),
   CONSTRAINT `tbl_usulan_unsur_ibfk_1` FOREIGN KEY (`id_usulan`) REFERENCES `tbl_usulan` (`id_usulan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tbl_usulan_unsur_ibfk_2` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_unsur` (`id_unsur`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `tbl_usulan_unsur_ibfk_3` FOREIGN KEY (`id_sub_unsur`) REFERENCES `tbl_sub_unsur` (`id_sub_unsur`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `tbl_usulan_unsur` (`id_usulan_unsur`, `tgl_mulai_kegiatan`, `tgl_selesai_kegiatan`, `butir_kegiatan`, `satuan`, `angka_kredit_murni`, `angka_kredit_murni_baru`, `angka_kredit_persentase`, `angka_kredit_persentase_baru`, `angka_kredit`, `angka_kredit_baru`, `tempat`, `id_usulan`, `tingkat_kesulitan`, `jumlah_volume_kegiatan`, `id_unsur`, `status`, `bukti_kegiatan`, `keterangan`) VALUES
+INSERT INTO `tbl_usulan_unsur` (`id_usulan_unsur`, `tgl_mulai_kegiatan`, `tgl_selesai_kegiatan`, `butir_kegiatan`, `satuan`, `angka_kredit_murni`, `angka_kredit_murni_baru`, `angka_kredit_persentase`, `angka_kredit_persentase_baru`, `angka_kredit`, `angka_kredit_baru`, `tempat`, `id_usulan`, `tingkat_kesulitan`, `jumlah_volume_kegiatan`, `id_sub_unsur`, `status`, `bukti_kegiatan`, `keterangan`) VALUES
 (3,	'2018-07-01',	'2019-02-01',	'Mengelola perpustakaan Besar',	'Hari',	0,	1,	0,	20,	10,	26,	'Perpustakaan',	1,	'Susah',	130,	2,	NULL,	'270219020746080800.jpeg',	''),
 (4,	'2019-02-02',	'2019-02-04',	'Mengikuti seminar kepustakawan',	'hari',	0,	0.12,	0,	20,	0.5,	0.576,	'Padang Panjang',	1,	'Lumayan',	24,	6,	NULL,	'270219021008729000.jpg',	''),
 (5,	'2014-02-01',	'2017-02-01',	'Mengikuti pendidikan S1',	'Hari',	0,	0,	0,	0,	15,	0,	'Surabaya',	1,	'Susah',	768,	10,	NULL,	'270219021121265200.jpeg',	''),
@@ -373,4 +367,4 @@ INSERT INTO `tbl_usulan_unsur` (`id_usulan_unsur`, `tgl_mulai_kegiatan`, `tgl_se
 (11,	'2018-07-02',	'2018-07-12',	'Membuat tulisan ilmiah populer di bidang kepustakawanan yang diperluaskan di media massa',	'karya',	2,	0,	100,	0,	4,	0,	'Padang',	2,	'-',	2,	5,	NULL,	'020319044230980400.jpg',	''),
 (12,	'2018-12-12',	'2019-03-11',	'Keanggotaan dalam tim penilai, sebagai anggota',	'Setiap tahun',	0.75,	0,	100,	0,	0.75,	0,	'universitas andalas',	2,	'-',	1,	9,	NULL,	'020319044531327300.jpg',	'');
 
--- 2019-03-07 05:02:42
+-- 2019-03-07 06:24:24

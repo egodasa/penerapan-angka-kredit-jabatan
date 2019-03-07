@@ -5,7 +5,7 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Unsur Kegiatan";
   require("../pengaturan/medoo.php");
-  $data= $db->query("SELECT a.*, b.nm_posisi FROM tbl_unsur a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
+  $data= $db->query("SELECT a.*, b.nm_posisi FROM tbl_sub_unsur a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
 ?>
 <html>
 <head>
@@ -59,8 +59,8 @@ if(count($data) > 0){
                     <?=$d['kategori_unsur']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
                 <?php 
   $no++;

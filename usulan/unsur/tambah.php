@@ -5,7 +5,7 @@
   require("../../pengaturan/medoo.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Tambah Data Unsur";
-  $unsur = $db->select("tbl_unsur", "*", ["id_posisi" => $_SESSION['id_posisi']]); 
+  $unsur = $db->select("tbl_sub_unsur", "*", ["id_posisi" => $_SESSION['id_posisi']]); 
 ?>
 <html>
 <head>
@@ -27,10 +27,10 @@
             <input type="hidden" name="id_usulan" value="<?=$_GET['id_usulan']?>" />
             <div class="form-group">
               <label class="form-label">Unsur</label>
-              <select class="form-control custom-select"  name="id_unsur" required>
+              <select class="form-control custom-select"  name="id_sub_unsur" required>
                 <option selected disabled>-- Pilih Unsur --</option>
                 <?php foreach($unsur as $d): ?>
-                  <option value="<?=$d['id_unsur']?>"><?=$d['nm_unsur']." - ".$d['kategori_unsur']." - ".$d['jenis_unsur']?></option>
+                  <option value="<?=$d['id_sub_unsur']?>"><?=$d['nm_unsur']." - ".$d['kategori_unsur']." - ".$d['jenis_unsur']?></option>
                 <?php endforeach; ?>
               </select>
             </div>

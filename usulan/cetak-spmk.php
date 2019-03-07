@@ -4,8 +4,8 @@
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
   use Dompdf\Dompdf;
-  $data_usulan = $db->query("SELECT a.id_usulan, a.id_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY a.id_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY a.id_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data_usulan = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
   $pegawai = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
                                    a.kredit_awal,
@@ -209,7 +209,7 @@
         <th class="isi_tabel_bergaris" style="text-align: center;">8</th>
       </tr>
   <?php
-      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND a.id_unsur = :id_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
+      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND a.id_sub_unsur = :id_sub_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_sub_unsur" => $d['id_sub_unsur']])->fetchAll();
       foreach($detail_usulan as $i=>$u):
   ?>
       <tr>
@@ -356,7 +356,7 @@
         <th class="isi_tabel_bergaris" style="text-align: center;">8</th>
       </tr>
   <?php
-      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan']])->fetchAll();
+      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan']])->fetchAll();
       foreach($detail_usulan as $i=>$u):
   ?>
       <tr>

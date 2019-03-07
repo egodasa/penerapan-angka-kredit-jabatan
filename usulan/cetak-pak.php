@@ -10,8 +10,8 @@
   $data_pangkat_sekarang = $db->query("SELECT a.*, b.nm_pangkat, c.nm_jabatan FROM tbl_jabatan_pangkat a JOIN tbl_pangkat b ON a.id_pangkat = b.id_pangkat JOIN tbl_jabatan c ON a.id_jabatan = c.id_jabatan WHERE a.id_jabatan_pangkat = :id", ['id' => $data_usulan['id_jabatan_pangkat_sekarang']])->fetch();
   $data_pangkat_selanjutnya = $db->query("SELECT a.*, b.nm_pangkat, c.nm_jabatan FROM tbl_jabatan_pangkat a JOIN tbl_pangkat b ON a.id_pangkat = b.id_pangkat JOIN tbl_jabatan c ON a.id_jabatan = c.id_jabatan WHERE a.id_jabatan_pangkat = :id", ['id' => $data_usulan['id_jabatan_pangkat_selanjutnya']])->fetch();
   
-  $data_kegiatan_utama = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
-  $data_kegiatan_penunjang = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
+  $data_kegiatan_utama = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
+  $data_kegiatan_penunjang = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
   $pegawai = $db->query("SELECT e.nm_posisi, a.*,
                                    e.jenis_posisi,
                                    b.peringkat,

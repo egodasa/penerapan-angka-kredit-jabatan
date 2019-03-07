@@ -6,8 +6,8 @@
   
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Edit Unsur Kegiatan";
-  if(isset($_GET['id_unsur'])){
-    $detail = $db->get("tbl_unsur", "*", ["id_unsur" => $_GET['id_unsur']]); 
+  if(isset($_GET['id_sub_unsur'])){
+    $detail = $db->get("tbl_sub_unsur", "*", ["id_sub_unsur" => $_GET['id_sub_unsur']]); 
     
     $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => "Tenaga Kependidikan"]);
     
@@ -36,7 +36,7 @@
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/unsur-kegiatan/proses_edit.php" enctype="multipart/form-data">
-              <input class="form-control"  type="hidden" name="id_unsur" value="<?=$detail['id_unsur']?>" />
+              <input class="form-control"  type="hidden" name="id_sub_unsur" value="<?=$detail['id_sub_unsur']?>" />
               <div class="form-group">
                 <label class="form-label">Nama Unsur Kegiatan</label>
                 <input class="form-control"  type="text" name="nm_unsur" required />

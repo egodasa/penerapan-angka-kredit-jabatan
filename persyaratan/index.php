@@ -5,8 +5,8 @@
   require("../pengaturan/medoo.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Beranda";
-  $detail_ak_utama = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Utama'")->fetchAll();
-  $detail_ak_penunjang = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_unsur c on a.id_unsur = c.id_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Penunjang'")->fetchAll();
+  $detail_ak_utama = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_sub_unsur c on a.id_sub_unsur = c.id_sub_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Utama'")->fetchAll();
+  $detail_ak_penunjang = $db->query("SELECT ifnull(SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END), 0) AS angka_kredit, ifnull(SUM(a.angka_kredit_baru), 0) AS angka_kredit_baru FROM tbl_usulan_unsur a JOIN tbl_usulan b on a.id_usulan = b.id_usulan JOIN tbl_sub_unsur c on a.id_sub_unsur = c.id_sub_unsur WHERE b.nip = '$_SESSION[nip]' AND a.status <> 'Ditolak' AND c.jenis_unsur = 'Unsur Penunjang'")->fetchAll();
 
   $ak_sekarang = $detail_ak_utama[0]['angka_kredit']+$detail_ak_penunjang[0]['angka_kredit']+$_SESSION['angka_kredit'];
 ?>
