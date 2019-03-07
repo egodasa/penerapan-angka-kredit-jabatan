@@ -302,6 +302,11 @@ CREATE TABLE `tbl_unsur` (
   PRIMARY KEY (`id_unsur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`) VALUES
+(1,	'Pendidikan'),
+(2,	'Tugas Pokok'),
+(3,	'Pengembangan Profesi'),
+(4,	'Pengembangan Profesi Penunjang');
 
 DROP TABLE IF EXISTS `tbl_usulan`;
 CREATE TABLE `tbl_usulan` (
@@ -367,4 +372,4 @@ INSERT INTO `tbl_usulan_unsur` (`id_usulan_unsur`, `tgl_mulai_kegiatan`, `tgl_se
 (11,	'2018-07-02',	'2018-07-12',	'Membuat tulisan ilmiah populer di bidang kepustakawanan yang diperluaskan di media massa',	'karya',	2,	0,	100,	0,	4,	0,	'Padang',	2,	'-',	2,	5,	NULL,	'020319044230980400.jpg',	''),
 (12,	'2018-12-12',	'2019-03-11',	'Keanggotaan dalam tim penilai, sebagai anggota',	'Setiap tahun',	0.75,	0,	100,	0,	0.75,	0,	'universitas andalas',	2,	'-',	1,	9,	NULL,	'020319044531327300.jpg',	'');
 
--- 2019-03-07 06:24:24
+-- 2019-03-07 06:40:43
