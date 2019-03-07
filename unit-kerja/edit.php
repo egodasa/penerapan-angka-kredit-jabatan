@@ -67,7 +67,7 @@
   </div>
   <script>
     document.getElementsByName("nm_unit_kerja")[0].value = "<?=$detail['nm_unit_kerja']?>";
-    document.getElementsByName("jenis_unit_kerja")[0].value = "<?=$detail['jenis_unit_kerja']?>";
+    document.getElementsByName("id_posisi")[0].value = "<?=$detail['id_posisi']?>";
     document.getElementsByName("nip_atasan")[0].value = "<?=$detail['nip_atasan']?>";
   </script>
   <?php include "../template/footer.php"; ?>
