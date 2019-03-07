@@ -3,9 +3,9 @@
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Daftar Unsur Kegiatan";
+  $judul_halaman = "Daftar Unsur";
   require("../pengaturan/medoo.php");
-  $data= $db->query("SELECT a.*, b.nm_posisi FROM tbl_unsur a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
+  $data= $db->select("tbl_unsur", "*");
 ?>
 <html>
 <head>
@@ -21,25 +21,21 @@
       <section class="content">
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title">Daftar Unsur Kegiatan</h3>
+            <h3 class="box-title">Daftar Unsur</h3>
           </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/unsur-kegiatan/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/unsur/tambah.php" class="btn btn-flat  btn btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Unsur Kegiatan</th>
-                  <th>Posisi</th>
-                  <th>Jenis Unsur Kegiatan</th>
-                  <th>Kategori Unsur Kegiatan</th>
+                  <th>Nama Unsur</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <?php
-$no = 1;
-if(count($data) > 0){
+<?php
+  $no = 1;
   foreach($data as $d){
 ?>
                 <tr>
@@ -50,28 +46,13 @@ if(count($data) > 0){
                     <?=$d['nm_unsur']?>
                   </td>
                   <td>
-                    <?=$d['nm_posisi']?>
-                  </td>
-                  <td>
-                    <?=$d['jenis_unsur']?>
-                  </td>
-                  <td>
-                    <?=$d['kategori_unsur']?>
-                  </td>
-                  <td>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/unsur/sub-unsur?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat  btn btn-flat btn btn-success">Daftar Sub Unsur</a>
+                    <a href="<?=$alamat_web?>/unsur/proses_hapus.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat  btn btn-flat btn btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/unsur/edit.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat  btn btn-flat btn btn-primary">Edit</a></td>
                 </tr>
-                <?php 
+<?php 
   $no++;
   }
-}else{
-?>
-                <tr>
-                  <td colspan=6 class="text-center">Tidak ada data yang ditampilkan!</td>
-                </tr>
-                <?php
-}
 ?>
               </tbody>
             </table>

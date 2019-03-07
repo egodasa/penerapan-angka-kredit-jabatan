@@ -5,9 +5,9 @@
   require("../pengaturan/medoo.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Kirim Data";
-  $ak_pendidikan = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Pendidikan' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
-  $ak_tugas_pokok = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Tugas Pokok' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
-  $ak_pengembangan_profesi = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Pengembangan Profesi' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  $ak_pendidikan = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Pendidikan' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  $ak_tugas_pokok = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Tugas Pokok' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  $ak_pengembangan_profesi = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Pengembangan Profesi' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
 ?>
 
 <html>
@@ -37,7 +37,7 @@
           <form action="proses_edit.php" method="POST">
             <input type="hidden" name="jenis_usulan" value="kirim-data" />
             <input type="hidden" name="id_usulan" value="<?=$_GET['id_usulan']?>" />
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat  btn btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>

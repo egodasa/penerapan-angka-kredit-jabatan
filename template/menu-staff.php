@@ -37,8 +37,8 @@
           </a>
         </li>
         <li>
-          <a href="<?=$alamat_web?>/unsur-kegiatan">
-            <i class="fa fa-list-alt"></i> <span>Data Unsur Kegiatan</span>
+          <a href="<?=$alamat_web?>/unsur">
+            <i class="fa fa-list-alt"></i> <span>Data Unsur</span>
           </a>
         </li>
         <li>

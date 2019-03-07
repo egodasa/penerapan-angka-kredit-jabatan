@@ -63,8 +63,8 @@
                 <input class="form-control"  type="text" name="masa_kerja_golongan_baru" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat  btn btn-primary" >Simpan</button>
+                <button type="reset" class="btn btn-flat  btn btn-danger" >Reset</button>
               </div>
             </form>
         </div>

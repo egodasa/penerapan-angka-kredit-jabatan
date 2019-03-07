@@ -1,9 +1,14 @@
 <?php 
-  if($_SESSION['jenis_posisi'] == 'Tenaga Kependidikan'){
+  if($_SESSION['jenis_posisi'] == 'Tenaga Kependidikan')
+  {
     include "menu-kependidikan.php";  
-  }else if($_SESSION['jenis_posisi'] == 'Staff Kepegawaian'){
+  }
+  else if($_SESSION['jenis_posisi'] == 'Staff Kepegawaian')
+  {
     include "menu-staff.php";
-  }else{
+  }
+  else
+  {
     include "menu-penilai.php";
   }
 ?>

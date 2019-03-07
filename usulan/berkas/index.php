@@ -66,7 +66,7 @@
                             <input class="form-control" type="file" name="berkas" />
                           </div>  
                           <div class="form-group">
-                            <button type="submit" class="btn btn-primary" >Upload</button>
+                            <button type="submit" class="btn btn-flat  btn btn-primary" >Upload</button>
                           </div>
                         </form>
                       <?php else: ?>
@@ -79,7 +79,7 @@
                               <input class="form-control" type="file" name="berkas" />
                             </div>  
                             <div class="form-group">
-                              <button type="submit" class="btn btn-primary" >Upload</button>
+                              <button type="submit" class="btn btn-flat  btn btn-primary" >Upload</button>
                             </div>
                           </form>
                       <?php endif; ?>

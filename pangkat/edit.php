@@ -41,8 +41,8 @@
                 <input class="form-control"  type="text" name="nm_pangkat" value="<?=$detail['nm_pangkat']?>" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan perubahan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat  btn btn-primary" >Simpan perubahan</button>
+                <button type="reset" class="btn btn-flat  btn btn-danger" >Reset</button>
               </div>
             </form>
         </div>

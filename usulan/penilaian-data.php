@@ -49,7 +49,7 @@
               <label class="form-label">Tanggal Penyesuaian</label>
               <input class="form-control"  type="text" name="tgl_penyesuaian" id="tgl_penyesuaian" readonly required />
             </div>
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat  btn btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>

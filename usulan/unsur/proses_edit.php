@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_usulan_unsur'])){
              `id_usulan` = :id_usulan,
              `tingkat_kesulitan` = :tingkat_kesulitan,
              `jumlah_volume_kegiatan` = :jumlah_volume_kegiatan,
-             `id_unsur` = :id_unsur,
+             `id_sub_unsur` = :id_sub_unsur,
              `bukti_kegiatan` = :bukti_kegiatan WHERE id_usulan_unsur = :id_usulan_unsur";
   $query = $db->prepare($sql);
   $query->bindParam('id_usulan_unsur', $_POST['id_usulan_unsur']);
@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_usulan_unsur'])){
   $query->bindParam('id_usulan', $_POST['id_usulan']);
   $query->bindParam('tingkat_kesulitan', $_POST['tingkat_kesulitan']);
   $query->bindParam('jumlah_volume_kegiatan', $_POST['jumlah_volume_kegiatan']);
-  $query->bindParam('id_unsur', $_POST['id_unsur']);
+  $query->bindParam('id_sub_unsur', $_POST['id_sub_unsur']);
   $query->bindParam('bukti_kegiatan', $nama_file);
   $query->execute();
 }

@@ -1,44 +1,42 @@
 <?php
   session_start();
+  require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
-  // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Edit jabatan";
-  if(isset($_GET['id_jabatan'])){
-    require_once("../pengaturan/database.php");
-    $query = $db->prepare("SELECT * FROM tbl_jabatan WHERE id_jabatan = ? LIMIT 1"); 
-    $query->bindParam(1, $_GET['id_jabatan']);
-    $query->execute();
-    $detail = $query->fetch();
+  require_once("../pengaturan/medoo.php");
+  
+  $judul_halaman = "Edit Unsur";
+  if(isset($_GET['id_unsur'])){
+    $detail = $db->get("tbl_unsur", "*", ["id_unsur" => $_GET['id_unsur']]); 
     
     // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
     if(empty($detail)){
-      header("Location: $alamat_web/jabatan");
+      header("Location: $alamat_web/unsur");
     }
   }else{
-    header("Location: $alamat_web/jabatan");
+    header("Location: $alamat_web/unsur");
   }
 ?>
 <html>
 <head>
-  <?php
-    include("../template/head.php");
-  ?>
+<?php
+  include("../template/head.php");
+?>
 </head>
 <body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
-  <?php include "../template/menu-staff.php"; ?>
+  <?php include "../template/menu.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Jabatan</h3>
+          <h3 class="box-title">Tambah Unsur</h3>
         </div>
         <div class="box-body table-responsive ">
-            <form method="POST" action="<?=$alamat_web?>/jabatan/proses_edit.php">
-              <input class="form-control"  type="hidden" name="id_jabatan" value="<?=$detail['id_jabatan']?>" />
+            <form method="POST" action="<?=$alamat_web?>/unsur/proses_edit.php" enctype="multipart/form-data">
+              <input class="form-control"  type="hidden" name="id_unsur" value="<?=$detail['id_unsur']?>" />
               <div class="form-group">
-                <label class="form-label" >Nama jabatan</label>
-                <input class="form-control"  type="text" name="nm_jabatan" value="<?=$detail['nm_jabatan']?>" required />
+                <label class="form-label">Nama Unsur</label>
+                <input class="form-control"  type="text" name="nm_unsur" required />
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-flat  btn btn-primary" >Simpan perubahan</button>
@@ -49,6 +47,9 @@
       </div>
     </section>
   </div>
+  <script>
+    document.getElementsByName("nm_unsur")[0].value = "<?=$detail['nm_unsur']?>";
+  </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
 </div>

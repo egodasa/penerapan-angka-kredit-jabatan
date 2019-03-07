@@ -19,7 +19,7 @@
   }
   else if($_SESSION['jenis_posisi'] == 'Tim Penilai')
   {
-    $sql .= " AND status_proses = 'Sedang Proses Penilaian'";
+    $sql .= " AND status_proses IN ('Sedang Proses Penilaian', 'Angka Kredit Diterima', 'Angka kredit Ditolak')";
   }
   $data = $db->query($sql, $where)->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -71,22 +71,22 @@
                   <td>
                     <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                       <?php if($d['status_proses'] == ''): ?>
-                        <a href="<?=$alamat_web?>/usulan/kirim-data.php?id_usulan=<?=$d['id_usulan']?>&jenis_usulan=verifikasi" class="btn btn-sm btn-success">Kirim Data</a>
+                        <a href="<?=$alamat_web?>/usulan/kirim-data.php?id_usulan=<?=$d['id_usulan']?>&jenis_usulan=verifikasi" class="btn btn-flat  btn btn-sm btn btn-success">Kirim Data</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
                       <?php if($d['status_proses'] == 'Sedang Proses Verifikasi' || $d['status_proses'] == 'Verifikasi Gagal'): ?>
-                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Verifikasi Angka Kredir</a>
+                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat  btn btn-primary btn btn-flat">Verifikasi Angka Kredir</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                       <?php if($d['status_proses'] == 'Sedang Proses Penilaian' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
-                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Penilaian Angka Kredit</a>
+                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat  btn btn-primary btn btn-flat">Penilaian Angka Kredit</a>
                       <?php else: ?>
-                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Edit Penilaian Angka Kredit</a>
+                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat  btn btn-primary btn btn-flat">Edit Penilaian Angka Kredit</a>
                       <?php endif; ?>
                     <?php endif; ?>
                     
                     <div class="dropdown">
-                      <button class="btn btn-sm btn-primary btn-flat dropdown-toggle" type="button" data-toggle="dropdown">Pilihan
+                      <button class="btn btn-flat  btn btn-sm btn btn-primary btn btn-flat dropdown-toggle" type="button" data-toggle="dropdown">Pilihan
                       <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="dropdown-header">Data Usulan</li>

@@ -24,7 +24,7 @@
             <h3 class="box-title">Daftar Unit Kerja</h3>
           </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/unit-kerja/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/unit-kerja/tambah.php" class="btn btn-flat  btn btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
@@ -55,8 +55,8 @@ if(count($data) > 0){
                     <?=$d['nm_lengkap']." (".$d['nip'].")"?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/unit-kerja/proses_hapus.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unit-kerja/edit.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/unit-kerja/proses_hapus.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-flat  btn btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/unit-kerja/edit.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-flat  btn btn-primary">Edit</a></td>
                 </tr>
                 <?php 
   $no++;

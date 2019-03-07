@@ -46,8 +46,8 @@
                 </select>
               </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" >Simpan</button>
-              <button type="reset" class="btn btn-danger" >Reset</button>
+              <button type="submit" class="btn btn-flat  btn btn-primary" >Simpan</button>
+              <button type="reset" class="btn btn-flat  btn btn-danger" >Reset</button>
             </div>
           </form>
         </div>

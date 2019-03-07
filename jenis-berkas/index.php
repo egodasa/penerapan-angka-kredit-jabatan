@@ -25,7 +25,7 @@
           <h3 class="box-title">Daftar Jenis Berkas</h3>
         </div>
         <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/jenis-berkas/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/jenis-berkas/tambah.php" class="btn btn-flat  btn btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>
                 <tr>
@@ -44,8 +44,8 @@
                   <td><?=$no?></td>
                   <td><?=$d['nm_berkas']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/jenis-berkas/proses_hapus.php?id_berkas=<?=$d['id_berkas']?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/jenis-berkas/edit.php?id_berkas=<?=$d['id_berkas']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/jenis-berkas/proses_hapus.php?id_berkas=<?=$d['id_berkas']?>" class="btn btn-flat  btn btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/jenis-berkas/edit.php?id_berkas=<?=$d['id_berkas']?>" class="btn btn-flat  btn btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;

@@ -18,6 +18,21 @@ CREATE TABLE `tbl_berkas_penilaian` (
   CONSTRAINT `tbl_berkas_penilaian_ibfk_2` FOREIGN KEY (`id_berkas`) REFERENCES `tbl_jenis_berkas` (`id_berkas`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_berkas_penilaian` (`id_berkas_penilaian`, `id_usulan`, `id_berkas`, `file`) VALUES
+(1,	1,	1,	'270219072737004400.jpeg'),
+(2,	1,	2,	'270219072742220500.jpeg'),
+(3,	1,	3,	NULL),
+(4,	1,	4,	NULL),
+(5,	1,	5,	NULL),
+(6,	1,	6,	NULL),
+(7,	1,	7,	NULL),
+(8,	1,	8,	NULL),
+(9,	1,	9,	NULL),
+(10,	1,	10,	NULL),
+(11,	1,	11,	NULL),
+(12,	1,	12,	NULL),
+(13,	1,	13,	NULL),
+(14,	1,	14,	NULL);
 
 DROP TABLE IF EXISTS `tbl_jabatan`;
 CREATE TABLE `tbl_jabatan` (
@@ -26,6 +41,12 @@ CREATE TABLE `tbl_jabatan` (
   PRIMARY KEY (`id_jabatan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_jabatan` (`id_jabatan`, `nm_jabatan`) VALUES
+(1,	'Pustakawan Pelaksana'),
+(2,	'Pustakawan Pelaksana Lanjutan'),
+(3,	'Pustakawan Penyelia'),
+(4,	'Staff Kepegawaian'),
+(5,	'Tim Penilai');
 
 DROP TABLE IF EXISTS `tbl_jabatan_pangkat`;
 CREATE TABLE `tbl_jabatan_pangkat` (
@@ -41,6 +62,13 @@ CREATE TABLE `tbl_jabatan_pangkat` (
   CONSTRAINT `tbl_jabatan_pangkat_ibfk_2` FOREIGN KEY (`id_pangkat`) REFERENCES `tbl_pangkat` (`id_pangkat`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_jabatan_pangkat` (`id_jabatan_pangkat`, `id_jabatan`, `id_pangkat`, `nilai_kredit`, `peringkat`) VALUES
+(1,	1,	1,	10,	10),
+(2,	1,	2,	20,	20),
+(3,	1,	3,	30,	30),
+(4,	1,	4,	40,	40),
+(5,	4,	13,	0,	0),
+(6,	5,	14,	0,	0);
 
 DROP TABLE IF EXISTS `tbl_jenis_berkas`;
 CREATE TABLE `tbl_jenis_berkas` (
@@ -49,6 +77,21 @@ CREATE TABLE `tbl_jenis_berkas` (
   PRIMARY KEY (`id_berkas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_jenis_berkas` (`id_berkas`, `nm_berkas`) VALUES
+(1,	'KARPEG'),
+(2,	'Pangkat Terakhir'),
+(3,	'SK Jabatan Terakhir'),
+(4,	'STTPP Diklat Fungsional'),
+(5,	'PAK Terakhir'),
+(6,	'Ijazah Terakhir'),
+(7,	'Penilaian Prestasi Kerja 2thn terakhir'),
+(8,	'SK Pegawai CPNS & PNS'),
+(9,	'Surat Tugas'),
+(10,	'Bukti Fisik Hasil Kegiatan'),
+(11,	'Surat Pernyataan Melakukan Kegiatan'),
+(12,	'Surat Pengantar dari Pejabat Pengusul'),
+(13,	'DUPAK'),
+(14,	'SPMK');
 
 DROP TABLE IF EXISTS `tbl_pangkat`;
 CREATE TABLE `tbl_pangkat` (
@@ -57,6 +100,22 @@ CREATE TABLE `tbl_pangkat` (
   PRIMARY KEY (`id_pangkat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_pangkat` (`id_pangkat`, `nm_pangkat`) VALUES
+(1,	'II/a'),
+(2,	'Pengatur Muda Tingkat I (II/b)'),
+(3,	'Pengatur (II/c)'),
+(4,	'II/d'),
+(5,	'Penata Muda III/a'),
+(6,	'Penata Muda Tingkat I III/b'),
+(7,	'Penata III/c'),
+(8,	'Penata Tingkat I III/d'),
+(9,	'Pembina IV/a'),
+(10,	'Pembina Tingkat I IV/b'),
+(11,	'Pembina Utama Muda IV/c'),
+(12,	'Pembina Utama Madya IV/d'),
+(13,	'Staff Kepegawaian IV/a'),
+(14,	'Tim Penilai IV/a'),
+(15,	'Pembina Utama IV/e');
 
 DROP TABLE IF EXISTS `tbl_pegawai`;
 CREATE TABLE `tbl_pegawai` (
@@ -85,6 +144,12 @@ CREATE TABLE `tbl_pegawai` (
   CONSTRAINT `tbl_pegawai_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `tbl_unit_kerja` (`id_unit_kerja`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_pegawai` (`id_pegawai`, `nip`, `password`, `no_karpeg`, `nm_lengkap`, `tempat_lahir`, `tgl_lahir`, `email`, `nohp`, `pendidikan`, `tgl_lulus`, `jk`, `id_jabatan_pangkat`, `id_unit_kerja`, `foto`, `kredit_awal_utama`, `kredit_awal_penunjang`, `tmt_jabatan`) VALUES
+(4,	'12345',	'827ccb0eea8a706c4c34a16891f84e7b',	'12345',	'Saya',	'Padang',	'2012-10-10',	'email@mail.com',	'08123456789',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	5,	5,	'240219125752884600.png',	0,	0,	'2019-02-25'),
+(5,	'11111',	'b0baee9d279d34fa1dfd71aadb908c3f',	'11111',	'11111',	'padang',	'2010-10-10',	'siswa@mail.com',	'12345',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	1,	6,	'240219124048061500.png',	20,	40,	'2019-02-06'),
+(6,	'22222',	'3d2172418ce305c7d16d4b05597c6a59',	'22222',	'22222',	'padang',	'2019-10-10',	'duqe@mailinator.com',	'1213212321',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	4,	6,	'240219123955716800.png',	0,	0,	'2019-02-06'),
+(7,	'98765',	'c37bf859faf392800d739a41fe5af151',	'N. 98765',	'Tim Penilai',	'Padang',	'2003-04-04',	'tim@pegawai.com',	'089876544321',	'Sarjana (S1)/Diploma IV',	'2019-02-06',	'Laki-laki',	6,	4,	'270219091105546300.jpeg',	0,	0,	'2019-02-04'),
+(8,	'77777',	'22a4d9b04fe95c9893b41e2fde83a427',	'N. 77777',	'Atasan Pustakawan',	'padang',	'1995-10-10',	'7777@777.com',	'777777777777',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	1,	1,	'280219011047829700.jpeg',	0,	0,	'2019-02-07');
 
 DROP TABLE IF EXISTS `tbl_posisi`;
 CREATE TABLE `tbl_posisi` (
@@ -94,6 +159,30 @@ CREATE TABLE `tbl_posisi` (
   PRIMARY KEY (`id_posisi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_posisi` (`id_posisi`, `nm_posisi`, `jenis_posisi`) VALUES
+(2,	'Arsiparis',	'Tenaga Kependidikan'),
+(3,	'Pranata Laboratorium Pendidikan',	'Tenaga Kependidikan'),
+(4,	'Pustakawan',	'Tenaga Kependidikan'),
+(5,	'Admin',	'Staff Kepegawaian'),
+(6,	'Tim Penilai',	'Tim Penilai');
+
+DROP TABLE IF EXISTS `tbl_sub_unsur`;
+CREATE TABLE `tbl_sub_unsur` (
+  `id_sub_unsur` int(11) NOT NULL AUTO_INCREMENT,
+  `nm_unsur` varchar(255) NOT NULL,
+  `id_posisi` int(11) NOT NULL,
+  `jenis_unsur` enum('Unsur Utama','Unsur Penunjang') NOT NULL,
+  `kategori_unsur` enum('Pendidikan','Tugas Pokok','Pengembangan Profesi') NOT NULL DEFAULT 'Tugas Pokok',
+  `id_unsur` int(11) NOT NULL,
+  PRIMARY KEY (`id_sub_unsur`),
+  KEY `id_posisi` (`id_posisi`),
+  KEY `id_unsur` (`id_unsur`),
+  CONSTRAINT `tbl_sub_unsur_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tbl_sub_unsur_ibfk_2` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_unsur` (`id_unsur`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `tbl_sub_unsur` (`id_sub_unsur`, `nm_unsur`, `id_posisi`, `jenis_unsur`, `kategori_unsur`, `id_unsur`) VALUES
+(2,	'Pendidikan formal dan memperoleh ijazah/gelar',	3,	'Unsur Utama',	'Tugas Pokok',	1);
 
 DROP TABLE IF EXISTS `tbl_unit_kerja`;
 CREATE TABLE `tbl_unit_kerja` (
@@ -106,19 +195,26 @@ CREATE TABLE `tbl_unit_kerja` (
   CONSTRAINT `tbl_unit_kerja_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_unit_kerja` (`id_unit_kerja`, `nm_unit_kerja`, `nip_atasan`, `id_posisi`) VALUES
+(1,	'UPT Pustakawan',	'12345',	2),
+(2,	'Arsiparis',	'12345',	2),
+(3,	'UPT PLT',	'12345',	3),
+(4,	'UPT Tim Penilai',	'12345',	6),
+(5,	'UPT Staff Kepegawaian',	'12345',	5),
+(6,	'UPT Pustakawan',	'12345',	4);
 
 DROP TABLE IF EXISTS `tbl_unsur`;
 CREATE TABLE `tbl_unsur` (
   `id_unsur` int(11) NOT NULL AUTO_INCREMENT,
-  `nm_unsur` varchar(255) NOT NULL,
-  `id_posisi` int(11) NOT NULL,
-  `jenis_unsur` enum('Unsur Utama','Unsur Penunjang') NOT NULL,
-  `kategori_unsur` enum('Pendidikan','Tugas Pokok','Pengembangan Profesi') NOT NULL DEFAULT 'Tugas Pokok',
-  PRIMARY KEY (`id_unsur`),
-  KEY `id_posisi` (`id_posisi`),
-  CONSTRAINT `tbl_unsur_ibfk_1` FOREIGN KEY (`id_posisi`) REFERENCES `tbl_posisi` (`id_posisi`) ON DELETE CASCADE ON UPDATE CASCADE
+  `nm_unsur` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_unsur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`) VALUES
+(1,	'Pendidikan'),
+(2,	'Pengelolaan Laboratorium'),
+(3,	'Pengembangan Profesi'),
+(4,	'Penunjang Tugas PLP');
 
 DROP TABLE IF EXISTS `tbl_usulan`;
 CREATE TABLE `tbl_usulan` (
@@ -166,8 +262,8 @@ CREATE TABLE `tbl_usulan_unsur` (
   KEY `id_unsur` (`id_unsur`),
   KEY `id_usulan` (`id_usulan`),
   CONSTRAINT `tbl_usulan_unsur_ibfk_1` FOREIGN KEY (`id_usulan`) REFERENCES `tbl_usulan` (`id_usulan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tbl_usulan_unsur_ibfk_2` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_unsur` (`id_unsur`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `tbl_usulan_unsur_ibfk_2` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_sub_unsur` (`id_sub_unsur`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-03-05 01:33:22
+-- 2019-03-07 04:53:05

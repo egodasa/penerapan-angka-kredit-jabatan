@@ -8,6 +8,6 @@ if(isset($_GET['id_unsur'])){
 }
 
 // Arahkan posisi ke halaman posisi kembali
-header("Location: $alamat_web/unsur-kegiatan");
+header("Location: $alamat_web/unsur");
 ?>
 

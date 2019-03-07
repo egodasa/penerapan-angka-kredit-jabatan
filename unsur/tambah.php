@@ -3,8 +3,7 @@
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
-  //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah Posisi";
+  $judul_halaman = "Tambah Unsur";
 ?>
 <html>
 <head>
@@ -19,22 +18,14 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Input Posisi</h3>
+          <h3 class="box-title">Input Unsur</h3>
         </div>
         <div class="box-body table-responsive ">
-            <form method="POST" action="<?=$alamat_web?>/posisi/proses_tambah.php" enctype="multipart/form-data">
-              <div class="form-group">
-                <label class="form-label">Nama Posisi</label>
-                <input class="form-control"  type="text" name="nm_posisi" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Jenis Posisi</label>
-                <select class="form-control custom-select"  name="jenis_posisi" required>
-                  <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
-                  <option value="Staff Pegawai">Staff Pegawai</option>
-                  <option value="Tim Penilai">Tim Penilai</option>
-                </select>
-              </div>
+          <form method="POST" action="<?=$alamat_web?>/unsur/proses_tambah.php" enctype="multipart/form-data">
+            <div class="form-group">
+              <label class="form-label">Nama Unsur</label>
+              <input class="form-control" type="text" name="nm_unsur" required />
+            </div>
             <div class="form-group">
               <button type="submit" class="btn btn-flat  btn btn-primary" >Simpan</button>
               <button type="reset" class="btn btn-flat  btn btn-danger" >Reset</button>
