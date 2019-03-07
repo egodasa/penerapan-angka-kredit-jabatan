@@ -24,7 +24,7 @@
             <h3 class="box-title">Daftar Posisi</h3>
           </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/posisi/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/posisi/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
@@ -51,8 +51,8 @@ if(count($data) > 0){
                     <?=$d['jenis_posisi']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/posisi/proses_hapus.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/posisi/edit.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/posisi/proses_hapus.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/posisi/edit.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
                 <?php 
   $no++;

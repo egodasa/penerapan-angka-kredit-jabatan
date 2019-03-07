@@ -138,8 +138,8 @@
                 <input class="form-control"  type="number" name="kredit_awal_penunjang" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan perubahan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan perubahan</button>
+                <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>
         </div>

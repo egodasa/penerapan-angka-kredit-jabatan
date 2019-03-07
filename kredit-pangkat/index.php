@@ -25,7 +25,7 @@
           <h3 class="box-title">Daftar Nilai Kredit Pangkat</h3>
         </div>
         <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/kredit-pangkat/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/kredit-pangkat/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>
                 <tr>
@@ -48,8 +48,8 @@
                   <td><?=$d['nilai_kredit']?></td>
                   <td><?=$d['peringkat']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/kredit-pangkat/proses_hapus.php?id_jabatan_pangkat=<?=$d['id_jabatan_pangkat']?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/kredit-pangkat/edit.php?id_jabatan_pangkat=<?=$d['id_jabatan_pangkat']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/kredit-pangkat/proses_hapus.php?id_jabatan_pangkat=<?=$d['id_jabatan_pangkat']?>" class="btn btn-flat btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/kredit-pangkat/edit.php?id_jabatan_pangkat=<?=$d['id_jabatan_pangkat']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;

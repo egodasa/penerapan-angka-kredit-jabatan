@@ -37,7 +37,7 @@
           <form action="proses_edit.php" method="POST">
             <input type="hidden" name="jenis_usulan" value="kirim-data" />
             <input type="hidden" name="id_usulan" value="<?=$_GET['id_usulan']?>" />
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>

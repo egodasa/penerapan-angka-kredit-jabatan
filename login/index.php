@@ -35,8 +35,8 @@
         <input class="form-control" type="password" name="password" />
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-flat">Login</button>
-        <button type="reset" class="btn btn-danger btn-flat">Reset</button>
+        <button type="submit" class="btn btn-flat btn-primary ">Login</button>
+        <button type="reset" class="btn btn-flat btn-danger ">Reset</button>
       </div>
     </form>
   </div>

@@ -36,7 +36,7 @@
                             </li>
                             <li class="user-footer">
                                 <div class="pull-right">
-                                    <a href="<?=$alamat_web?>/login/proses-logout.php" class="btn btn-default btn-flat">Logout</a>
+                                    <a href="<?=$alamat_web?>/login/proses-logout.php" class="btn btn-flat btn-default ">Logout</a>
                                 </div>
                             </li>
                         </ul>

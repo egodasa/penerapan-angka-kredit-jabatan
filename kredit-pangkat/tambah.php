@@ -60,8 +60,8 @@
               <input class="form-control"  type="number" name="peringkat" required />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" >Simpan</button>
-              <button type="reset" class="btn btn-danger" >Reset</button>
+              <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
+              <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
             </div>
           </form>
         </div>

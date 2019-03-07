@@ -25,7 +25,7 @@
         </div>
         <div class="box-body table-responsive ">
           <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
-            <a href="<?=$alamat_web?>/usulan/unsur/tambah.php?id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/usulan/unsur/tambah.php?id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat btn-success">Tambah Data</a>
           <?php endif; ?>
           <div class="table-responsive" style="overflow-x: visible; overflow-y:visible;">
 	        <div style="overflow:auto; min-height:500px; margin:0px 0 0px 0;" >
@@ -68,14 +68,14 @@
                   <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                     <td>
                       <?php if($_SESSION['atasan'] == "1"): ?>
-                        <a href="<?=$alamat_web?>/usulan/unsur/edit-status-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Status</a>
+                        <a href="<?=$alamat_web?>/usulan/unsur/edit-status-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat btn-primary">Edit Status</a>
                       <?php endif; ?>
-                    <a href="<?=$alamat_web?>/usulan/unsur/proses_hapus.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/usulan/unsur/edit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/usulan/unsur/proses_hapus.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/usulan/unsur/edit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat btn-primary">Edit</a>
                     </td>
                   <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                     <td>
-                      <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-primary">Edit Angka Kredit</a>
+                      <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat btn-primary">Edit Angka Kredit</a>
                     </td>
                   <?php endif; ?>
                   <td><?=$d['status']?></td>

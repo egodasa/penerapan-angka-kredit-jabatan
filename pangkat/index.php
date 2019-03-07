@@ -25,7 +25,7 @@
           <h3 class="box-title">Daftar Pangkat</h3>
         </div>
         <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/pangkat/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/pangkat/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>
                 <tr>
@@ -44,8 +44,8 @@
                   <td><?=$no?></td>
                   <td><?=$d['nm_pangkat']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/pangkat/proses_hapus.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/pangkat/edit.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/pangkat/proses_hapus.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-flat btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/pangkat/edit.php?id_pangkat=<?=$d['id_pangkat']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;

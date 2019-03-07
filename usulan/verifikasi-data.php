@@ -44,7 +44,7 @@
               <small><br/>*Keterangan jika verifikasi gagal.</small>
               <textarea name="keterangan" class="form-control"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>
