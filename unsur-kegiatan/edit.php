@@ -11,6 +11,7 @@
     
     $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => "Tenaga Kependidikan"]);
     
+    $kategori_unsur = $db->select("tbl_unsur", "*");
     // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
     if(empty($detail)){
       header("Location: $alamat_web/unsur-kegiatan");
@@ -59,9 +60,9 @@
               <div class="form-group">
                 <label class="form-label">Kategori Unsur Kegiatan</label>
                 <select class="form-control custom-select"  name="kategori_unsur" required>
-                  <option value="Pendidikan">Pendidikan</option>
-                  <option value="Tugas Pokok">Tugas Pokok</option>
-                  <option value="Pengembangan Profesi">Pengembangan Profesi</option>
+                  <?php foreach($kategori_unsur as $d): ?>
+                    <option value="<?=$d['nm_unsur']?>"><?=$d['nm_unsur']?></option>
+                  <?php endforeach; ?>
                 </select>
               </div>
               <div class="form-group">
