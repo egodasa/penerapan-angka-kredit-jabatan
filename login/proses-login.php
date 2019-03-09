@@ -68,11 +68,23 @@
       $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
       
       // Cek level agar halaman di redirect sesuai aktor
-      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian"){
-        header("Location: $alamat_web/pegawai");
-      }else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"){
+      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian")
+      {
+        if($_SESSION['atasan'] == '1')
+        {
+          header("Location: $alamat_web/usulan");
+        }
+        else
+        {
+          header("Location: $alamat_web/pegawai");
+        }
+      }
+      else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan")
+      {
         header("Location: $alamat_web/persyaratan");
-      }else if($_SESSION['jenis_posisi'] == "Tim Penilai"){
+      }
+      else if($_SESSION['jenis_posisi'] == "Tim Penilai")
+      {
         header("Location: $alamat_web/usulan");
       }
     }else{

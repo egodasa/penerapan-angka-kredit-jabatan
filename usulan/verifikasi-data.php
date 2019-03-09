@@ -35,8 +35,19 @@
               <label class="form-label">Hasil Verifikasi</label>
               <select class="form-control custom-select" name="status_proses" required>
                 <option selected disabled>-- Pilih Hasil Verifikasi --</option>
-                <option value="Sedang Proses Penilaian">Verifikasi Berhasil</option>
-                <option value="Verifikasi Gagal">Verifikasi Gagal</option>
+                <?php 
+                  if($_SESSION['atasan'] == "1"):
+                ?>
+                  <option value="Sedang Proses Verifikasi Oleh Staff Kepegawaian">Verifikasi Berhasil</option>
+                  <option value="Verifikasi Gagal Oleh Pejabat Pengusul">Verifikasi Gagal</option>
+                <?php
+                  else:
+                ?>
+                  <option value="Sedang Proses Verifikasi Oleh Tim Penilai">Verifikasi Berhasil</option>
+                  <option value="Verifikasi Gagal Oleh Staff Kepegawaian">Verifikasi Gagal</option>
+                <?php
+                  endif;
+                ?>
               </select>
             </div>
             <div class="form-group">

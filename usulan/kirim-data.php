@@ -28,12 +28,12 @@
         </div>
         <div class="box-body table-responsive ">
           Anda akan mengusul PAK tahunan. <br/>
-          Total KUM pendidikan Anda <?=$ak_pendidikan['angka_kredit']?><br/>
-          Total KUM tugas pokok Anda <?=$ak_tugas_pokok['angka_kredit']?><br/>
-          Total KUM kredit pengembangan profesi Anda <?=$ak_pengembangan_profesi['angka_kredit']?><br/>
-          Total KUM saat ini <?=($ak_pendidikan['angka_kredit']+$ak_tugas_pokok['angka_kredit']+$ak_pengembangan_profesi['angka_kredit'])?><br/>
-          Total KUM memenuhi pangkat <?=$_SESSION['angka_kredit_selanjutnya']?><br/>
-          Total kekurangan KUM untuk kenaikan pangkat <?=abs(($ak_pendidikan['angka_kredit']+$ak_tugas_pokok['angka_kredit']+$ak_pengembangan_profesi['angka_kredit'])-$_SESSION['angka_kredit_selanjutnya'])?><br/>
+          Total KUM pendidikan Anda <?=round($ak_pendidikan['angka_kredit'], 4)?><br/>
+          Total KUM tugas pokok Anda <?=round($ak_tugas_pokok['angka_kredit'], 4)?><br/>
+          Total KUM kredit pengembangan profesi Anda <?=round($ak_pengembangan_profesi['angka_kredit'], 4)?><br/>
+          Total KUM saat ini <?=round(($ak_pendidikan['angka_kredit']+$ak_tugas_pokok['angka_kredit']+$ak_pengembangan_profesi['angka_kredit']), 4)?><br/>
+          Total KUM memenuhi pangkat <?=round($_SESSION['angka_kredit_selanjutnya'], 4)?><br/>
+          Total kekurangan KUM untuk kenaikan pangkat <?=round(abs(($ak_pendidikan['angka_kredit']+$ak_tugas_pokok['angka_kredit']+$ak_pengembangan_profesi['angka_kredit'])-$_SESSION['angka_kredit_selanjutnya']), 4)?><br/>
           <form action="proses_edit.php" method="POST">
             <input type="hidden" name="jenis_usulan" value="kirim-data" />
             <input type="hidden" name="id_usulan" value="<?=$_GET['id_usulan']?>" />

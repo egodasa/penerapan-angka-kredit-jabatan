@@ -19,7 +19,7 @@
   }
   else if($_SESSION['jenis_posisi'] == 'Tim Penilai')
   {
-    $sql .= " AND status_proses = 'Sedang Proses Penilaian'";
+    $sql .= " AND status_proses = 'Sedang Proses Verifikasi Oleh Tim Penilai'";
   }
   $data = $db->query($sql, $where)->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -74,11 +74,13 @@
                         <a href="<?=$alamat_web?>/usulan/kirim-data.php?id_usulan=<?=$d['id_usulan']?>&jenis_usulan=verifikasi" class="btn btn-flat btn-sm btn-success">Kirim Data</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
-                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi' || $d['status_proses'] == 'Verifikasi Gagal'): ?>
-                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Verifikasi Angka Kredir</a>
-                      <?php endif; ?>
+                        <?php if($_SESSION['atasan'] == "1" && $d['status_proses'] == 'Sedang Proses Verifikasi Oleh Pejabat Pengusul' || $d['status_proses'] == 'Verifikasi Gagal Oleh Pejabat Pengusul'): ?>
+                          <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary">Cek Data Usulan</a>
+                        <?php elseif($_SESSION['atasan'] != "1" &&$d['status_proses'] == 'Sedang Proses Verifikasi Oleh Staff Kepegawaian' || $d['status_proses'] == 'Verifikasi Gagal Oleh Staff Kepegawaian'): ?>
+                          <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Verifikasi Angka Kredit</a>
+                        <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
-                      <?php if($d['status_proses'] == 'Sedang Proses Penilaian' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
+                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi Oleh Tim Penilai' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
                         <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Penilaian Angka Kredit</a>
                       <?php else: ?>
                         <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Edit Penilaian Angka Kredit</a>
@@ -92,9 +94,12 @@
                         <li class="dropdown-header">Data Usulan</li>
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
+                        <?php if($_SESSION['atasan'] == "1"): ?>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
+                        <?php endif; ?>
                         <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
-                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
                         <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
                         <?php endif; ?>
