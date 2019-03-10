@@ -72,6 +72,8 @@
       {
         if($_SESSION['atasan'] == '1')
         {
+          // Jenis posisi diganti jadi atasan jika staff kepegawaian kedapatan menjadi atasan disebuah unit kerja
+          $_SESSION['jenis_posisi'] = "Atasan";
           header("Location: $alamat_web/usulan");
         }
         else

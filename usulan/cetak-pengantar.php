@@ -3,58 +3,54 @@
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
-  //~ use Dompdf\Dompdf;
-  //~ $data_usulan = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  //~ $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  //~ $pegawai = $db->query("SELECT e.nm_posisi,
-                                   //~ e.jenis_posisi,
-                                   //~ a.kredit_awal,
-                                   //~ a.nip,
-                                   //~ a.nm_lengkap,
-                                   //~ a.jk,
-                                   //~ a.foto,
-                                   //~ b.peringkat,
-                                   //~ c.nm_jabatan,
-                                   //~ d.nm_pangkat,
-                                   //~ a.id_unit_kerja,
-                                   //~ f.nm_unit_kerja,
-                                   //~ f.nip_atasan 
-                            //~ FROM   tbl_pegawai a
-                                   //~ JOIN tbl_jabatan_pangkat b
-                                     //~ ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   //~ JOIN tbl_jabatan c
-                                     //~ ON b.id_jabatan = c.id_jabatan
-                                   //~ JOIN tbl_pangkat d
-                                     //~ ON b.id_pangkat = d.id_pangkat
-                                   //~ JOIN tbl_unit_kerja f
-                                     //~ ON a.id_unit_kerja = f.id_unit_kerja
-                                   //~ JOIN tbl_posisi e
-                                     //~ ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
-  //~ $atasan = $db->query("SELECT e.nm_posisi,
-                                   //~ e.jenis_posisi,
-                                   //~ a.kredit_awal,
-                                   //~ a.nip,
-                                   //~ a.nm_lengkap,
-                                   //~ a.jk,
-                                   //~ a.foto,
-                                   //~ b.peringkat,
-                                   //~ c.nm_jabatan,
-                                   //~ d.nm_pangkat,
-                                   //~ a.id_unit_kerja,
-                                   //~ f.nm_unit_kerja
-                            //~ FROM   tbl_pegawai a
-                                   //~ JOIN tbl_jabatan_pangkat b
-                                     //~ ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   //~ JOIN tbl_jabatan c
-                                     //~ ON b.id_jabatan = c.id_jabatan
-                                   //~ JOIN tbl_pangkat d
-                                     //~ ON b.id_pangkat = d.id_pangkat
-                                   //~ JOIN tbl_unit_kerja f
-                                     //~ ON a.id_unit_kerja = f.id_unit_kerja
-                                   //~ JOIN tbl_posisi e
-                                     //~ ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
-  //~ $start_huruf = 13;
-  //~ ob_start();
+  use Dompdf\Dompdf;
+  $data_usulan = $db->get('tbl_usulan', '*', ['id_usulan' => $_GET['id_usulan']]);
+  $data_usulan_utama = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  
+  $pegawai = $db->query("SELECT e.nm_posisi, a.*,
+                                   e.jenis_posisi,
+                                   b.peringkat,
+                                   c.nm_jabatan,
+                                   d.nm_pangkat,
+                                   f.nm_unit_kerja,
+                                   f.nip_atasan 
+                            FROM   tbl_pegawai a
+                                   JOIN tbl_jabatan_pangkat b
+                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
+                                   JOIN tbl_jabatan c
+                                     ON b.id_jabatan = c.id_jabatan
+                                   JOIN tbl_pangkat d
+                                     ON b.id_pangkat = d.id_pangkat
+                                   JOIN tbl_unit_kerja f
+                                     ON a.id_unit_kerja = f.id_unit_kerja
+                                   JOIN tbl_posisi e
+                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
+  $atasan = $db->query("SELECT e.nm_posisi,
+                                   e.jenis_posisi,
+                                   a.nip,
+                                   a.nm_lengkap,
+                                   a.jk,
+                                   a.foto,
+                                   b.peringkat,
+                                   c.nm_jabatan,
+                                   d.nm_pangkat,
+                                   a.id_unit_kerja,
+                                   f.nm_unit_kerja
+                            FROM   tbl_pegawai a
+                                   JOIN tbl_jabatan_pangkat b
+                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
+                                   JOIN tbl_jabatan c
+                                     ON b.id_jabatan = c.id_jabatan
+                                   JOIN tbl_pangkat d
+                                     ON b.id_pangkat = d.id_pangkat
+                                   JOIN tbl_unit_kerja f
+                                     ON a.id_unit_kerja = f.id_unit_kerja
+                                   JOIN tbl_posisi e
+                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+  $tahun_usulan_tmp = explode("-", $data_usulan['tgl_usulan']);
+  $tahun_usulan = $tahun_usulan_tmp[0]-1;
+  ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +59,7 @@
 	<title>SURAT PENGANTAR</title>
   <style>
     body{
-      font-size: 12pt;
+      font-size: 10pt;
     }
     .kiri{
       width:100px;
@@ -98,11 +94,17 @@
   </style>
 </head>
 <body>
-  <div style="text-align: center;">
-    KEMENTRIAN RISET, TEKNOLOGI PENDIDIKAN TINGGI <br/> UNIVERSITAS ANDALAS <br/> <b>-- UNIT KERJA --</b> <br/>
-    <span style="font-size: 9pt">Alamat: Gedung Perpustakaan, Limau Manis Padang, Kode Pos 25163</span> <br/>
-    Telp/FaxL (0751) 72725 <br/>
-    http://www.unand.ac.id   e-mail: Pustaka@unand.ac.id
+  <div style="width: 100%;font-size: 15pt;;">
+    <div style="float: left;width: 15%;">
+      <img style="margin-top: -15px;" src="../assets/img/logo.jpeg" width="100" height="150" />
+    </div>
+    <div style="text-align: center;float: right;width: 85%;">
+      KEMENTRIAN RISET, TEKNOLOGI DAN PENDIDIKAN TINGGI <br/> UNIVERSITAS ANDALAS <br/>
+      <b><?=$pegawai['nm_unit_kerja']?></b>
+      <br/>
+      Telp/Fax (0751) 72725 <br/>
+    </div>
+    <div style="clear: both;"></div>
   </div>
   <hr/>
   <div style="float: left;">
@@ -110,7 +112,7 @@
       <tr>
         <td>Nomor</td>
         <td>:</td>
-        <td>5378/UN.16/PK/<?=date("Y")?></td>
+        <td><?=$data_usulan['id_usulan']?>/UN.16/PK/<?=date("Y")?></td>
       </tr>
       <tr>
         <td>Lamp</td>
@@ -131,12 +133,13 @@
   <div style="text-align: left;">
     Yth. Wakil Rektor II <br/>
     Universitas Andalas <br/> <br/>
-    Padang <br/> <br/>
+    Padang <br/> <br/> <br/>
   </div>
   <div style="text-align: justify;">
     Dengan Hormat, <br/>
-    Bersama ini Kami sampaikan kepada Bapak usulan kenaikan pangkat 1(satu) orang tenaga kependidikan -- Nama Jabatan -- periode April 2018 sebagai berikut:
+    Bersama ini Kami sampaikan kepada Bapak usulan kenaikan pangkat 1(satu) orang tenaga kependidikan <?=$pegawai['nm_jabatan']?> periode <?=tanggal_indo($data_usulan['tgl_usulan'])?> sebagai berikut:
   </div>
+  <br/>
   <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
     <tr>
       <th style="border: 1px solid black; text-align: center;">NO</th>
@@ -146,19 +149,21 @@
       <th style="border: 1px solid black; text-align: center;">KETERANGAN</th>
     </tr>
     <tr>
-      <th style="border: 1px solid black; text-align: center;">1</th>
-      <th style="border: 1px solid black; text-align: center;">Dahliar <br/> Nip. 10302434248032304</th>
-      <th style="border: 1px solid black; text-align: center;">Gol III/c</th>
-      <th style="border: 1px solid black; text-align: center;">Gol III/d</th>
-      <th style="border: 1px solid black; text-align: center;">Fungsional Arsiparis Penyedia</th>
+      <td style="border: 1px solid black; text-align: center;">1</td>
+      <td style="border: 1px solid black; text-align: center;"><?=$pegawai['nm_lengkap']?> <br/> Nip. <?=$pegawai['nip']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat_selanjutnya']?></td>
+      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$_SESSION['jabatan_selanjutnya']?></td>
     </tr>
   </table>
+  <br/>
   <div style="text-align: justify;">
     Sebagai bahan pertimabgan bagi Bapak, bersama ini kami lampirkan foto copy :
-    <ol>
+      <br/>
+    <ol style="font-size: 10pt;">
       <li>SK. Pangkat terakhir.</li>
       <li>SK. Kenaikan Gaji Berkala</li>
-      <li>DP3 2(dua) tahun terakhir (2015/2016)</li>
+      <li>DP3 2(dua) tahun terakhir (<?=($tahun_usulan-1)."/".$tahun_usulan?>)</li>
       <li>SK Fungsional Terakhir</li>
       <li>SK Konversi NIP</li>
       <li>Ijazah Terakhir</li>
@@ -171,30 +176,32 @@
   <div style="text-align: justify;">
     Demikianlah usulan ini kami ajukan, atas bantuan Bapak diucapkan terima kasih.
   </div>
-  <div style="float: right;">
+  <br/>
+    <br/>
+  <div style="float: right;margin-right: 50px;">
     Kepala,
     <br/>
     <br/>
     <br/>
     <br/>
-    Drs. Yasir, S. Sos <br/>
-    NIP. 193i43239437234
+    <b><?=$atasan['nm_lengkap']?></b> <br/>
+    NIP. <?=$atasan['nip']?> 
   </div>
 </body>
 </html>
 <?php
-//~ $content = ob_get_clean();
-//~ // instantiate and use the dompdf class
-//~ $dompdf = new Dompdf();
-//~ $dompdf->loadHtml($content);
+$content = ob_get_clean();
+// instantiate and use the dompdf class
+$dompdf = new Dompdf();
+$dompdf->loadHtml($content);
 
-//~ // (Optional) Setup the paper size and orientation
-//~ $dompdf->setPaper('A4', 'portrait');
+// (Optional) Setup the paper size and orientation
+$dompdf->setPaper('A4', 'portrait');
 
-//~ // Render the HTML as PDF
-//~ $dompdf->render();
+// Render the HTML as PDF
+$dompdf->render();
 
-//~ $dompdf->stream("surat-pernyataan-melakukan-kegiatan.pdf", array("Attachment" => false));
-//~ exit(0);
+$dompdf->stream("surat-pernyataan-melakukan-kegiatan.pdf", array("Attachment" => false));
+exit(0);
 
 ?>

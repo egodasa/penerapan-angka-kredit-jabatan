@@ -36,7 +36,7 @@
               <select class="form-control custom-select" name="status_proses" required>
                 <option selected disabled>-- Pilih Hasil Verifikasi --</option>
                 <?php 
-                  if($_SESSION['atasan'] == "1"):
+                  if($_SESSION['jenis_posisi'] == "Atasan"):
                 ?>
                   <option value="Sedang Proses Verifikasi Oleh Staff Kepegawaian">Verifikasi Berhasil</option>
                   <option value="Verifikasi Gagal Oleh Pejabat Pengusul">Verifikasi Gagal</option>
