@@ -308,7 +308,7 @@
               <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
               <td class="isi_tabel_bergaris" style="text-align: center;"></td>
               <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
-              <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
               <td class="isi_tabel_bergaris" style="text-align: center;"></td>
               <td class="isi_tabel_bergaris" style="text-align: center;">
                 <?php
@@ -322,7 +322,18 @@
                   }
                 ?>
               </td>
-              <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;">
+                <?php
+                  if($u['angka_kredit_baru'] == 0)
+                  {
+                    echo round($u['angka_kredit'], 4);
+                  }
+                  else
+                  {
+                    echo round($u['angka_kredit_baru'], 4);
+                  }
+                ?>
+              </td>
             </tr>
       <?php
           $no_kegiatan++; 
@@ -334,19 +345,19 @@
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR UTAMA</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_utama['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
       </tr>
       
       
@@ -399,7 +410,7 @@
         <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;">
           <?php
@@ -413,7 +424,18 @@
             }
           ?>
         </td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;">
+          <?php
+            if($u['angka_kredit_baru'] == 0)
+            {
+              echo round($u['angka_kredit'], 4);
+            }
+            else
+            {
+              echo round($u['angka_kredit_baru'], 4);
+            }
+          ?>
+        </td>
       </tr>
       <?php
           $no_kegiatan++; 
@@ -425,28 +447,28 @@
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR PENUNJANG</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_penunjang['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR UTAMA DAN PENUNJANG</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_utama['angka_kredit']+$kredit_awal_penunjang['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak+$total_ak_penunjang)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak+$total_ak_penunjang)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak_baru+$total_ak_penunjang_baru)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak_baru+$total_ak_penunjang_baru)?></td>
       </tr>
       
       <!-- Bagian tanda tangan -->
