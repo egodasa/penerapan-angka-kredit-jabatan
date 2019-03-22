@@ -1,0 +1,57 @@
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:22:56 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 97
+[01-Mar-2019 18:23:07 Asia/Bangkok] PHP Notice:  Use of undefined constant id_pegawai - assumed 'id_pegawai' in /home/mandanon/pak.mandan.online/pegawai/index.php on line 98
+[02-Mar-2019 00:56:12 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:09:57 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:16:39 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:20:16 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:23:59 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:27:26 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[02-Mar-2019 01:30:04 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 2
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 4
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 3
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 4
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: foto in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 23
+[03-Mar-2019 01:05:38 Asia/Bangkok] PHP Notice:  Undefined index: nm_lengkap in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 24
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 2
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 4
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 3
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 4
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: foto in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 23
+[03-Mar-2019 01:06:14 Asia/Bangkok] PHP Notice:  Undefined index: nm_lengkap in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 24
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 2
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 6
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 3
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 4
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: foto in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 23
+[14-Mar-2019 22:34:20 Asia/Bangkok] PHP Notice:  Undefined index: nm_lengkap in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 24
+[15-Mar-2019 00:21:02 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[15-Mar-2019 00:22:09 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[15-Mar-2019 00:22:58 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[15-Mar-2019 00:24:09 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 2
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: jenis_posisi in /home/mandanon/pak.mandan.online/template/menu.php on line 6
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 3
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: nip in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 4
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: foto in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 23
+[15-Mar-2019 00:43:36 Asia/Bangkok] PHP Notice:  Undefined index: nm_lengkap in /home/mandanon/pak.mandan.online/template/menu-penilai.php on line 24
+[22-Mar-2019 11:02:35 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110
+[22-Mar-2019 14:11:10 Asia/Bangkok] PHP Strict Standards:  Only variables should be passed by reference in /home/mandanon/pak.mandan.online/pengaturan/helper.php on line 110

@@ -107,11 +107,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Kredit Awal Unsur Utama</label>
-              <input class="form-control"  type="number" name="kredit_awal_utama" required />
+              <input class="form-control"  type="text" name="kredit_awal_utama" required />
             </div>
             <div class="form-group">
               <label class="form-label">Kredit Awal Unsur Penunjang</label>
-              <input class="form-control"  type="number" name="kredit_awal_penunjang" required />
+              <input class="form-control"  type="text" name="kredit_awal_penunjang" required />
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
