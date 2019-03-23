@@ -6,7 +6,6 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Tambah Pegawai";
   $jabatan = $db->select("tbl_jabatan", "*");
-  $pangkat = $db->select("tbl_pangkat", "*");
   
   $posisi = $db->query("SELECT a.*, b.nm_posisi FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
 ?>
@@ -95,11 +94,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Pangkat</label>
-              <select class="form-control custom-select"  name="id_pangkat" required>
-                <option selected disabled>-- Pilih Pangkat --</option>
-                <?php foreach($pangkat as $d): ?>
-                  <option value="<?=$d['id_pangkat']?>"><?=$d['nm_pangkat']?></option>
-                <?php endforeach; ?>
+              <select class="form-control custom-select" name="id_pangkat" required>
               </select>
             </div>
             <div class="form-group">
@@ -134,6 +129,7 @@
   </div>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
+  <script src="<?=$alamat_web?>/assets/js/axios.min.js"></script>
   <script>
     var tgl_lulus = new Pikaday({
       field: document.getElementsByName('tgl_lulus')[0],
@@ -149,6 +145,23 @@
       field: document.getElementsByName('tmt_jabatan')[0],
       format: 'YYYY-MM-DD',
     });
+    
+    function getPangkat(){
+      axios.get('get-pangkat.php?id_jabatan=' + document.getElementsByName("id_jabatan")[0].value)
+        .then(function(res){
+          document.getElementsByName("id_pangkat")[0].innerHTML = "";
+          var data = res.data;
+          var pangkat = "";
+          for(var x = 0; x < data.length; x++){
+            pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+          }
+          document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+        })
+    }
+    
+    document.getElementsByName("id_jabatan")[0].addEventListener("change", function(){
+      getPangkat();
+    })
   </script>
 </div>
 </body>

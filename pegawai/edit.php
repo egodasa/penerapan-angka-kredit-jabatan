@@ -159,7 +159,21 @@
       </div>
     </section>
   </div>
+  <script src="<?=$alamat_web?>/assets/js/axios.min.js"></script>
   <script>
+    function getPangkat(){
+      axios.get('get-pangkat.php?id_jabatan=' + document.getElementsByName("id_jabatan")[0].value)
+        .then(function(res){
+          document.getElementsByName("id_pangkat")[0].innerHTML = "";
+          var data = res.data;
+          var pangkat = "";
+          for(var x = 0; x < data.length; x++){
+            pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+          }
+          document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+        })
+    }
+    
     document.getElementsByName("nip")[0].value = "<?=$detail['nip']?>";
     document.getElementsByName("no_karpeg")[0].value = "<?=$detail['no_karpeg']?>";
     document.getElementsByName("nm_lengkap")[0].value = "<?=$detail['nm_lengkap']?>";
@@ -170,12 +184,27 @@
     document.getElementsByName("email")[0].value = "<?=$detail['email']?>";
     document.getElementsByName("pendidikan")[0].value = "<?=$detail['pendidikan']?>";
     document.getElementsByName("id_jabatan")[0].value = "<?=$jabatan_pangkat['id_jabatan']?>";
-    document.getElementsByName("id_pangkat")[0].value = "<?=$jabatan_pangkat['id_pangkat']?>";
     document.getElementsByName("id_unit_kerja")[0].value = "<?=$detail['id_unit_kerja']?>";
     document.getElementsByName("kredit_awal_utama")[0].value = "<?=$detail['kredit_awal_utama']?>";
     document.getElementsByName("kredit_awal_penunjang")[0].value = "<?=$detail['kredit_awal_penunjang']?>";
     document.getElementsByName("tmt_jabatan")[0].value = "<?=$detail['tmt_jabatan']?>";
     document.getElementsByName("tgl_lulus")[0].value = "<?=$detail['tgl_lulus']?>";
+    
+    axios.get("get-pangkat.php?id_jabatan=<?=$jabatan_pangkat['id_jabatan']?>")
+    .then(function(res){
+      document.getElementsByName("id_pangkat")[0].innerHTML = "";
+      var data = res.data;
+      var pangkat = "";
+      for(var x = 0; x < data.length; x++){
+        pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+      }
+      document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+      document.getElementsByName("id_pangkat")[0].value = "<?=$jabatan_pangkat['id_pangkat']?>";
+    })
+    
+    document.getElementsByName("id_jabatan")[0].addEventListener("change", function(){
+      getPangkat();
+    })
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
