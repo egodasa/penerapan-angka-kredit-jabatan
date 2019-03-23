@@ -63,13 +63,9 @@
                   <li>File Scan Karpeg</li>
                   <li>File Scan Pangkat Terakhir</li>
                   <li>File Scan SK Jabatan Terakhir</li>
-                  <li>File Scan STTPP Diklat Fungsional</li>
                   <li>File Scan PAK Terakhir</li>
                   <li>File Scan Ijazah Terakhir</li>
                   <li>File Scan Penilaian Prestasi Kerja 2th terakhir</li>
-                  <li>File Scan Pegawai CPNS & PNS</li>
-                  <li>File Scan Surat Tugas</li>
-                  <li>File Scan Bukti Fisik Hasil Kegiatan</li>
                   <li>File Scan Surat Pernyataan Melakukan Kegiatan</li>
                   <li>File Scan Surat Pengantar dari pejabat pengusul</li>
                 </ol>
