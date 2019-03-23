@@ -19,45 +19,60 @@ CREATE TABLE `tbl_berkas_penilaian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_berkas_penilaian` (`id_berkas_penilaian`, `id_usulan`, `id_berkas`, `file`) VALUES
-(1,	1,	1,	'270219072737004400.jpeg'),
-(2,	1,	2,	'270219072742220500.jpeg'),
+(1,	1,	1,	'140319185231571700.jpg'),
+(2,	1,	2,	'140319185242530300.jpg'),
 (3,	1,	3,	NULL),
-(4,	1,	4,	NULL),
 (5,	1,	5,	NULL),
 (6,	1,	6,	NULL),
 (7,	1,	7,	NULL),
-(8,	1,	8,	NULL),
-(9,	1,	9,	NULL),
-(10,	1,	10,	NULL),
 (11,	1,	11,	NULL),
 (12,	1,	12,	NULL),
 (13,	1,	13,	NULL),
 (15,	2,	1,	'010319184139631500.jpg'),
 (16,	2,	2,	'010319184207909500.jpg'),
 (17,	2,	3,	'010319184244520900.png'),
-(18,	2,	4,	'010319184259217400.jpg'),
-(19,	2,	5,	NULL),
-(20,	2,	6,	NULL),
-(21,	2,	7,	NULL),
-(22,	2,	8,	NULL),
-(23,	2,	9,	NULL),
-(24,	2,	10,	NULL),
+(19,	2,	5,	'140319180039360600.jpg'),
+(20,	2,	6,	'140319180056355300.jpg'),
+(21,	2,	7,	'140319180115988600.png'),
 (25,	2,	11,	NULL),
 (26,	2,	12,	NULL),
 (27,	2,	13,	NULL),
 (28,	1,	1,	NULL),
 (29,	1,	2,	'090319014303965600.jpg'),
 (30,	1,	3,	NULL),
-(31,	1,	4,	NULL),
 (32,	1,	5,	NULL),
 (33,	1,	6,	NULL),
 (34,	1,	7,	NULL),
-(35,	1,	8,	NULL),
-(36,	1,	9,	NULL),
-(37,	1,	10,	NULL),
 (38,	1,	11,	NULL),
 (39,	1,	12,	NULL),
-(40,	1,	13,	NULL);
+(40,	1,	13,	NULL),
+(41,	2,	1,	NULL),
+(42,	2,	2,	NULL),
+(43,	2,	3,	NULL),
+(45,	2,	5,	NULL),
+(46,	2,	6,	NULL),
+(47,	2,	7,	NULL),
+(51,	2,	11,	NULL),
+(52,	2,	12,	NULL),
+(53,	2,	13,	NULL),
+(56,	3,	1,	NULL),
+(57,	3,	2,	NULL),
+(58,	3,	3,	NULL),
+(60,	3,	5,	NULL),
+(61,	3,	6,	NULL),
+(62,	3,	7,	NULL),
+(66,	3,	11,	NULL),
+(67,	3,	12,	NULL),
+(68,	3,	13,	NULL),
+(69,	4,	1,	NULL),
+(70,	4,	2,	NULL),
+(71,	4,	3,	NULL),
+(73,	4,	5,	NULL),
+(74,	4,	6,	NULL),
+(75,	4,	7,	NULL),
+(79,	4,	11,	NULL),
+(80,	4,	12,	NULL),
+(81,	4,	13,	NULL);
 
 DROP TABLE IF EXISTS `tbl_jabatan`;
 CREATE TABLE `tbl_jabatan` (
@@ -67,29 +82,15 @@ CREATE TABLE `tbl_jabatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_jabatan` (`id_jabatan`, `nm_jabatan`) VALUES
-(1,	'Pustakawan Pelaksana'),
-(2,	'Pustakawan Pelaksana Lanjutan'),
-(3,	'Pustakawan Penyelia'),
+(1,	'Terampil'),
+(2,	'Mahir'),
+(3,	' Penyelia'),
 (4,	'Staff Kepegawaian'),
 (5,	'Tim Penilai'),
-(6,	'Pustakawan Pertama'),
-(7,	'Pustakawan Muda'),
-(8,	'Pustakawan Madya'),
-(9,	'Pustakawan Utama'),
-(10,	'Arsiparis Pelaksana'),
-(11,	'Arsiparis Pelaksana Lanjutan'),
-(12,	'Arsiparis Penyelia'),
-(13,	'Arsiparis Pertama'),
-(14,	'Arsiparis Muda'),
-(15,	'Arsiparis Madya'),
-(16,	'Arsiparis Utama'),
-(17,	'PLP Pelaksana'),
-(18,	'PLP Pelaksana Lanjutan'),
-(19,	'PLP Penyelia'),
-(20,	'PLP Pertama'),
-(21,	'PLP Muda'),
-(22,	'PLP Madya'),
-(23,	'PLP Utama'),
+(6,	'Ahli Pertama'),
+(7,	'Ahli Muda'),
+(8,	'Ahli Madya'),
+(9,	'Ahli Utama'),
 (24,	'Admin');
 
 DROP TABLE IF EXISTS `tbl_jabatan_pangkat`;
@@ -107,27 +108,25 @@ CREATE TABLE `tbl_jabatan_pangkat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_jabatan_pangkat` (`id_jabatan_pangkat`, `id_jabatan`, `id_pangkat`, `nilai_kredit`, `peringkat`) VALUES
-(1,	1,	1,	50,	50),
-(2,	1,	2,	60,	60),
+(1,	1,	1,	30,	30),
+(2,	1,	2,	40,	40),
 (3,	1,	3,	60,	60),
 (4,	1,	4,	80,	80),
 (5,	4,	13,	0,	0),
 (6,	5,	14,	0,	0),
-(7,	10,	3,	60,	60),
-(8,	10,	4,	80,	80),
-(9,	11,	5,	100,	100),
-(10,	11,	6,	150,	150),
-(11,	12,	7,	200,	200),
-(12,	12,	8,	300,	300),
-(13,	13,	5,	100,	100),
-(14,	13,	6,	150,	150),
-(15,	14,	7,	200,	200),
-(16,	14,	8,	300,	300),
-(17,	15,	9,	400,	400),
-(18,	15,	10,	550,	550),
-(19,	15,	11,	700,	700),
-(20,	16,	12,	850,	850),
-(21,	16,	15,	1050,	1050);
+(22,	2,	5,	100,	100),
+(23,	2,	6,	150,	150),
+(24,	3,	7,	200,	200),
+(25,	3,	8,	300,	300),
+(26,	6,	5,	100,	100),
+(27,	6,	6,	150,	150),
+(28,	7,	7,	200,	200),
+(29,	7,	8,	300,	300),
+(30,	8,	9,	400,	400),
+(31,	8,	10,	550,	550),
+(32,	8,	11,	700,	700),
+(33,	9,	12,	850,	850),
+(34,	9,	15,	1050,	1050);
 
 DROP TABLE IF EXISTS `tbl_jenis_berkas`;
 CREATE TABLE `tbl_jenis_berkas` (
@@ -140,13 +139,9 @@ INSERT INTO `tbl_jenis_berkas` (`id_berkas`, `nm_berkas`) VALUES
 (1,	'KARPEG'),
 (2,	'Pangkat Terakhir'),
 (3,	'SK Jabatan Terakhir'),
-(4,	'STTPP Diklat Fungsional'),
 (5,	'PAK Terakhir'),
 (6,	'Ijazah Terakhir'),
 (7,	'Penilaian Prestasi Kerja 2thn terakhir'),
-(8,	'SK Pegawai CPNS & PNS'),
-(9,	'Surat Tugas'),
-(10,	'Bukti Fisik Hasil Kegiatan'),
 (11,	'Surat Pernyataan Melakukan Kegiatan'),
 (12,	'Surat Pengantar dari Pejabat Pengusul'),
 (13,	'DUPAK');
@@ -162,7 +157,7 @@ INSERT INTO `tbl_pangkat` (`id_pangkat`, `nm_pangkat`) VALUES
 (1,	'Pengatur Muda (II/a)'),
 (2,	'Pengatur Muda Tingkat I (II/b)'),
 (3,	'Pengatur (II/c)'),
-(4,	'Pengatur Tngkat I (II/d)'),
+(4,	'Pengatur Tingkat I (II/d)'),
 (5,	'Penata Muda (III/a)'),
 (6,	'Penata Muda Tingkat I (III/b)'),
 (7,	'Penata (III/c)'),
@@ -203,13 +198,15 @@ CREATE TABLE `tbl_pegawai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_pegawai` (`id_pegawai`, `nip`, `password`, `no_karpeg`, `nm_lengkap`, `tempat_lahir`, `tgl_lahir`, `email`, `nohp`, `pendidikan`, `tgl_lulus`, `jk`, `id_jabatan_pangkat`, `id_unit_kerja`, `foto`, `kredit_awal_utama`, `kredit_awal_penunjang`, `tmt_jabatan`) VALUES
-(4,	'12345',	'827ccb0eea8a706c4c34a16891f84e7b',	'N. 12345',	'Pejabat Pengusul',	'Padang',	'2012-10-10',	'email@mail.com',	'08123456789',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	5,	17,	'010319182359033700.png',	0,	0,	'2019-02-25'),
-(5,	'11111',	'b0baee9d279d34fa1dfd71aadb908c3f',	'11111',	'Pustakawan',	'padang',	'1980-10-10',	'pustakawan@gmail.com',	'089512345',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Perempuan',	1,	1,	'010319181639087600.jpg',	20,	0,	'2019-02-06'),
+(4,	'12345',	'827ccb0eea8a706c4c34a16891f84e7b',	'N. 12345',	'Pejabat Pengusul',	'Padang',	'2012-10-10',	'email@mail.com',	'08123456789',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	5,	17,	'140319172209931200.png',	0,	0,	'2019-02-25'),
+(5,	'11111',	'b0baee9d279d34fa1dfd71aadb908c3f',	'11111',	'Pustakawan',	'padang',	'1980-10-10',	'pustakawan@gmail.com',	'089512345',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Perempuan',	23,	1,	'010319181639087600.jpg',	68.3443,	17.0861,	'2019-02-06'),
 (6,	'22222',	'3d2172418ce305c7d16d4b05597c6a59',	'22222',	'Arsiparis',	'padang',	'2019-10-10',	'arsiparis@yahoo.com',	'081213212321',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Perempuan',	4,	14,	'010319182016224600.jpeg',	0,	0,	'2019-02-06'),
-(7,	'98765',	'c37bf859faf392800d739a41fe5af151',	'N. 98765',	'Tim Penilai',	'Padang',	'2003-04-04',	'tim@pegawai.com',	'089876544321',	'Sarjana (S1)/Diploma IV',	'2019-02-06',	'Laki-laki',	6,	23,	'010319182726025600.png',	0,	0,	'2019-02-04'),
-(8,	'77777',	'22a4d9b04fe95c9893b41e2fde83a427',	'N. 77777',	'Atasan Pustakawan',	'padang',	'1995-10-10',	'plp@gmail.com',	'087777777777',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	1,	15,	'010319183004572200.jpg',	0,	0,	'2019-02-07'),
-(9,	'197510172001122002',	'03eb836763032db02255eb22ba9f979c',	'L.043398',	'Zasmi Fitriani, A.Md',	'Padang',	'1975-10-17',	'zasmifitriani@gmail.com',	'08527412345',	'Sarjana (S1)/Diploma IV',	'1994-04-04',	'Perempuan',	1,	1,	'010319175612772500.jpg',	110,	0,	'2013-08-01'),
-(10,	'123456789',	'25f9e794323b453885f5181f1b624d0b',	'N. 123456789',	'Staff Kepegawaian',	'Padang',	'1995-03-01',	'egodasa@gmail.com',	'081266838995',	'Sarjana (S1)/Diploma IV',	'2002-03-25',	'Laki-laki',	5,	17,	'090319030000047300.jpg',	0,	0,	'2010-10-10');
+(7,	'98765',	'c37bf859faf392800d739a41fe5af151',	'N. 98765',	'Tim Penilai',	'Padang',	'2003-04-04',	'tim@pegawai.com',	'089876544321',	'Sarjana (S1)/Diploma IV',	'2019-02-06',	'Laki-laki',	6,	23,	'140319172258255400.png',	0,	0,	'2019-02-04'),
+(8,	'77777',	'22a4d9b04fe95c9893b41e2fde83a427',	'N. 77777',	'Pejabat Pengusul',	'padang',	'1995-10-10',	'pejabatpengusul@gmail.com',	'087777777777',	'Sarjana (S1)/Diploma IV',	'2019-02-01',	'Laki-laki',	1,	15,	'010319183004572200.jpg',	0,	0,	'2019-02-07'),
+(9,	'197510172001122002',	'a386c7c329ce38ff6af74159a6f23dca',	'L.043398',	'Zasmi Fitriani, A.Md',	'Padang',	'1975-10-17',	'zasmifitriani@gmail.com',	'08527412345',	'Sarjana (S1)/Diploma IV',	'1994-04-04',	'Perempuan',	3,	1,	'010319175612772500.jpg',	110,	56,	'2013-08-01'),
+(10,	'123456789',	'25f9e794323b453885f5181f1b624d0b',	'N. 123456789',	'Staff Kepegawaian',	'Padang',	'1995-03-01',	'egodasa@gmail.com',	'081266838995',	'Sarjana (S1)/Diploma IV',	'2002-03-25',	'Laki-laki',	5,	17,	'140319172409695500.png',	0,	0,	'2010-10-10'),
+(11,	'197811032008102001',	'b0baee9d279d34fa1dfd71aadb908c3f',	'N. 541906',	'NANI, S.I.Pust',	'Padang',	'1978-11-03',	'nani78@yahoo.com',	'081274332567',	'Sarjana (S1)/Diploma IV',	'2015-04-01',	'Perempuan',	4,	1,	'220319040235347600.jpg',	68,	17,	'2015-04-01'),
+(12,	'196408151986031004',	'79b7cdcd14db14e9cb498f1793817d69',	'N. 12345',	'Drs.Yasir, S.Sos',	'Padang',	'1964-08-15',	'yasir64@gmail.com',	'081234567811',	'Sarjana (S1)/Diploma IV',	'1981-03-06',	'Laki-laki',	5,	1,	'220319071110693800.jpg',	150,	50,	'1986-03-06');
 
 DROP TABLE IF EXISTS `tbl_posisi`;
 CREATE TABLE `tbl_posisi` (
@@ -225,7 +222,8 @@ INSERT INTO `tbl_posisi` (`id_posisi`, `nm_posisi`, `jenis_posisi`) VALUES
 (4,	'Pustakawan',	'Tenaga Kependidikan'),
 (5,	'Staff Kepegawaian',	'Staff Kepegawaian'),
 (6,	'Tim Penilai',	'Tim Penilai'),
-(7,	'admin',	'');
+(7,	'admin',	''),
+(8,	'Pejabat Pengusul',	'Tim Penilai');
 
 DROP TABLE IF EXISTS `tbl_sub_unsur`;
 CREATE TABLE `tbl_sub_unsur` (
@@ -344,7 +342,10 @@ CREATE TABLE `tbl_usulan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_usulan` (`id_usulan`, `tgl_usulan`, `status_proses`, `keterangan`, `nip`, `masa_penilaian_awal`, `masa_penilaian_akhir`, `tgl_penyesuaian`, `tgl_pengesahan`, `id_jabatan_pangkat_selanjutnya`, `id_jabatan_pangkat_sekarang`, `masa_kerja_golongan_lama`, `masa_kerja_golongan_baru`) VALUES
-(1,	'2019-03-01',	'Angka Kredit Diterima',	'',	'11111',	'2019-03-30',	'2019-04-30',	'2019-03-31',	'2019-05-01',	7,	2,	'2 tahun, 3 bulan',	'2 tahun');
+(1,	'2019-03-01',	'Angka Kredit Diterima',	'',	'11111',	'2019-03-30',	'2019-04-30',	'2019-03-31',	'2019-05-01',	7,	2,	'2 tahun, 3 bulan',	'2 tahun'),
+(2,	'2019-03-15',	'Sedang Proses Verifikasi Oleh Pejabat Pengusul',	NULL,	'11111',	'2019-04-01',	'2019-10-01',	NULL,	NULL,	10,	9,	'9 Tahun 10 Bulan',	'2 tahun 2 bulan'),
+(3,	'2019-03-15',	NULL,	NULL,	'11111',	'2019-04-01',	'2019-10-01',	NULL,	NULL,	10,	9,	'9 Tahun 10 Bulan',	'2 tahun 2 bulan'),
+(4,	'2019-03-22',	NULL,	NULL,	'11111',	'2018-04-01',	'2019-03-31',	NULL,	NULL,	3,	2,	'12 tahun 6 bulan',	'13 tahun 6 bulan');
 
 DROP TABLE IF EXISTS `tbl_usulan_unsur`;
 CREATE TABLE `tbl_usulan_unsur` (
@@ -375,7 +376,12 @@ CREATE TABLE `tbl_usulan_unsur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tbl_usulan_unsur` (`id_usulan_unsur`, `tgl_mulai_kegiatan`, `tgl_selesai_kegiatan`, `butir_kegiatan`, `satuan`, `angka_kredit_murni`, `angka_kredit_murni_baru`, `angka_kredit_persentase`, `angka_kredit_persentase_baru`, `angka_kredit`, `angka_kredit_baru`, `tempat`, `id_usulan`, `tingkat_kesulitan`, `jumlah_volume_kegiatan`, `id_sub_unsur`, `status`, `bukti_kegiatan`, `keterangan`) VALUES
-(1,	'2019-03-01',	'2019-03-30',	'Mengelola perpustakaan',	'Eksampler',	1,	0,	20,	0,	24,	0,	'Padang',	1,	'Susah',	120,	2,	NULL,	'090319014408839000.jpg',	''),
-(2,	'2019-03-01',	'2019-03-31',	'Ikut Seminar',	'Eksampler',	0.5,	0,	10,	0,	0.05,	0,	'Padang',	1,	'Susah Sekali',	1,	6,	NULL,	'090319014451788000.jpeg',	'');
+(1,	'2019-03-01',	'2019-03-30',	'Mengelola perpustakaan',	'Eksampler',	0.125,	0.12,	100,	10,	15,	1.44,	'Padang',	1,	'Susah',	120,	2,	'Ditolak',	'140319185922454600.jpg',	''),
+(2,	'2019-03-01',	'2019-03-31',	'Ikut Seminar',	'Eksampler',	0.75,	0,	100,	0,	0.75,	0,	'Padang',	1,	'Susah Sekali',	1,	6,	NULL,	'140319185952361600.png',	''),
+(3,	'2019-01-01',	'2019-03-01',	'Mengikuti pendidikan S1',	'Ijazah yang ter akreditasi',	100,	0,	100,	0,	100,	0,	'Padang',	2,	'-',	1,	11,	'',	'140319180700144600.png',	''),
+(4,	'2019-01-01',	'2019-02-01',	'mengelola buku perpustakaan',	'naskah',	0.003,	0,	100,	0,	4.5,	0,	'UPT perpustakaan',	2,	'-',	1500,	2,	NULL,	'140319180903343900.png',	''),
+(5,	'2019-01-01',	'2019-02-01',	'Melakukan katalogisasi deskriptif',	'lembar',	0.125,	0,	100,	0,	18.75,	0,	'UPT perpustakaan',	2,	'-',	150,	4,	NULL,	'140319181143610700.jpg',	''),
+(6,	'2019-01-01',	'2019-02-01',	'Membuat tulisan ilmiah populer di bidang kepustakawanan yang diperluaskan di media massa',	'naskah',	0.75,	0,	100,	0,	1.5,	0,	'Padang',	2,	'-',	2,	5,	NULL,	'140319181314765600.jpg',	''),
+(7,	'2019-01-01',	'2019-02-01',	'Menjadi anggota dalam organiasi yang dibentuk pustakawan universitas',	'anggota',	2,	0,	15,	0,	0.3,	0,	'UPT perpustakaan',	2,	'anggota',	1,	8,	NULL,	'140319181612173400.png',	'');
 
--- 2019-03-10 04:32:49
+-- 2019-03-23 09:13:08
