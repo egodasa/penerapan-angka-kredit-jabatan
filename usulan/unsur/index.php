@@ -70,7 +70,7 @@
                     <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                       <a href="<?=$alamat_web?>/usulan/unsur/proses_hapus.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-danger">Hapus</a> 
                       <a href="<?=$alamat_web?>/usulan/unsur/edit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-primary">Edit</a>
-                    <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
+                    <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai" || $_SESSION['atasan'] == "1"): ?>
                       <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-primary">Edit Angka Kredit</a>
                     <?php endif; ?>
                   </td>
