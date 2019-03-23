@@ -8,7 +8,6 @@
   $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
   $pegawai = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
-                                   a.kredit_awal,
                                    a.nip,
                                    a.nm_lengkap,
                                    a.jk,
@@ -16,6 +15,7 @@
                                    b.peringkat,
                                    c.nm_jabatan,
                                    d.nm_pangkat,
+                                   a.tmt_jabatan,
                                    a.id_unit_kerja,
                                    f.nm_unit_kerja,
                                    f.nip_atasan 
@@ -32,7 +32,6 @@
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
   $atasan = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
-                                   a.kredit_awal,
                                    a.nip,
                                    a.nm_lengkap,
                                    a.jk,
@@ -53,6 +52,7 @@
                                      ON a.id_unit_kerja = f.id_unit_kerja
                                    JOIN tbl_posisi e
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+                                    
   $start_huruf = 13;
   ob_start();
 ?>
@@ -173,7 +173,7 @@
         <tr>
           <td>Pangkat/golongan ruang/TMT</td>
           <td>:</td>
-          <td><?=$pegawai['nm_pangkat']."/".$pegawai['tmt_jabatan']?></td>
+          <td><?=$pegawai['nm_pangkat']."/".tanggal_indo($pegawai['tmt_jabatan'])?></td>
         </tr>
         <tr>
           <td>Jabatan</td>
@@ -320,7 +320,7 @@
         <tr>
           <td>Pangkat/golongan ruang/TMT</td>
           <td>:</td>
-          <td><?=$pegawai['nm_pangkat']."/".$pegawai['tmt_jabatan']?></td>
+          <td><?=$pegawai['nm_pangkat']."/".tanggal_indo($pegawai['tmt_jabatan'])?></td>
         </tr>
         <tr>
           <td>Jabatan</td>
