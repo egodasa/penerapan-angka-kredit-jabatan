@@ -322,8 +322,8 @@
       <br/>
       <br/>
       <br/>
-      <b>Dr. Ir. Febrin Anas Ismail, MT</b> <br/>
-      NIP. 196302211988031002
+      <b>Prof. Dr Dachriyanus, A.Pt</b> <br/>
+      NIP. 196901211994031001
     </div>
   </div>
     <div style="float: left; text-align: left; width: 50%;">
