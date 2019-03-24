@@ -30,12 +30,10 @@
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
   $atasan = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
-                                   a.kredit_awal,
                                    a.nip,
                                    a.nm_lengkap,
                                    a.jk,
                                    a.foto,
-                                   b.peringkat_jabatan_sekarang,
                                    c.nm_jabatan,
                                    d.nm_pangkat,
                                    a.id_unit_kerja,
@@ -51,7 +49,6 @@
                                      ON a.id_unit_kerja = f.id_unit_kerja
                                    JOIN tbl_posisi e
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
-                                     
   // cara memanggil total kredit awal unsur utama $kredit_awal_utama['angka_kredit']
   $kredit_awal_utama = $db->query("SELECT 
                                       SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END) AS angka_kredit, b.jenis_unsur

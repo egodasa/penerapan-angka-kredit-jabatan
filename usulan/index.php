@@ -96,7 +96,7 @@
                         <li class="dropdown-header">Data Usulan</li>
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
-                        <?php if($_SESSION['atasan'] == "1"): ?>
+                        <?php if($_SESSION['atasan'] == "1" || $_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
                         <?php endif; ?>
