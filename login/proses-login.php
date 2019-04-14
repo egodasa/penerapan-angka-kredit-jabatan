@@ -68,19 +68,17 @@
       $_SESSION['id_jabatan_pangkat'] = $data[0]['id_jabatan_pangkat'];
       $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
       
+      if($_SESSION['atasan'] == '1')
+      {
+        // Jenis posisi diganti jadi atasan jika staff kepegawaian kedapatan menjadi atasan disebuah unit kerja
+        $_SESSION['jenis_posisi'] = "Atasan";
+        header("Location: $alamat_web/usulan");
+      }
+      
       // Cek level agar halaman di redirect sesuai aktor
       if($_SESSION['jenis_posisi'] == "Staff Kepegawaian")
       {
-        if($_SESSION['atasan'] == '1')
-        {
-          // Jenis posisi diganti jadi atasan jika staff kepegawaian kedapatan menjadi atasan disebuah unit kerja
-          $_SESSION['jenis_posisi'] = "Atasan";
-          header("Location: $alamat_web/usulan");
-        }
-        else
-        {
-          header("Location: $alamat_web/pegawai");
-        }
+        header("Location: $alamat_web/usulan");
       }
       else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan")
       {
