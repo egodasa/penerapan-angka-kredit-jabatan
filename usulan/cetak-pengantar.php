@@ -50,6 +50,15 @@
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
   $tahun_usulan_tmp = explode("-", $data_usulan['tgl_usulan']);
   $tahun_usulan = $tahun_usulan_tmp[0]-1;
+  
+  $jabatan_selanjutnya = $db->query("SELECT b.nm_jabatan,
+                                             c.nm_pangkat
+                                      FROM   tbl_jabatan_pangkat a
+                                             JOIN tbl_jabatan b
+                                               ON a.id_jabatan = b.id_jabatan
+                                             JOIN tbl_pangkat c
+                                               ON a.id_pangkat = c.id_pangkat
+                                      WHERE a.peringkat > :peringkat LIMIT 1", ['peringkat' => $pegawai['peringkat']])->fetch();
   ob_start();
 ?>
 <!DOCTYPE html>
@@ -151,9 +160,9 @@
     <tr>
       <td style="border: 1px solid black; text-align: center;">1</td>
       <td style="border: 1px solid black; text-align: center;"><?=$pegawai['nm_lengkap']?> <br/> Nip. <?=$pegawai['nip']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat_selanjutnya']?></td>
-      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$_SESSION['jabatan_selanjutnya']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$pegawai['nm_pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$jabatan_selanjutnya['nm_pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$jabatan_selanjutnya['nm_jabatan']?></td>
     </tr>
   </table>
   <br/>
