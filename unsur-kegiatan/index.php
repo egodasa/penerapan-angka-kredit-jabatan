@@ -60,7 +60,9 @@ if(count($data) > 0){
                   </td>
                   <td>
                     <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/index.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-success">Butir Kegiatan</a>
+                  </td>
                 </tr>
                 <?php 
   $no++;

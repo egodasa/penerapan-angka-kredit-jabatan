@@ -33,7 +33,7 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Unsur Kegiatan</h3>
+          <h3 class="box-title">Edit Unsur Kegiatan</h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/unsur-kegiatan/proses_edit.php" enctype="multipart/form-data">
