@@ -20,14 +20,14 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Data Unsur Kegiatan</h3>
+          <h3 class="box-title">Tambah Data Butir Kegiatan</h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/usulan/unsur/proses_tambah.php" enctype="multipart/form-data">
             <input type="hidden" name="id_usulan" value="<?=$_GET['id_usulan']?>" />
             <div class="form-group">
               <label class="form-label">Unsur</label>
-              <select class="form-control custom-select"  name="id_sub_unsur" required>
+              <select class="form-control custom-select" name="id_sub_unsur" onchange="getButirKegiatan()" required>
                 <option selected disabled>-- Pilih Unsur --</option>
                 <?php foreach($unsur as $d): ?>
                   <option value="<?=$d['id_sub_unsur']?>"><?=$d['nm_unsur']." - ".$d['kategori_unsur']." - ".$d['jenis_unsur']?></option>
@@ -53,8 +53,9 @@
                 <input class="form-control"  type="text" name="tingkat_kesulitan" required />
               </div>
               <div class="form-group">
-                <label class="form-label">Uraian Kegiatan</label>
-                <input class="form-control"  type="text" name="butir_kegiatan" required />
+                <label class="form-label">Butir Kegiatan</label>
+                <select class="form-control custom-select"  name="butir_kegiatan" onchange="detailButirKegiatan()" required>
+                </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Bukti Kegiatan</label>
@@ -62,13 +63,13 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Satuan</label>
-                <input class="form-control"  type="text" name="satuan" required />
+                <input class="form-control"  type="text" name="satuan" readonly required />
               </div>
               <div class="row">
                 <div class="col-xs-6">
                   <div class="form-group">
                     <label class="form-label">Angka Kredit Murni</label>
-                    <input class="form-control"  type="text" name="angka_kredit_murni" onkeyup="hitungKredit()" required />
+                    <input class="form-control"  type="text" name="angka_kredit_murni" onchange="detailButirKegiatan()" readonly />
                   </div>
                 </div>
                 <div class="col-xs-6">
@@ -107,12 +108,43 @@
   </div>
   <?php include "../../template/footer.php"; ?>
   <?php include("../../template/script.php"); ?>
+  <script src="<?=$alamat_web?>/assets/js/axios.min.js"></script>
   <script>
+    var butir_kegiatan = [];
     function hitungKredit(){
       var persentase = document.getElementsByName("angka_kredit_persentase")[0].value/100 || 0;
       var murni = document.getElementsByName("angka_kredit_murni")[0].value || 0;
       var volume = document.getElementsByName("jumlah_volume_kegiatan")[0].value || 0;
       document.getElementsByName("angka_kredit")[0].value = volume * (persentase * murni);
+    }
+    function getButirKegiatan()
+    {
+      var id_sub_unsur = document.getElementsByName("id_sub_unsur")[0].value;
+      document.getElementsByName("satuan")[0].value = "";
+      document.getElementsByName("angka_kredit_murni")[0].value = "";
+      document.getElementsByName("butir_kegiatan")[0].innerHTML = "";
+      axios.get('api-get-butir-kegiatan.php?id_sub_unsur=' + id_sub_unsur)
+        .then(function(res){
+          var hasil = res.data;
+          if(hasil.length != 0)
+          {
+            var html_butir_kegiatan = "<option value='' selected disabled>-- Pilih Butir Kegiatan --</option>";
+            butir_kegiatan = hasil;
+            for(var x = 0; x < hasil.length; x++)
+            {
+              html_butir_kegiatan += "<option value='" + butir_kegiatan[x].butir_kegiatan + "'>" + butir_kegiatan[x].butir_kegiatan + "</option>"
+            }
+            document.getElementsByName("butir_kegiatan")[0].innerHTML = html_butir_kegiatan;
+          }
+        })
+    }
+    function detailButirKegiatan()
+    {
+      var index = document.getElementsByName("butir_kegiatan")[0].selectedIndex;
+      index--;
+      document.getElementsByName("satuan")[0].value = butir_kegiatan[index].satuan;
+      document.getElementsByName("angka_kredit_murni")[0].value = butir_kegiatan[index].angka_kredit;
+      hitungKredit();
     }
     var tgl_mulai_kegiatan = new Pikaday({
       field: document.getElementById('tgl_mulai_kegiatan'),
