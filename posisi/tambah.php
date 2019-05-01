@@ -1,10 +1,10 @@
 <?php
   session_start();
   require_once("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  require_once("../pengaturan/medoo.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah Posisi";
+  $judul_halaman = "Tambah Jabatan";
 ?>
 <html>
 <head>
@@ -16,19 +16,19 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Input Posisi</h3>
-        </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/posisi/proses_tambah.php" enctype="multipart/form-data">
               <div class="form-group">
-                <label class="form-label">Nama Posisi</label>
+                <label class="form-label">Nama Jabatan</label>
                 <input class="form-control"  type="text" name="nm_posisi" required />
               </div>
               <div class="form-group">
-                <label class="form-label">Jenis Posisi</label>
+                <label class="form-label">Jenis Jabatan</label>
                 <select class="form-control custom-select"  name="jenis_posisi" required>
                   <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
                   <option value="Staff Pegawai">Staff Pegawai</option>

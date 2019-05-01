@@ -1,10 +1,11 @@
 <?php
   session_start();
   require_once("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Daftar Posisi";
-  require("../pengaturan/medoo.php");
+  $judul_halaman = "Daftar Jabatan";
+  
   $data= $db->select("tbl_posisi", '*');
 ?>
 <html>
@@ -18,19 +19,19 @@
   <div class="wrapper" style="height: auto; min-height: 100%;">
     <?php include "../template/menu.php"; ?>
     <div class="content-wrapper" style="min-height: 901px;">
+      <?php
+        include("breadcrumb.php");
+      ?>
       <section class="content">
         <div class="box">
-          <div class="box-header with-border">
-            <h3 class="box-title">Daftar Posisi</h3>
-          </div>
           <div class="box-body table-responsive ">
             <a href="<?=$alamat_web?>/posisi/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Posisi</th>
-                  <th>Jenis Posisi</th>
+                  <th>Nama Jabatan</th>
+                  <th>Jenis Jabatan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
