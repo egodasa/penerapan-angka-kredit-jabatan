@@ -5,9 +5,9 @@
   require("../pengaturan/medoo.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Verifikasi Data";
-  //~ $ak_pendidikan = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Pendidikan' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
-  //~ $ak_tugas_pokok = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Tugas Pokok' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
-  //~ $ak_pengembangan_profesi = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.kategori_unsur = 'Pengembangan Profesi' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  //~ $ak_pendidikan = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Pendidikan' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  //~ $ak_tugas_pokok = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Tugas Pokok' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
+  //~ $ak_pengembangan_profesi = $db->query("SELECT SUM(a.angka_kredit) AS angka_kredit FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.kategori_unsur = 'Pengembangan Profesi' AND a.id_usulan = :id_usulan", ['id_usulan' => $_GET['id_usulan']])->fetch();
 ?>
 
 <html>
@@ -35,8 +35,19 @@
               <label class="form-label">Hasil Verifikasi</label>
               <select class="form-control custom-select" name="status_proses" required>
                 <option selected disabled>-- Pilih Hasil Verifikasi --</option>
-                <option value="Sedang Proses Penilaian">Verifikasi Berhasil</option>
-                <option value="Verifikasi Gagal">Verifikasi Gagal</option>
+                <?php 
+                  if($_SESSION['jenis_posisi'] == "Atasan"):
+                ?>
+                  <option value="Sedang Proses Verifikasi Oleh Staff Kepegawaian">Verifikasi Berhasil</option>
+                  <option value="Verifikasi Gagal Oleh Pejabat Pengusul">Verifikasi Gagal</option>
+                <?php
+                  else:
+                ?>
+                  <option value="Sedang Proses Verifikasi Oleh Tim Penilai">Verifikasi Berhasil</option>
+                  <option value="Verifikasi Gagal Oleh Staff Kepegawaian">Verifikasi Gagal</option>
+                <?php
+                  endif;
+                ?>
               </select>
             </div>
             <div class="form-group">
@@ -44,7 +55,7 @@
               <small><br/>*Keterangan jika verifikasi gagal.</small>
               <textarea name="keterangan" class="form-control"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>

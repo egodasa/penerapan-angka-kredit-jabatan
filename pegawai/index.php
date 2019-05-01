@@ -37,7 +37,7 @@
             <h3 class="box-title">Daftar Pegawai Aplikasi</h3>
           </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/pegawai/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/pegawai/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <div class="table-responsive" style="overflow-x: visible; overflow-y:visible;">
 	        <div style="overflow:auto; min-height:500px; margin:0px 0 0px 0;" >
             <table id="tabel" class="table table-bordered">
@@ -94,8 +94,8 @@ if(count($data) > 0){
                     <?=$d['nm_posisi']." - ".$d['nm_unit_kerja']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/pegawai/proses_hapus.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/pegawai/edit.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/pegawai/proses_hapus.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-flat btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/pegawai/edit.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
                 <?php 
   $no++;

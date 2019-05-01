@@ -11,6 +11,7 @@
 <head>
   <?php
     include("../template/head.php");
+    $detail_penilaian = $db->get("tbl_usulan", "*", ["id_usulan" => $_GET['id_usulan']]);
   ?>
 </head>
 <body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
@@ -49,7 +50,7 @@
               <label class="form-label">Tanggal Penyesuaian</label>
               <input class="form-control"  type="text" name="tgl_penyesuaian" id="tgl_penyesuaian" readonly required />
             </div>
-            <button type="submit" class="btn btn-primary">Kirim Sekarang</button>
+            <button type="submit" class="btn btn-flat btn-primary">Kirim Sekarang</button>
           </form>
         </div>
       </div>
@@ -66,6 +67,10 @@
       field: document.getElementById('tgl_penyesuaian'),
       format: 'YYYY-MM-DD',
     });
+    document.getElementsByName("status_proses")[0].value = "<?=$detail_penilaian['status_proses']?>";
+    document.getElementsByName("keterangan")[0].value = "<?=$detail_penilaian['keterangan']?>";
+    document.getElementsByName("tgl_pengesahan")[0].value = "<?=$detail_penilaian['tgl_pengesahan']?>";
+    document.getElementsByName("tgl_penyesuaian")[0].value = "<?=$detail_penilaian['tgl_penyesuaian']?>";
   </script>
 </div>
 </body>

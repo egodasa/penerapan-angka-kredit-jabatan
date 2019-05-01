@@ -3,9 +3,9 @@
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
-  //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Tambah Unsur Kegiatan";
-   $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => "Tenaga Kependidikan"]);
+  $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => "Tenaga Kependidikan"]);
+  $kategori_unsur = $db->select("tbl_unsur", "*");
 ?>
 <html>
 <head>
@@ -46,14 +46,14 @@
               <div class="form-group">
                 <label class="form-label">Kategori Unsur Kegiatan</label>
                 <select class="form-control custom-select"  name="kategori_unsur" required>
-                  <option value="Pendidikan">Pendidikan</option>
-                  <option value="Tugas Pokok">Tugas Pokok</option>
-                  <option value="Pengembangan Profesi">Pengembangan Profesi</option>
+                  <?php foreach($kategori_unsur as $d): ?>
+                    <option value="<?=$d['nm_unsur']?>"><?=$d['nm_unsur']?></option>
+                  <?php endforeach; ?>
                 </select>
               </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" >Simpan</button>
-              <button type="reset" class="btn btn-danger" >Reset</button>
+              <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
+              <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
             </div>
           </form>
         </div>

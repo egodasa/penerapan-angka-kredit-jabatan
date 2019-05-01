@@ -8,7 +8,11 @@
   $judul_halaman = "Edit Pegawai";
   if(isset($_GET['id_pegawai'])){
     $detail = $db->get("tbl_pegawai", "*", ["id_pegawai" => $_GET['id_pegawai']]); 
-    $jabatan = $db->query("SELECT a.*, b.nm_jabatan, c.nm_pangkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c on a.id_pangkat = c.id_pangkat")->fetchAll();; 
+    $jabatan = $db->select("tbl_jabatan", "*");
+    $pangkat = $db->select("tbl_pangkat", "*");
+    
+    $jabatan_pangkat = $db->get("tbl_jabatan_pangkat", "*", ['id_jabatan_pangkat' => $detail['id_jabatan_pangkat']]);
+    
     $posisi = $db->query("SELECT a.*, b.nm_posisi FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
     // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
     if(empty($detail)){
@@ -109,10 +113,19 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Jabatan</label>
-                <select class="form-control custom-select"  name="id_jabatan_pangkat" required>
+                <select class="form-control custom-select"  name="id_jabatan" required>
                   <option selected disabled>-- Pilih Jabatan --</option>
                   <?php foreach($jabatan as $d): ?>
-                    <option value="<?=$d['id_jabatan_pangkat']?>"><?=$d['nm_jabatan']." ".$d['nm_pangkat']?></option>
+                    <option value="<?=$d['id_jabatan']?>"><?=$d['nm_jabatan']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pangkat</label>
+                <select class="form-control custom-select"  name="id_pangkat" required>
+                  <option selected disabled>-- Pilih Pangkat --</option>
+                  <?php foreach($pangkat as $d): ?>
+                    <option value="<?=$d['id_pangkat']?>"><?=$d['nm_pangkat']?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -131,22 +144,36 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Kredit Awal Unsur Utama</label>
-                <input class="form-control"  type="number" name="kredit_awal_utama" required />
+                <input class="form-control"  type="text" name="kredit_awal_utama" required />
               </div>
               <div class="form-group">
                 <label class="form-label">Kredit Awal Unsur Penunjang</label>
-                <input class="form-control"  type="number" name="kredit_awal_penunjang" required />
+                <input class="form-control"  type="text" name="kredit_awal_penunjang" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan perubahan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan perubahan</button>
+                <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>
         </div>
       </div>
     </section>
   </div>
+  <script src="<?=$alamat_web?>/assets/js/axios.min.js"></script>
   <script>
+    function getPangkat(){
+      axios.get('get-pangkat.php?id_jabatan=' + document.getElementsByName("id_jabatan")[0].value)
+        .then(function(res){
+          document.getElementsByName("id_pangkat")[0].innerHTML = "";
+          var data = res.data;
+          var pangkat = "";
+          for(var x = 0; x < data.length; x++){
+            pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+          }
+          document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+        })
+    }
+    
     document.getElementsByName("nip")[0].value = "<?=$detail['nip']?>";
     document.getElementsByName("no_karpeg")[0].value = "<?=$detail['no_karpeg']?>";
     document.getElementsByName("nm_lengkap")[0].value = "<?=$detail['nm_lengkap']?>";
@@ -156,12 +183,28 @@
     document.getElementsByName("nohp")[0].value = "<?=$detail['nohp']?>";
     document.getElementsByName("email")[0].value = "<?=$detail['email']?>";
     document.getElementsByName("pendidikan")[0].value = "<?=$detail['pendidikan']?>";
-    document.getElementsByName("id_jabatan_pangkat")[0].value = "<?=$detail['id_jabatan_pangkat']?>";
+    document.getElementsByName("id_jabatan")[0].value = "<?=$jabatan_pangkat['id_jabatan']?>";
     document.getElementsByName("id_unit_kerja")[0].value = "<?=$detail['id_unit_kerja']?>";
     document.getElementsByName("kredit_awal_utama")[0].value = "<?=$detail['kredit_awal_utama']?>";
     document.getElementsByName("kredit_awal_penunjang")[0].value = "<?=$detail['kredit_awal_penunjang']?>";
     document.getElementsByName("tmt_jabatan")[0].value = "<?=$detail['tmt_jabatan']?>";
     document.getElementsByName("tgl_lulus")[0].value = "<?=$detail['tgl_lulus']?>";
+    
+    axios.get("get-pangkat.php?id_jabatan=<?=$jabatan_pangkat['id_jabatan']?>")
+    .then(function(res){
+      document.getElementsByName("id_pangkat")[0].innerHTML = "";
+      var data = res.data;
+      var pangkat = "";
+      for(var x = 0; x < data.length; x++){
+        pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+      }
+      document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+      document.getElementsByName("id_pangkat")[0].value = "<?=$jabatan_pangkat['id_pangkat']?>";
+    })
+    
+    document.getElementsByName("id_jabatan")[0].addEventListener("change", function(){
+      getPangkat();
+    })
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>

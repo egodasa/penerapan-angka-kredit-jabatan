@@ -3,8 +3,8 @@ require_once("../vendor/autoload.php");
 require("../pengaturan/medoo.php");
 require("../pengaturan/helper.php");
 
-if(isset($_GET['id_unsur'])){
-  $db->delete("tbl_unsur", ["id_unsur" => $_GET['id_unsur']]);
+if(isset($_GET['id_sub_unsur'])){
+  $db->delete("tbl_sub_unsur", ["id_sub_unsur" => $_GET['id_sub_unsur']]);
 }
 
 // Arahkan posisi ke halaman posisi kembali

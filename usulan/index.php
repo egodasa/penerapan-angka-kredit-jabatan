@@ -6,20 +6,29 @@
   use Medoo\Medoo;
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Usulan";
-  $sql = "SELECT * FROM tbl_usulan WHERE 1";
+  $sql = "SELECT 
+            a.*,
+            b.nm_lengkap,
+            d.nm_posisi,
+            (SELECT SUM(IFNULL(aa.angka_kredit, 0)) FROM tbl_usulan_unsur aa WHERE aa.id_usulan = a.id_usulan) AS angka_kredit_diusulkan,
+            (SELECT SUM(CASE WHEN aa.angka_kredit_baru = 0 THEN aa.angka_kredit ELSE aa.angka_kredit_baru END) FROM tbl_usulan_unsur aa WHERE aa.id_usulan = a.id_usulan AND aa.status = 'Diterima') AS angka_kredit_diterima
+          FROM tbl_usulan a 
+          JOIN tbl_pegawai b ON a.nip = b.nip 
+          JOIN tbl_unit_kerja c ON b.id_unit_kerja = c.id_unit_kerja 
+          JOIN tbl_posisi d ON c.id_posisi = d.id_posisi WHERE 1";
   $where = [];
   if($_SESSION['jenis_posisi'] == 'Tenaga Kependidikan')
   {
-    $sql .= " AND nip = :nip";
+    $sql .= " AND a.nip = :nip";
     $where = ['nip' => $_SESSION['nip']];
   }
   else if($_SESSION['jenis_posisi'] == 'Staff Kepegawaian')
   {
-    $sql .= " AND status_proses <> ''";
+    $sql .= " AND a.status_proses <> ''";
   }
   else if($_SESSION['jenis_posisi'] == 'Tim Penilai')
   {
-    $sql .= " AND status_proses = 'Sedang Proses Penilaian'";
+    $sql .= " AND a.status_proses IN ('Sedang Proses Verifikasi Oleh Tim Penilai', 'Angka Kredit Diterima', 'Angka Kredit Ditolak')";
   }
   $data = $db->query($sql, $where)->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -48,8 +57,16 @@
                 <tr>
                   <th>No</th>
                   <th>Tgl Usulan</th>
+                <?php if($_SESSION['jenis_posisi'] == 'Tim Penilai' || $_SESSION['jenis_posisi'] == 'Staff Kepegawaian'):?>
+                  <th>Nama Pegawai</th>
+                  <th>Jenis Tenaga Kependidikan</th>
+                <?php endif; ?>
                   <th>Kode Usulan</th>
                   <th>Masa Penilaian</th>
+                <?php if($_SESSION['jenis_posisi'] == 'Tim Penilai' || $_SESSION['jenis_posisi'] == 'Staff Kepegawaian'):?>
+                  <th>Angka Kredit Diusulkan</th>
+                  <th>Angka Kredit Diterima</th>
+                <?php endif; ?>
                   <th>Status</th>
                   <th>Keterangan</th>
                   <th>Aksi</th>
@@ -64,37 +81,52 @@
                 <tr>
                   <td><?=$no?></td>
                   <td><?=tanggal_indo($d['tgl_usulan'])?></td>
+                <?php if($_SESSION['jenis_posisi'] == 'Tim Penilai' || $_SESSION['jenis_posisi'] == 'Staff Kepegawaian'):?>
+                  <td><?=$d['nm_lengkap']?></td>
+                  <td><?=$d['nm_posisi']?></td>
+                <?php endif; ?>
                   <td><?=$d['id_usulan']?></td>
                   <td><?=tanggal_indo($d['masa_penilaian_awal'])." - ".tanggal_indo($d['masa_penilaian_akhir'])?></td>
+                <?php if($_SESSION['jenis_posisi'] == 'Tim Penilai' || $_SESSION['jenis_posisi'] == 'Staff Kepegawaian'):?>
+                  <td><?=round($d['angka_kredit_diusulkan'], 2)?></td>
+                  <td><?=round($d['angka_kredit_diterima'], 2)?></td>
+                <?php endif; ?>
                   <td><?=$d['status_proses']?></td>
                   <td><?=$d['keterangan']?></td>
                   <td>
-                    <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
+                    <?php if($_SESSION['jenis_posisi'] == "Atasan"): ?>
+                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi Oleh Pejabat Pengusul' || $d['status_proses'] == 'Verifikasi Gagal Oleh Pejabat Pengusul'): ?>
+                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary">Cek Data Usulan</a>
+                      <?php endif; ?>
+                    <?php elseif($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                       <?php if($d['status_proses'] == ''): ?>
-                        <a href="<?=$alamat_web?>/usulan/kirim-data.php?id_usulan=<?=$d['id_usulan']?>&jenis_usulan=verifikasi" class="btn btn-sm btn-success">Kirim Data</a>
+                        <a href="<?=$alamat_web?>/usulan/kirim-data.php?id_usulan=<?=$d['id_usulan']?>&jenis_usulan=verifikasi" class="btn btn-flat btn-sm btn-success">Kirim Data</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
-                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi' || $d['status_proses'] == 'Verifikasi Gagal'): ?>
-                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Verifikasi Angka Kredir</a>
+                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi Oleh Staff Kepegawaian' || $d['status_proses'] == 'Verifikasi Gagal Oleh Staff Kepegawaian'): ?>
+                        <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Verifikasi Angka Kredit</a>
                       <?php endif; ?>
                     <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
-                      <?php if($d['status_proses'] == 'Sedang Proses Penilaian' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
-                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Penilaian Angka Kredit</a>
+                      <?php if($d['status_proses'] == 'Sedang Proses Verifikasi Oleh Tim Penilai' || $d['status_proses'] == 'Angka Kredit Ditolak'): ?>
+                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Penilaian Angka Kredit</a>
                       <?php else: ?>
-                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-primary btn-flat">Edit Penilaian Angka Kredit</a>
+                        <a href="<?=$alamat_web?>/usulan/penilaian-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary ">Edit Penilaian Angka Kredit</a>
                       <?php endif; ?>
                     <?php endif; ?>
                     
                     <div class="dropdown">
-                      <button class="btn btn-sm btn-primary btn-flat dropdown-toggle" type="button" data-toggle="dropdown">Pilihan
+                      <button class="btn btn-flat btn-sm btn-primary  dropdown-toggle" type="button" data-toggle="dropdown">Pilihan
                       <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="dropdown-header">Data Usulan</li>
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
+                        <?php if($_SESSION['atasan'] == "1" || $_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
+                          <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
+                        <?php endif; ?>
                         <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
-                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
                         <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
                         <?php endif; ?>

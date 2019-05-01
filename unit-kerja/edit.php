@@ -57,8 +57,8 @@
                 </select>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan perubahan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan perubahan</button>
+                <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>
         </div>
@@ -67,7 +67,7 @@
   </div>
   <script>
     document.getElementsByName("nm_unit_kerja")[0].value = "<?=$detail['nm_unit_kerja']?>";
-    document.getElementsByName("jenis_unit_kerja")[0].value = "<?=$detail['jenis_unit_kerja']?>";
+    document.getElementsByName("id_posisi")[0].value = "<?=$detail['id_posisi']?>";
     document.getElementsByName("nip_atasan")[0].value = "<?=$detail['nip_atasan']?>";
   </script>
   <?php include "../template/footer.php"; ?>

@@ -25,7 +25,7 @@
           <h3 class="box-title">Daftar Jabatan</h3>
         </div>
         <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/jabatan/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/jabatan/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>
                 <tr>
@@ -44,8 +44,8 @@
                   <td><?=$no?></td>
                   <td><?=$d['nm_jabatan']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/jabatan/proses_hapus.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/jabatan/edit.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/jabatan/proses_hapus.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/jabatan/edit.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;

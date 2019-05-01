@@ -57,8 +57,9 @@
       $_SESSION['jabatan'] = $data['nm_jabatan'];
       $_SESSION['pangkat'] = $data['nm_pangkat'];
       
-      $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
+      $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit, a.peringkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
       
+      $_SESSION['peringkat_jabatan_sekarang'] = $data[1]['peringkat'];
       $_SESSION['angka_kredit_selanjutnya'] = $data[1]['nilai_kredit'];
       $_SESSION['id_jabatan_selanjutnya'] = $data[1]['id_jabatan'];
       $_SESSION['jabatan_selanjutnya'] = $data[1]['nm_jabatan'];
@@ -67,12 +68,24 @@
       $_SESSION['id_jabatan_pangkat'] = $data[0]['id_jabatan_pangkat'];
       $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
       
+      if($_SESSION['atasan'] == '1')
+      {
+        // Jenis posisi diganti jadi atasan jika staff kepegawaian kedapatan menjadi atasan disebuah unit kerja
+        $_SESSION['jenis_posisi'] = "Atasan";
+        header("Location: $alamat_web/usulan");
+      }
+      
       // Cek level agar halaman di redirect sesuai aktor
-      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian"){
-        header("Location: $alamat_web/pegawai");
-      }else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"){
+      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian")
+      {
+        header("Location: $alamat_web/usulan");
+      }
+      else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan")
+      {
         header("Location: $alamat_web/persyaratan");
-      }else if($_SESSION['jenis_posisi'] == "Tim Penilai"){
+      }
+      else if($_SESSION['jenis_posisi'] == "Tim Penilai")
+      {
         header("Location: $alamat_web/usulan");
       }
     }else{

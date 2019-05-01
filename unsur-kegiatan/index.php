@@ -5,7 +5,7 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Unsur Kegiatan";
   require("../pengaturan/medoo.php");
-  $data= $db->query("SELECT a.*, b.nm_posisi FROM tbl_unsur a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
+  $data= $db->query("SELECT a.*, b.nm_posisi FROM tbl_sub_unsur a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
 ?>
 <html>
 <head>
@@ -24,7 +24,7 @@
             <h3 class="box-title">Daftar Unsur Kegiatan</h3>
           </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/unsur-kegiatan/tambah.php" class="btn btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/unsur-kegiatan/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
@@ -59,8 +59,10 @@ if(count($data) > 0){
                     <?=$d['kategori_unsur']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/proses_hapus.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/index.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-success">Butir Kegiatan</a>
+                  </td>
                 </tr>
                 <?php 
   $no++;

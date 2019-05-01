@@ -7,7 +7,7 @@
   $judul_halaman = "Edit Unsur Kegiatan";
   if(isset($_GET['id_usulan_unsur'])){
     $detail = $db->get("tbl_usulan_unsur", "*", ['id_usulan_unsur' => $_GET['id_usulan_unsur']]);
-    $unsur = $db->select("tbl_unsur", "*");
+    $unsur = $db->select("tbl_sub_unsur", "*");
     // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
     if(empty($detail)){
       header("Location: $alamat_web/usulan/unsur");
@@ -39,10 +39,10 @@
               <input name="bukti_kegiatan_lama" type="hidden" value="<?=$detail['bukti_kegiatan']?>" />
               <div class="form-group">
                 <label class="form-label">Unsur</label>
-                <select class="form-control custom-select" name="id_unsur" readonly >
+                <select class="form-control custom-select" name="id_sub_unsur" readonly >
                   <option selected disabled>-- Pilih Unsur --</option>
                   <?php foreach($unsur as $d): ?>
-                    <option value="<?=$d['id_unsur']?>"><?=$d['nm_unsur']?></option>
+                    <option value="<?=$d['id_sub_unsur']?>"><?=$d['nm_unsur']?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -122,8 +122,8 @@
                 </select>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" >Simpan</button>
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
+                <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>
         </div>
@@ -139,7 +139,7 @@
       var volume = document.getElementsByName("jumlah_volume_kegiatan")[0].value || 0;
       document.getElementsByName("angka_kredit")[0].value = volume * (persentase * murni);
     }
-    document.getElementsByName("id_unsur")[0].value = "<?=$detail['id_unsur']?>";
+    document.getElementsByName("id_sub_unsur")[0].value = "<?=$detail['id_sub_unsur']?>";
     document.getElementsByName("tgl_mulai_kegiatan")[0].value = "<?=$detail['tgl_mulai_kegiatan']?>";
     document.getElementsByName("tgl_selesai_kegiatan")[0].value = "<?=$detail['tgl_selesai_kegiatan']?>";
     document.getElementsByName("tingkat_kesulitan")[0].value = "<?=$detail['tingkat_kesulitan']?>";

@@ -1,4 +1,5 @@
 <?php
+  session_start();
   require_once "../vendor/autoload.php";
   require_once("../vendor/autoload.php");
   require("../pengaturan/helper.php");
@@ -6,8 +7,8 @@
   use Dompdf\Dompdf;
   
   $data_usulan = $db->get('tbl_usulan', '*', ['id_usulan' => $_GET['id_usulan']]);
-  $data_usulan_utama = $db->query("SELECT a.id_usulan, a.id_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY id_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY id_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data_usulan_utama = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
   
   $pegawai = $db->query("SELECT e.nm_posisi, a.*,
                                    e.jenis_posisi,
@@ -29,12 +30,10 @@
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
   $atasan = $db->query("SELECT e.nm_posisi,
                                    e.jenis_posisi,
-                                   a.kredit_awal,
                                    a.nip,
                                    a.nm_lengkap,
                                    a.jk,
                                    a.foto,
-                                   b.peringkat,
                                    c.nm_jabatan,
                                    d.nm_pangkat,
                                    a.id_unit_kerja,
@@ -50,6 +49,40 @@
                                      ON a.id_unit_kerja = f.id_unit_kerja
                                    JOIN tbl_posisi e
                                      ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+  // cara memanggil total kredit awal unsur utama $kredit_awal_utama['angka_kredit']
+  $kredit_awal_utama = $db->query("SELECT 
+                                      SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END) AS angka_kredit, b.jenis_unsur
+                                      FROM tbl_usulan_unsur a 
+                                      JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur 
+                                      JOIN tbl_usulan c ON a.id_usulan = c.id_usulan 
+                                      LEFT JOIN tbl_jabatan_pangkat d ON c.id_jabatan_pangkat_sekarang = d.id_jabatan_pangkat
+                                      WHERE a.status <> 'Ditolak' AND d.peringkat < :peringkat AND a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' 
+                                      GROUP BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan'], 'peringkat' => $_SESSION['peringkat_jabatan_sekarang']])->fetch();
+  if(isset($kredit_awal_utama['angka_kredit']) == FALSE)
+  {
+    $kredit_awal_utama['angka_kredit'] = $pegawai['kredit_awal_utama'];
+  }
+  else
+  {
+    $kredit_awal_utama['angka_kredit'] += $pegawai['kredit_awal_utama'];
+  }
+  // cara memanggil total kredit awal unsur penunjang $kredit_awal_penunjang['angka_kredit']
+  $kredit_awal_penunjang = $db->query("SELECT 
+                                            SUM(CASE WHEN a.angka_kredit_baru = 0 THEN a.angka_kredit ELSE a.angka_kredit_baru END) AS angka_kredit, b.jenis_unsur
+                                            FROM tbl_usulan_unsur a 
+                                            JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur 
+                                            JOIN tbl_usulan c ON a.id_usulan = c.id_usulan 
+                                            LEFT JOIN tbl_jabatan_pangkat d ON c.id_jabatan_pangkat_sekarang = d.id_jabatan_pangkat
+                                            WHERE a.status <> 'Ditolak' AND d.peringkat < :peringkat AND a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang'  
+                                            GROUP BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan'], 'peringkat' => $_SESSION['peringkat_jabatan_sekarang']])->fetch();
+  if(isset($kredit_awal_penunjang['angka_kredit']) == FALSE)
+  {
+    $kredit_awal_penunjang['angka_kredit'] = $pegawai['kredit_awal_penunjang'];
+  }
+  else
+  {
+    $kredit_awal_penunjang['angka_kredit'] += $pegawai['kredit_awal_penunjang'];
+  }
   ob_start();
 ?>
 <!DOCTYPE html>
@@ -227,7 +260,7 @@
       <tr>
         <td class="isi_tabel_bergaris" style="width: 15px;text-align: center;">I</td>
         <td class="isi_tabel_bergaris" style="text-align: left;" colspan="3"><b>UNSUR UTAMA</b></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($kredit_awal_utama['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
@@ -253,23 +286,52 @@
       </tr>
       <?php
           $no_kegiatan = 0;
-          $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND a.id_unsur = :id_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
+          $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND a.id_sub_unsur = :id_sub_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_sub_unsur" => $d['id_sub_unsur']])->fetchAll();
           foreach($detail_usulan as $i=>$u):
           $total_ak += $u['angka_kredit'];
-          $total_ak_baru += $u['angka_kredit_baru'];
+          if($u['angka_kredit_baru'] == 0)
+          {
+            $total_ak_baru += $u['angka_kredit'];
+          }
+          else
+          {
+            $total_ak_baru += $u['angka_kredit_baru'];
+          }
       ?>
-      <tr>
-        <td class="isi_tabel_bergaris" style="width: 15px;text-align: center;"> </td>
-        <td class="isi_tabel_bergaris" style="text-align: left;"> </td>
-        <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit_baru'], 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-      </tr>
+            <tr>
+              <td class="isi_tabel_bergaris" style="width: 15px;text-align: center;"> </td>
+              <td class="isi_tabel_bergaris" style="text-align: left;"> </td>
+              <td class="isi_tabel_bergaris" style="text-align: left;width: 5px;"><?=angkaHuruf($i)?></td>
+              <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+              <td class="isi_tabel_bergaris" style="text-align: center;">
+                <?php
+                  if($u['angka_kredit_baru'] == 0)
+                  {
+                    echo round($u['angka_kredit'], 4);
+                  }
+                  else
+                  {
+                    echo round($u['angka_kredit_baru'], 4);
+                  }
+                ?>
+              </td>
+              <td class="isi_tabel_bergaris" style="text-align: center;">
+                <?php
+                  if($u['angka_kredit_baru'] == 0)
+                  {
+                    echo round($u['angka_kredit'], 4);
+                  }
+                  else
+                  {
+                    echo round($u['angka_kredit_baru'], 4);
+                  }
+                ?>
+              </td>
+            </tr>
       <?php
           $no_kegiatan++; 
           endforeach;
@@ -280,19 +342,19 @@
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR UTAMA</b></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_utama['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_baru?></td>
       </tr>
       
       
@@ -300,7 +362,7 @@
       <tr>
         <td class="isi_tabel_bergaris" style="width: 15px;text-align: center;">II</td>
         <td class="isi_tabel_bergaris" style="text-align: left;" colspan="3"><b>UNSUR PENUNJANG</b></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($kredit_awal_penunjang['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;"> </td>
@@ -326,10 +388,17 @@
       </tr>
       <?php
           $no_kegiatan = 0;
-          $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE a.id_usulan = :id_usulan AND a.id_unsur = :id_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
+          $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND a.id_sub_unsur = :id_sub_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_sub_unsur" => $d['id_sub_unsur']])->fetchAll();
           foreach($detail_usulan as $i=>$u):
           $total_ak_penunjang += $u['angka_kredit'];
-          $total_ak_penunjang_baru += $u['angka_kredit_baru'];
+          if($u['angka_kredit_baru'] == 0)
+          {
+            $total_ak_baru += $u['angka_kredit'];
+          }
+          else
+          {
+            $total_ak_baru += $u['angka_kredit_baru'];
+          }
       ?>
       <tr>
         <td class="isi_tabel_bergaris" style="width: 15px;text-align: center;"> </td>
@@ -338,10 +407,32 @@
         <td class="isi_tabel_bergaris" style="text-align: left;"><?=$u['butir_kegiatan']?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit_baru'], 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;">
+          <?php
+            if($u['angka_kredit_baru'] == 0)
+            {
+              echo round($u['angka_kredit'], 4);
+            }
+            else
+            {
+              echo round($u['angka_kredit_baru'], 4);
+            }
+          ?>
+        </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;">
+          <?php
+            if($u['angka_kredit_baru'] == 0)
+            {
+              echo round($u['angka_kredit'], 4);
+            }
+            else
+            {
+              echo round($u['angka_kredit_baru'], 4);
+            }
+          ?>
+        </td>
       </tr>
       <?php
           $no_kegiatan++; 
@@ -353,19 +444,28 @@
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH</b></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
       </tr>
       <tr>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR PENUNJANG</b></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_penunjang['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"> </td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=$total_ak_penunjang_baru?></td>
+      </tr>
+      <tr>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;" colspan="4"><b>JUMLAH UNSUR UTAMA DAN PENUNJANG</b></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=round($kredit_awal_utama['angka_kredit']+$kredit_awal_penunjang['angka_kredit'], 4)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak+$total_ak_penunjang)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak+$total_ak_penunjang)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak_baru+$total_ak_penunjang_baru)?></td>
+        <td class="isi_tabel_bergaris" style="text-align: center;background-color: #E7E7E7;"><?=($total_ak_baru+$total_ak_penunjang_baru)?></td>
       </tr>
       
       <!-- Bagian tanda tangan -->

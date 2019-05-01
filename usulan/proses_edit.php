@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_usulan'])){
     {
       if($_POST['jenis_usulan'] == "kirim-data")
       {
-        $db->update("tbl_usulan", ['status_proses' => 'Sedang Proses Verifikasi'], ['id_usulan' => $_POST['id_usulan']]);
+        $db->update("tbl_usulan", ['status_proses' => 'Sedang Proses Verifikasi Oleh Pejabat Pengusul'], ['id_usulan' => $_POST['id_usulan']]);
       }
       if($_POST['jenis_usulan'] == "verifikasi")
       {

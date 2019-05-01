@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
              `id_usulan`,
              `tingkat_kesulitan`,
              `jumlah_volume_kegiatan`,
-             `id_unsur`,
+             `id_sub_unsur`,
              `bukti_kegiatan`)
             VALUES 
               (:tgl_mulai_kegiatan,
@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                :id_usulan,
                :tingkat_kesulitan,
                :jumlah_volume_kegiatan,
-               :id_unsur,
+               :id_sub_unsur,
                :bukti_kegiatan)";
   $query = $db->prepare($sql);
   $query->bindParam('tgl_mulai_kegiatan', $_POST['tgl_mulai_kegiatan']);
@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $query->bindParam('id_usulan', $_POST['id_usulan']);
   $query->bindParam('tingkat_kesulitan', $_POST['tingkat_kesulitan']);
   $query->bindParam('jumlah_volume_kegiatan', $_POST['jumlah_volume_kegiatan']);
-  $query->bindParam('id_unsur', $_POST['id_unsur']);
+  $query->bindParam('id_sub_unsur', $_POST['id_sub_unsur']);
   $query->bindParam('bukti_kegiatan', $nama_file);
   $query->execute();
 }
