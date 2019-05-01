@@ -1,13 +1,15 @@
 <?php
-require("../pengaturan/database.php");
-require("../pengaturan/helper.php");
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $query = $db->prepare("INSERT INTO tbl_pangkat (nm_pangkat) VALUES (?)");
-  $query->bindParam(1, $_POST['nm_pangkat']);
-  $query->execute();
-}
-
-// Arahkan user ke halaman pangkat kembali
-header("Location: $alamat_web/pangkat");
+  session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
+  require("../pengaturan/helper.php");
+  
+  if($_SERVER['REQUEST_METHOD'] == 'POST')
+  {
+    $db->insert("tbl_pangkat", ["id_jabatan" => $_SESSION['current_jabatan']['id_jabatan'],"nm_pangkat" => $_POST['nm_pangkat'], "angka_kredit_minimal" => $_POST['angka_kredit_minimal'], "peringkat" => $_POST['peringkat']]);
+  }
+  
+  // Arahkan user ke halaman pangkat kembali
+  header("Location: $alamat_web/pangkat");
 ?>
 

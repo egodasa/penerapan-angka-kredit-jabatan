@@ -74,11 +74,15 @@ CREATE TABLE `tbl_pangkat` (
   `id_pangkat` int(11) NOT NULL AUTO_INCREMENT,
   `id_jabatan` int(11) NOT NULL,
   `nm_pangkat` varchar(100) NOT NULL,
+  `angka_kredit_minimal` float NOT NULL,
+  `peringkat` int(11) NOT NULL,
   PRIMARY KEY (`id_pangkat`),
   KEY `id_jabatan` (`id_jabatan`),
   CONSTRAINT `tbl_pangkat_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id_jabatan`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_pangkat` (`id_pangkat`, `id_jabatan`, `nm_pangkat`, `angka_kredit_minimal`, `peringkat`) VALUES
+(3,	2,	'Pelaksana II/d',	12,	21);
 
 DROP TABLE IF EXISTS `tbl_pegawai`;
 CREATE TABLE `tbl_pegawai` (
@@ -241,4 +245,4 @@ CREATE TABLE `tbl_usulan_unsur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-05-01 06:57:55
+-- 2019-05-01 07:27:56

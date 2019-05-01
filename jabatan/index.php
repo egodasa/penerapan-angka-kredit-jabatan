@@ -52,6 +52,7 @@
                   <td>
                     <a href="<?=$alamat_web?>/jabatan/proses_hapus.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat btn-danger">Hapus</a> 
                     <a href="<?=$alamat_web?>/jabatan/edit.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/pangkat/index.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat bg-purple">Daftar Pangkat/Golongan</a>
                     <a href="<?=$alamat_web?>/unsur/index.php?id_jabatan=<?=$d['id_jabatan']?>" class="btn btn-flat btn-warning">Daftar Kegiatan Unsur</a>
                   </td>
                 </tr>

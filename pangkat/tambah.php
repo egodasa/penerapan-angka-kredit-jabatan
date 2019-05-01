@@ -1,8 +1,10 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah pangkat";
+  
+  $judul_halaman = "Tambah Pangkat <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']."<br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
 ?>
 <html>
 <head>
@@ -17,13 +19,21 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah pangkat</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/pangkat/proses_tambah.php">
               <div class="form-group">
-                <label class="form-label">Nama pangkat</label>
+                <label class="form-label">Nama Pangkat</label>
                 <input class="form-control"  type="text" name="nm_pangkat" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Angka Kredit Minimal</label>
+                <input class="form-control"  type="text" name="angka_kredit_minimal" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Peringkat</label>
+                <input class="form-control"  type="text" name="peringkat" required />
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
