@@ -5,7 +5,7 @@
   require("../pengaturan/helper.php");
   
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Edit Pangkat <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']."<br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
+  $judul_halaman = "Edit Pangkat";
   if(isset($_GET['id_pangkat']))
   {
     $detail = $db->get("tbl_pangkat", "*", ["id_pangkat" => $_GET['id_pangkat']]); 
@@ -21,11 +21,11 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Edit Pangkat</h3>
-        </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/pangkat/proses_edit.php">
               <input class="form-control" type="hidden" name="id_pangkat" value="<?=$detail['id_pangkat']?>" />
