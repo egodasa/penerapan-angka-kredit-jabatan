@@ -1,44 +1,33 @@
 <?php
   session_start();
-  require_once("../../vendor/autoload.php");
-  require("../../pengaturan/helper.php");
-  require_once("../../pengaturan/medoo.php");
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
+  require("../pengaturan/helper.php");
   
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Edit Butir Kegiatan";
   if(isset($_GET['id_butir']))
   {
     $detail = $db->get("tbl_butir_kegiatan", "*", ["id_butir" => $_GET['id_butir']]); 
-    
-    // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
-    if(empty($detail))
-    {
-      header("Location: $alamat_web/unsur-kegiatan");
-    }
-  }
-  else
-  {
-    header("Location: $alamat_web/unsur-kegiatan");
   }
 ?>
 <html>
 <head>
   <?php
-    include("../../template/head.php");
+    include("../template/head.php");
   ?>
 </head>
 <body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
-  <?php include "../../template/menu.php"; ?>
+  <?php include "../template/menu.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Edit Butir Kegiatan</h3>
-        </div>
         <div class="box-body table-responsive ">
-            <form method="POST" action="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/proses_edit.php" enctype="multipart/form-data">
-              <input class="form-control" type="hidden" name="id_sub_unsur" value="<?=$detail['id_sub_unsur']?>" />
+            <form method="POST" action="<?=$alamat_web?>/butir-kegiatan/proses_edit.php" enctype="multipart/form-data">
               <input class="form-control" type="hidden" name="id_butir" value="<?=$detail['id_butir']?>" />
               <div class="form-group">
                 <label class="form-label">Butir Kegiatan</label>
@@ -66,8 +55,8 @@
     document.getElementsByName("satuan")[0].value = "<?=$detail['satuan']?>";
     document.getElementsByName("angka_kredit")[0].value = "<?=$detail['angka_kredit']?>";
   </script>
-  <?php include "../../template/footer.php"; ?>
-  <?php include("../../template/script.php"); ?>
+  <?php include "../template/footer.php"; ?>
+  <?php include("../template/script.php"); ?>
 </div>
 </body>
 </html>

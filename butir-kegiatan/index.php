@@ -1,33 +1,37 @@
 <?php
   session_start();
-  require_once("../../vendor/autoload.php");
-  require("../../pengaturan/helper.php");
-  require("../../pengaturan/medoo.php");
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
+  require("../pengaturan/helper.php");
   
-  $detail_butir_kegiatan = $db->get("tbl_sub_unsur", "*", ["id_sub_unsur" => $_GET['id_sub_unsur']]);
-  
-  $judul_halaman = "Butir Kegiatan";
-  $data = $db->select("tbl_butir_kegiatan", "*", ["id_sub_unsur" => $_GET['id_sub_unsur']]);
+  if(isset($_GET['id_sub_unsur']))
+  {
+    $_SESSION['current_sub_unsur'] = $db->get("tbl_sub_unsur", "*", ["id_sub_unsur" => $_GET['id_sub_unsur']]);
+  }
+  $data = $db->query("SELECT a.* FROM tbl_butir_kegiatan a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.id_sub_unsur = :id_sub_unsur", ["id_sub_unsur" => $_SESSION['current_sub_unsur']['id_sub_unsur']])->fetchAll(PDO::FETCH_ASSOC); 
+
+  $judul_halaman = "Daftar Butir Kegiatan";
+  $data = $db->select("tbl_butir_kegiatan", "*", ["id_sub_unsur" => $_SESSION['current_sub_unsur']['id_sub_unsur']]);
 ?>
 <html>
 <head>
   <?php
-    include("../../template/head.php");
+    include("../template/head.php");
   ?>
 </head>
 
 <body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
   <div class="wrapper" style="height: auto; min-height: 100%;">
-    <?php include "../../template/menu.php"; ?>
+    <?php include "../template/menu.php"; ?>
     <div class="content-wrapper" style="min-height: 901px;">
+      <?php
+        include("breadcrumb.php");
+      ?>
       <section class="content">
         <div class="box">
-          <div class="box-header with-border">
-            <h3 class="box-title">Butir Kegiatan <br> Sub Unsur <?=$detail_butir_kegiatan['nm_unsur']?></h3>
-          </div>
           <div class="box-body table-responsive ">
-            <a href="<?=$alamat_web?>/unsur-kegiatan" class="btn btn-flat btn-primary">Kembali</a>
-            <a href="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/tambah.php?id_sub_unsur=<?=$detail_butir_kegiatan['id_sub_unsur']?>" class="btn btn-flat btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/sub-unsur" class="btn btn-flat btn-primary">Kembali Ke Daftar Sub Unsur</a>
+            <a href="<?=$alamat_web?>/butir-kegiatan/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table id="tabel" class="table table-bordered">
               <thead>
                 <tr>
@@ -58,8 +62,8 @@ if(count($data) > 0){
                     <?=$d['angka_kredit']?>
                   </td>
                   <td>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/proses_hapus.php?id_sub_unsur=<?=$detail_butir_kegiatan['id_sub_unsur']?>&id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/unsur-kegiatan/butir-kegiatan/edit.php?id_sub_unsur=<?=$detail_butir_kegiatan['id_sub_unsur']?>&id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/butir-kegiatan/proses_hapus.php?id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-danger">Hapus</a>
+                    <a href="<?=$alamat_web?>/butir-kegiatan/edit.php?id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-primary">Edit</a>
                   </td>
                 </tr>
                 <?php 
@@ -81,8 +85,8 @@ else
         </div>
       </section>
     </div>
-    <?php include("../../template/footer.php"); ?>
+    <?php include("../template/footer.php"); ?>
   </div>
-  <?php include("../../template/script.php"); ?>
+  <?php include("../template/script.php"); ?>
 </body>
 </html>
