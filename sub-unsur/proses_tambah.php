@@ -5,10 +5,10 @@
   require("../pengaturan/helper.php");
   if($_SERVER['REQUEST_METHOD'] == 'POST')
   {
-    $db->update("tbl_unsur", ["nm_unsur" => $_POST['nm_unsur'], "kategori" => $_POST['kategori']], ["id_unsur" => $_POST['id_unsur']]);
+    $db->insert("tbl_sub_unsur", ["nm_sub_unsur" => $_POST['nm_sub_unsur'], "id_unsur" => $_SESSION['current_unsur']['id_unsur']]);
   }
-
+  
   // Arahkan user ke halaman unsur kembali
-  header("Location: $alamat_web/unsur");
+  header("Location: $alamat_web/sub-unsur");
 ?>
 

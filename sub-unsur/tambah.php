@@ -3,7 +3,7 @@
   require("../vendor/autoload.php");
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  $judul_halaman = "Tambah Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
+  $judul_halaman = "Tambah Sub Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan']." <br> Unsur ".$_SESSION['current_unsur']['nm_unsur'];
 ?>
 <html>
 <head>
@@ -21,17 +21,10 @@
           <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
-            <form method="POST" action="<?=$alamat_web?>/unsur/proses_tambah.php">
+            <form method="POST" action="<?=$alamat_web?>/sub-unsur/proses_tambah.php">
               <div class="form-group">
-                <label class="form-label">Nama Unsur</label>
-                <input class="form-control"  type="text" name="nm_unsur" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Kategori</label>
-                <select class="form-control" name="kategori">
-                  <option value="Unsur Utama">Unsur Utama</option>
-                  <option value="Unsur Penunjang">Unsur Penunjang</option>
-                </select>
+                <label class="form-label">Nama Sub Unsur</label>
+                <input class="form-control"  type="text" name="nm_sub_unsur" required />
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>

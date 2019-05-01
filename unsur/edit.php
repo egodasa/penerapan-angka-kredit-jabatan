@@ -33,10 +33,20 @@
                 <input class="form-control"  type="text" name="nm_unsur" value="<?=$detail['nm_unsur']?>" required />
               </div>
               <div class="form-group">
+                <label class="form-label">Kategori</label>
+                <select class="form-control" name="kategori">
+                  <option value="Unsur Utama">Unsur Utama</option>
+                  <option value="Unsur Penunjang">Unsur Penunjang</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <button type="submit" class="btn btn-flat btn-primary" >Simpan Perubahan</button>
                 <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>
+            <script>
+              document.getElementsByName("kategori")[0].value = "<?=$detail['kategori']?>";
+            </script>
         </div>
       </div>
     </section>

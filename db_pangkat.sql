@@ -132,14 +132,15 @@ INSERT INTO `tbl_posisi` (`id_posisi`, `nm_posisi`, `jenis_posisi`) VALUES
 DROP TABLE IF EXISTS `tbl_sub_unsur`;
 CREATE TABLE `tbl_sub_unsur` (
   `id_sub_unsur` int(11) NOT NULL AUTO_INCREMENT,
-  `nm_unsur` varchar(255) NOT NULL,
+  `nm_sub_unsur` varchar(255) NOT NULL,
   `id_unsur` int(11) NOT NULL,
-  `jenis_unsur` enum('Unsur Utama','Unsur Penunjang') NOT NULL,
   PRIMARY KEY (`id_sub_unsur`),
   KEY `id_posisi` (`id_unsur`),
-  CONSTRAINT `tbl_sub_unsur_ibfk_1` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_unsur` (`id_unsur`) ON DELETE CASCADE
+  CONSTRAINT `tbl_sub_unsur_ibfk_2` FOREIGN KEY (`id_unsur`) REFERENCES `tbl_unsur` (`id_unsur`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `tbl_sub_unsur` (`id_sub_unsur`, `nm_sub_unsur`, `id_unsur`) VALUES
+(2,	'Pengolahan Arsip',	2);
 
 DROP TABLE IF EXISTS `tbl_unit_kerja`;
 CREATE TABLE `tbl_unit_kerja` (
@@ -181,15 +182,16 @@ CREATE TABLE `tbl_unsur` (
   `id_unsur` int(11) NOT NULL AUTO_INCREMENT,
   `nm_unsur` varchar(50) NOT NULL,
   `id_jabatan` int(11) NOT NULL,
+  `kategori` enum('Unsur Utama','Unsur Penunjang') NOT NULL,
   PRIMARY KEY (`id_unsur`),
   KEY `id_jabatan` (`id_jabatan`),
   CONSTRAINT `tbl_unsur_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id_jabatan`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`, `id_jabatan`) VALUES
-(2,	'Kegiatan Pengelolaan Arsip',	2),
-(3,	'Pendidikan',	2),
-(4,	'Pendidikan',	5);
+INSERT INTO `tbl_unsur` (`id_unsur`, `nm_unsur`, `id_jabatan`, `kategori`) VALUES
+(2,	'Kegiatan Pengelolaan Arsip',	2,	'Unsur Penunjang'),
+(3,	'Pendidikan',	2,	'Unsur Utama'),
+(4,	'Pendidikan',	5,	'Unsur Utama');
 
 DROP TABLE IF EXISTS `tbl_usulan`;
 CREATE TABLE `tbl_usulan` (
@@ -239,4 +241,4 @@ CREATE TABLE `tbl_usulan_unsur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-05-01 06:12:19
+-- 2019-05-01 06:57:55

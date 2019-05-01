@@ -5,13 +5,13 @@
   require("../pengaturan/helper.php");
   
   // Posisi yang sedang diakses akan disimpan kedalam session
-  if(isset($_GET['id_jabatan']))
+  if(isset($_GET['id_unsur']))
   {
-    $_SESSION['current_jabatan'] = $db->get("tbl_jabatan", "*", ["id_jabatan" => $_GET['id_jabatan']]);
+    $_SESSION['current_unsur'] = $db->get("tbl_unsur", "*", ["id_unsur" => $_GET['id_unsur']]);
   }
-  $data = $db->query("SELECT a.* FROM tbl_unsur a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan WHERE b.id_jabatan = :id_jabatan", ["id_jabatan" => $_SESSION['current_jabatan']['id_jabatan']])->fetchAll(PDO::FETCH_ASSOC); 
+  $data = $db->query("SELECT a.* FROM tbl_sub_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.id_unsur = :id_unsur", ["id_unsur" => $_SESSION['current_unsur']['id_unsur']])->fetchAll(PDO::FETCH_ASSOC); 
   
-  $judul_halaman = "Daftar Kegiatan Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan'];
+  $judul_halaman = "Daftar Kegiatan Sub Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan']." <br> Unsur ".$_SESSION['current_unsur']['nm_unsur'];
 ?>
 
 <html>
@@ -30,14 +30,13 @@
           <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive">
-            <a href="<?=$alamat_web?>/jabatan" class="btn btn-flat btn-primary">Kembali Ke Daftar Jabatan</a>
-            <a href="<?=$alamat_web?>/unsur/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
+            <a href="<?=$alamat_web?>/unsur" class="btn btn-flat btn-primary">Kembali Ke Daftar Unsur</a>
+            <a href="<?=$alamat_web?>/sub-unsur/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Unsur</th>
-                  <th>Kategori</th>
+                  <th>Nama Sub Unsur</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -49,12 +48,10 @@
             ?>
                 <tr>
                   <td><?=$no?></td>
-                  <td><?=$d['nm_unsur']?></td>
-                  <td><?=$d['kategori']?></td>
+                  <td><?=$d['nm_sub_unsur']?></td>
                   <td>
-                    <a href="<?=$alamat_web?>/unsur/proses_hapus.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/unsur/edit.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat btn-primary">Edit</a>
-                    <a href="<?=$alamat_web?>/sub-unsur/index.php?id_unsur=<?=$d['id_unsur']?>" class="btn btn-flat btn-warning">Daftar Sub Unsur</a></td>
+                    <a href="<?=$alamat_web?>/sub-unsur/proses_hapus.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-danger">Hapus</a> 
+                    <a href="<?=$alamat_web?>/sub-unsur/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a></td>
                 </tr>
             <?php 
               $no++;
@@ -62,7 +59,7 @@
             }else{
             ?>
                 <tr>
-                  <td colspan=4 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=3 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
             <?php
             }
