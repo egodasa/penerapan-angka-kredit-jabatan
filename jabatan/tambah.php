@@ -4,7 +4,7 @@
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah Jabatan ".$_SESSION['current_posisi']['nm_posisi'];
+  $judul_halaman = "Tambah Tingkat Jabatan";
 ?>
 <html>
 <head>
@@ -16,20 +16,20 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?=$judul_halaman?></h3>
-        </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/jabatan/proses_tambah.php">
               <div class="form-group">
-                <label class="form-label">Nama Jabatan</label>
+                <label class="form-label">Nama Tingkat Jabatan</label>
                 <input class="form-control"  type="text" name="nm_jabatan" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-flat btn-primary" >Simpan</button>
-                <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
+                <button type="submit" class="btn btn-flat btn-primary">Simpan</button>
+                <button type="reset" class="btn btn-flat btn-danger">Reset</button>
               </div>
             </form>
         </div>

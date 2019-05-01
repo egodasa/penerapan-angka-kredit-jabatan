@@ -1,10 +1,11 @@
 <?php
+  ini_set('display_errors','off');
   session_start();
   require("../vendor/autoload.php");
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Edit Jabatan ".$_SESSION['current_posisi']['nm_posisi'];
+  $judul_halaman = "Edit Tingkat Jabatan";
   $detail = $db->get("tbl_jabatan", "*", ["id_jabatan" => $_GET['id_jabatan']]);
 ?>
 <html>
@@ -17,11 +18,11 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?=$judul_halaman?></h3>
-        </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/jabatan/proses_edit.php">
               <input class="form-control"  type="hidden" name="id_jabatan" value="<?=$detail['id_jabatan']?>" />

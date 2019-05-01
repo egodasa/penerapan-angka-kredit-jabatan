@@ -11,7 +11,7 @@
   }
   $data = $db->query("SELECT a.* FROM tbl_jabatan a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi WHERE b.id_posisi = :id_posisi", ["id_posisi" => $_SESSION['current_posisi']['id_posisi']])->fetchAll(PDO::FETCH_ASSOC); 
   
-  $judul_halaman = "Daftar Jabatan ".$_SESSION['current_posisi']['nm_posisi'];
+  $judul_halaman = "Daftar Tingkat Jabatan";
 ?>
 
 <html>
@@ -24,11 +24,11 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?=$judul_halaman?></h3>
-        </div>
         <div class="box-body table-responsive ">
             <a href="<?=$alamat_web?>/posisi" class="btn btn-flat btn-primary">Kembali Ke Daftar Posisi</a>
             <a href="<?=$alamat_web?>/jabatan/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
@@ -36,7 +36,7 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Jabatan</th>
+                  <th>Nama Tingkat Jabatan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
