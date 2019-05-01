@@ -3,7 +3,7 @@
   require("../vendor/autoload.php");
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  $judul_halaman = "Tambah Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
+  $judul_halaman = "Tambah Unsur Kegiatan";
 ?>
 <html>
 <head>
@@ -15,11 +15,11 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?=$judul_halaman?></h3>
-        </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/unsur/proses_tambah.php">
               <div class="form-group">
