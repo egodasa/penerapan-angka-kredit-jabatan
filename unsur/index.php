@@ -1,12 +1,17 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Daftar unsur";
-  require("../pengaturan/database.php");
-  $query = $db->prepare("SELECT * FROM tbl_unsur"); 
-  $query->execute();
-  $data = $query->fetchAll(PDO::FETCH_ASSOC);
+  
+  // Posisi yang sedang diakses akan disimpan kedalam session
+  if(isset($_GET['id_jabatan']))
+  {
+    $_SESSION['current_jabatan'] = $db->get("tbl_jabatan", "*", ["id_jabatan" => $_GET['id_jabatan']]);
+  }
+  $data = $db->query("SELECT a.* FROM tbl_unsur a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan WHERE b.id_jabatan = :id_jabatan", ["id_jabatan" => $_SESSION['current_jabatan']['id_jabatan']])->fetchAll(PDO::FETCH_ASSOC); 
+  
+  $judul_halaman = "Daftar Kegiatan Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan'];
 ?>
 
 <html>
@@ -22,9 +27,10 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Daftar Unsur</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
-        <div class="box-body table-responsive ">
+        <div class="box-body table-responsive">
+            <a href="<?=$alamat_web?>/jabatan" class="btn btn-flat btn-primary">Kembali Ke Daftar Jabatan</a>
             <a href="<?=$alamat_web?>/unsur/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
             <table class="table table-bordered" >
               <thead>

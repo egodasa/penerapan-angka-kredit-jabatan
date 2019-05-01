@@ -52,7 +52,9 @@ if(count($data) > 0){
                   </td>
                   <td>
                     <a href="<?=$alamat_web?>/posisi/proses_hapus.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-danger">Hapus</a>
-                    <a href="<?=$alamat_web?>/posisi/edit.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/posisi/edit.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/jabatan/index.php?id_posisi=<?=$d['id_posisi']?>" class="btn btn-flat btn-warning">Daftar Jabatan</a>
+                  </td>
                 </tr>
                 <?php 
   $no++;

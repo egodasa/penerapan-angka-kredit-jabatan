@@ -1,21 +1,13 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Edit unsur";
-  if(isset($_GET['id_unsur'])){
-    require_once("../pengaturan/database.php");
-    $query = $db->prepare("SELECT * FROM tbl_unsur WHERE id_unsur = ? LIMIT 1"); 
-    $query->bindParam(1, $_GET['id_unsur']);
-    $query->execute();
-    $detail = $query->fetch();
-    
-    // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
-    if(empty($detail)){
-      header("Location: $alamat_web/unsur");
-    }
-  }else{
-    header("Location: $alamat_web/unsur");
+  
+  $judul_halaman = "Edit Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
+  if(isset($_GET['id_unsur']))
+  {
+    $detail = $db->get("tbl_unsur", "*", ['id_unsur' => $_GET['id_unsur']]); 
   }
 ?>
 <html>
@@ -31,7 +23,7 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Unsur</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/unsur/proses_edit.php">
@@ -41,7 +33,7 @@
                 <input class="form-control"  type="text" name="nm_unsur" value="<?=$detail['nm_unsur']?>" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-flat btn-primary" >Simpan perubahan</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan Perubahan</button>
                 <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>

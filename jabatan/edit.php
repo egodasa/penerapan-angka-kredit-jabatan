@@ -1,22 +1,11 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Edit jabatan";
-  if(isset($_GET['id_jabatan'])){
-    require_once("../pengaturan/database.php");
-    $query = $db->prepare("SELECT * FROM tbl_jabatan WHERE id_jabatan = ? LIMIT 1"); 
-    $query->bindParam(1, $_GET['id_jabatan']);
-    $query->execute();
-    $detail = $query->fetch();
-    
-    // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
-    if(empty($detail)){
-      header("Location: $alamat_web/jabatan");
-    }
-  }else{
-    header("Location: $alamat_web/jabatan");
-  }
+  $judul_halaman = "Edit Jabatan ".$_SESSION['current_posisi']['nm_posisi'];
+  $detail = $db->get("tbl_jabatan", "*", ["id_jabatan" => $_GET['id_jabatan']]);
 ?>
 <html>
 <head>
@@ -31,7 +20,7 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Jabatan</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/jabatan/proses_edit.php">
@@ -41,7 +30,7 @@
                 <input class="form-control"  type="text" name="nm_jabatan" value="<?=$detail['nm_jabatan']?>" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-flat btn-primary" >Simpan perubahan</button>
+                <button type="submit" class="btn btn-flat btn-primary" >Simpan Perubahan</button>
                 <button type="reset" class="btn btn-flat btn-danger" >Reset</button>
               </div>
             </form>

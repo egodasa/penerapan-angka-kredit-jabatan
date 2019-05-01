@@ -1,8 +1,10 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah jabatan";
+  $judul_halaman = "Tambah Jabatan ".$_SESSION['current_posisi']['nm_posisi'];
 ?>
 <html>
 <head>
@@ -17,12 +19,12 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah jabatan</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/jabatan/proses_tambah.php">
               <div class="form-group">
-                <label class="form-label">Nama jabatan</label>
+                <label class="form-label">Nama Jabatan</label>
                 <input class="form-control"  type="text" name="nm_jabatan" required />
               </div>
               <div class="form-group">

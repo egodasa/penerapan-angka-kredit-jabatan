@@ -1,8 +1,9 @@
 <?php
   session_start();
+  require("../vendor/autoload.php");
+  require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
-  // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Tambah unsur";
+  $judul_halaman = "Tambah Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Jabatan ".$_SESSION['current_jabatan']['nm_jabatan'];
 ?>
 <html>
 <head>
@@ -17,12 +18,12 @@
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah unsur</h3>
+          <h3 class="box-title"><?=$judul_halaman?></h3>
         </div>
         <div class="box-body table-responsive ">
             <form method="POST" action="<?=$alamat_web?>/unsur/proses_tambah.php">
               <div class="form-group">
-                <label class="form-label">Nama unsur</label>
+                <label class="form-label">Nama Unsur</label>
                 <input class="form-control"  type="text" name="nm_unsur" required />
               </div>
               <div class="form-group">
