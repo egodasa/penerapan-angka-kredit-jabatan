@@ -5,13 +5,13 @@
   require("../pengaturan/helper.php");
   
   // Posisi yang sedang diakses akan disimpan kedalam session
-  if(isset($_GET['id_unsur']))
+  if(isset($_GET['id_sub_unsur']))
   {
     $_SESSION['current_unsur'] = $db->get("tbl_unsur", "*", ["id_unsur" => $_GET['id_unsur']]);
   }
   $data = $db->query("SELECT a.* FROM tbl_sub_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.id_unsur = :id_unsur", ["id_unsur" => $_SESSION['current_unsur']['id_unsur']])->fetchAll(PDO::FETCH_ASSOC); 
   
-  $judul_halaman = "Daftar Kegiatan Sub Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan']." <br> Unsur ".$_SESSION['current_unsur']['nm_unsur'];
+  $judul_halaman = "Daftar Sub Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan']." <br> Unsur ".$_SESSION['current_unsur']['nm_unsur'];
 ?>
 
 <html>
@@ -51,7 +51,8 @@
                   <td><?=$d['nm_sub_unsur']?></td>
                   <td>
                     <a href="<?=$alamat_web?>/sub-unsur/proses_hapus.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-danger">Hapus</a> 
-                    <a href="<?=$alamat_web?>/sub-unsur/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a></td>
+                    <a href="<?=$alamat_web?>/sub-unsur/edit.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-primary">Edit</a>
+                    <a href="<?=$alamat_web?>/butir-kegiatan/index.php?id_sub_unsur=<?=$d['id_sub_unsur']?>" class="btn btn-flat btn-warning">Butir Kegiatan</a></td>
                 </tr>
             <?php 
               $no++;
