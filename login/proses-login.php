@@ -16,21 +16,19 @@
                                    a.foto,
                                    b.peringkat,
                                    c.nm_jabatan,
-                                   d.nm_pangkat,
+                                   b.nm_pangkat,
                                    a.id_unit_kerja,
                                    f.nm_unit_kerja,
                                    f.id_posisi
                             FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
+                                   JOIN tbl_pangkat b
+                                     ON a.id_pangkat = b.id_pangkat
                                    JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
+                                     ON b.id_jabatan = c.id_jabatan 
                                    JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch();
+                                     ON c.id_posisi = c.id_posisi
+                                   JOIN tbl_unit_kerja f
+                                     ON a.id_unit_kerja = f.id_unit_kerja WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch();
     // Cek apakah nip betul atau tidak
     if($data){
       // Cek apakah pegawai tersebut atasan disebuah unit kerja atau tidak
