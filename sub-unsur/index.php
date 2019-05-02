@@ -5,7 +5,7 @@
   require("../pengaturan/helper.php");
   
   // Posisi yang sedang diakses akan disimpan kedalam session
-  if(isset($_GET['id_sub_unsur']))
+  if(isset($_GET['id_unsur']))
   {
     $_SESSION['current_unsur'] = $db->get("tbl_unsur", "*", ["id_unsur" => $_GET['id_unsur']]);
   }
