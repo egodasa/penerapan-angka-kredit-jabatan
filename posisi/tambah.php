@@ -31,8 +31,9 @@
                 <label class="form-label">Jenis Jabatan</label>
                 <select class="form-control custom-select"  name="jenis_posisi" required>
                   <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
-                  <option value="Staff Pegawai">Staff Pegawai</option>
+                  <option value="Staff Kepegawaian">Staff Kepegawaian</option>
                   <option value="Tim Penilai">Tim Penilai</option>
+                  <option value="Pejabat Pengusul">Pejabat Pengusul</option>
                 </select>
               </div>
             <div class="form-group">
