@@ -6,19 +6,18 @@
   $judul_halaman = "Daftar Pegawai";
   require("../pengaturan/medoo.php");
   $data= $db->query("SELECT a.*,
+                             b.nm_pangkat,
                              c.nm_jabatan,
-                             d.nm_pangkat,
                              e.nm_unit_kerja,
-                             f.nm_posisi 
+                             d.nm_posisi 
                       FROM   tbl_pegawai a
-                             LEFT JOIN tbl_jabatan_pangkat b
-                                    ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
+                             LEFT JOIN tbl_pangkat b
+                                    ON a.id_pangkat = b.id_pangkat
                              LEFT JOIN tbl_jabatan c
                                     ON b.id_jabatan = c.id_jabatan
-                             LEFT JOIN tbl_pangkat d
-                                    ON b.id_pangkat = d.id_pangkat 
-                      JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja 
-                      JOIN tbl_posisi f ON e.id_posisi = f.id_posisi")->fetchAll(PDO::FETCH_ASSOC); 
+                             LEFT JOIN tbl_posisi d
+                                    ON c.id_posisi = d.id_posisi 
+                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja")->fetchAll(PDO::FETCH_ASSOC); 
 ?>
 <html>
 <head>
@@ -88,10 +87,10 @@ if(count($data) > 0){
                     <?=$d['email']?>
                   </td>
                   <td>
-                    <?=$d['nm_jabatan']." ".$d['nm_pangkat']?>
+                    <?=$d['nm_posisi']." ".$d['nm_jabatan']." ".$d['nm_pangkat']?>
                   </td>
                   <td>
-                    <?=$d['nm_posisi']." - ".$d['nm_unit_kerja']?>
+                    <?=$d['nm_unit_kerja']?>
                   </td>
                   <td>
                     <a href="<?=$alamat_web?>/pegawai/proses_hapus.php?id_pegawai=<?=$d['id_pegawai']?>" class="btn btn-flat btn-danger">Hapus</a>

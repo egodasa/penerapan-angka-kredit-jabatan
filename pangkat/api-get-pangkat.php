@@ -8,14 +8,14 @@
   
   $prepared_statement = [];
   $result = null;
-  if(isset($_GET['id_posisi']))
+  if(isset($_GET['id_jabatan']))
   {
-    $prepared_statement = ['id_posisi' => $_GET['id_posisi']];
-    $result = $db->select("tbl_jabatan", "*", $prepared_statement);
+    $prepared_statement = ['id_jabatan' => $_GET['id_jabatan']];
+    $result = $db->select("tbl_pangkat", "*", $prepared_statement);
   }
   else
   {
-    $result = $db->select("tbl_jabatan", "*");
+    $result = $db->select("tbl_pangkat", "*");
   }
   
   echo json_encode($result);

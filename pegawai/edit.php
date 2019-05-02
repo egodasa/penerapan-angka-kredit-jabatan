@@ -6,20 +6,26 @@
   
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Edit Pegawai";
-  if(isset($_GET['id_pegawai'])){
-    $detail = $db->get("tbl_pegawai", "*", ["id_pegawai" => $_GET['id_pegawai']]); 
-    $jabatan = $db->select("tbl_jabatan", "*");
-    $pangkat = $db->select("tbl_pangkat", "*");
-    
-    $jabatan_pangkat = $db->get("tbl_jabatan_pangkat", "*", ['id_jabatan_pangkat' => $detail['id_jabatan_pangkat']]);
-    
-    $posisi = $db->query("SELECT a.*, b.nm_posisi FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi")->fetchAll();
-    // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
-    if(empty($detail)){
-      header("Location: $alamat_web/pegawai");
-    }
-  }else{
-    header("Location: $alamat_web/pegawai");
+  if(isset($_GET['id_pegawai']))
+  {
+    $detail = $db->query("SELECT a.*,
+                             b.id_pangkat,
+                             b.nm_pangkat,
+                             c.id_jabatan,
+                             c.nm_jabatan,
+                             e.nm_unit_kerja,
+                             d.id_posisi,
+                             d.nm_posisi 
+                      FROM   tbl_pegawai a
+                             LEFT JOIN tbl_pangkat b
+                                    ON a.id_pangkat = b.id_pangkat
+                             LEFT JOIN tbl_jabatan c
+                                    ON b.id_jabatan = c.id_jabatan
+                             LEFT JOIN tbl_posisi d
+                                    ON c.id_posisi = d.id_posisi 
+                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.id_pegawai = :id_pegawai", ["id_pegawai" => $_GET['id_pegawai']])->fetch(); 
+    $jabatan = $db->select("tbl_posisi", "*");
+    $unit_kerja = $db->select("tbl_unit_kerja", "*");
   }
 ?>
 <html>
@@ -112,35 +118,43 @@
                 <input class="form-control"  type="text" name="tgl_lulus" required />
               </div>
               <div class="form-group">
-                <label class="form-label">Jabatan</label>
-                <select class="form-control custom-select"  name="id_jabatan" required>
-                  <option selected disabled>-- Pilih Jabatan --</option>
-                  <?php foreach($jabatan as $d): ?>
-                    <option value="<?=$d['id_jabatan']?>"><?=$d['nm_jabatan']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Pangkat</label>
-                <select class="form-control custom-select"  name="id_pangkat" required>
-                  <option selected disabled>-- Pilih Pangkat --</option>
-                  <?php foreach($pangkat as $d): ?>
-                    <option value="<?=$d['id_pangkat']?>"><?=$d['nm_pangkat']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+              <label class="form-label">Jabatan</label>
+              <select class="form-control custom-select"  name="id_posisi" onchange="getTingkat()">
+                <option selected disabled>-- Pilih Jabatan --</option>
+                <?php foreach($jabatan as $d): ?>
+                  <option value="<?=$d['id_posisi']?>"><?=$d['nm_posisi']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tingkat Jabatan</label>
+              <select class="form-control custom-select" name="id_jabatan" onchange="getPangkat()">
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pangkat/Golongan</label>
+              <select class="form-control custom-select" name="id_pangkat">
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pegawai Atasan ?</label>
+              <select class="form-control custom-select" name="is_atasan" required>
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Unit Kerja</label>
+              <select class="form-control custom-select" name="id_unit_kerja">
+                <option selected disabled>-- Pilih Unit Kerja --</option>
+                <?php foreach($unit_kerja as $d): ?>
+                  <option value="<?=$d['id_unit_kerja']?>"><?=$d['nm_unit_kerja']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
               <div class="form-group">
                 <label class="form-label">TMT Jabatan</label>
                 <input class="form-control"  type="text" name="tmt_jabatan" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Posisi</label>
-                <select class="form-control custom-select"  name="id_unit_kerja" required>
-                  <option selected disabled>-- Pilih Posisi --</option>
-                  <?php foreach($posisi as $d): ?>
-                    <option value="<?=$d['id_unit_kerja']?>"><?=$d['nm_posisi']." - ".$d['nm_unit_kerja']?></option>
-                  <?php endforeach; ?>
-                </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Kredit Awal Unsur Utama</label>
@@ -183,28 +197,44 @@
     document.getElementsByName("nohp")[0].value = "<?=$detail['nohp']?>";
     document.getElementsByName("email")[0].value = "<?=$detail['email']?>";
     document.getElementsByName("pendidikan")[0].value = "<?=$detail['pendidikan']?>";
-    document.getElementsByName("id_jabatan")[0].value = "<?=$jabatan_pangkat['id_jabatan']?>";
+    document.getElementsByName("id_posisi")[0].value = "<?=$detail['id_posisi']?>";
+    document.getElementsByName("is_atasan")[0].value = "<?=$detail['is_atasan']?>";
     document.getElementsByName("id_unit_kerja")[0].value = "<?=$detail['id_unit_kerja']?>";
     document.getElementsByName("kredit_awal_utama")[0].value = "<?=$detail['kredit_awal_utama']?>";
     document.getElementsByName("kredit_awal_penunjang")[0].value = "<?=$detail['kredit_awal_penunjang']?>";
     document.getElementsByName("tmt_jabatan")[0].value = "<?=$detail['tmt_jabatan']?>";
     document.getElementsByName("tgl_lulus")[0].value = "<?=$detail['tgl_lulus']?>";
     
-    axios.get("get-pangkat.php?id_jabatan=<?=$jabatan_pangkat['id_jabatan']?>")
-    .then(function(res){
-      document.getElementsByName("id_pangkat")[0].innerHTML = "";
-      var data = res.data;
-      var pangkat = "";
-      for(var x = 0; x < data.length; x++){
-        pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
-      }
-      document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
-      document.getElementsByName("id_pangkat")[0].value = "<?=$jabatan_pangkat['id_pangkat']?>";
-    })
+    function getTingkat(){
+      axios.get('<?=$alamat_web?>/jabatan/api-get-jabatan.php?id_posisi=' + document.getElementsByName("id_posisi")[0].value)
+        .then(function(res){
+          document.getElementsByName("id_jabatan")[0].innerHTML = "";
+          document.getElementsByName("id_pangkat")[0].innerHTML = "";
+          var data = res.data;
+          var pangkat = "<option value=''>-- Pilih Tingkat Jabatan--</option>";
+          for(var x = 0; x < data.length; x++){
+            pangkat += "<option value='" + data[x].id_jabatan + "'>" + data[x].nm_jabatan + "</option>";
+          }
+          document.getElementsByName("id_jabatan")[0].innerHTML = pangkat;
+        })
+    }
+    function getPangkat(){
+      axios.get('<?=$alamat_web?>/pangkat/api-get-pangkat.php?id_jabatan=' + document.getElementsByName("id_jabatan")[0].value)
+        .then(function(res){
+          document.getElementsByName("id_pangkat")[0].innerHTML = "";
+          var data = res.data;
+          var pangkat = "<option value=''>-- Pilih Pangkat--</option>";
+          for(var x = 0; x < data.length; x++){
+            pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+          }
+          document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+        })
+    }
     
     document.getElementsByName("id_jabatan")[0].addEventListener("change", function(){
       getPangkat();
     })
+    
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
@@ -222,6 +252,34 @@
       field: document.getElementsByName('tmt_jabatan')[0],
       format: 'YYYY-MM-DD',
     });
+    
+    
+    // Ambil jabatan
+    axios.get('<?=$alamat_web?>/jabatan/api-get-jabatan.php?id_posisi=<?=$detail["id_posisi"]?>')
+      .then(function(res){
+        document.getElementsByName("id_jabatan")[0].innerHTML = "";
+        document.getElementsByName("id_pangkat")[0].innerHTML = "";
+        var data = res.data;
+        var pangkat = "<option value=''>-- Pilih Tingkat Jabatan--</option>";
+        for(var x = 0; x < data.length; x++){
+          pangkat += "<option value='" + data[x].id_jabatan + "'>" + data[x].nm_jabatan + "</option>";
+        }
+        document.getElementsByName("id_jabatan")[0].innerHTML = pangkat;
+        document.getElementsByName("id_jabatan")[0].value = "<?=$detail['id_jabatan']?>";
+        
+        // Ambil tingkat jabatan 
+        return axios.get('<?=$alamat_web?>/pangkat/api-get-pangkat.php?id_jabatan=<?=$detail["id_jabatan"]?>')
+      })
+      .then(function(res){
+        document.getElementsByName("id_pangkat")[0].innerHTML = "";
+        var data = res.data;
+        var pangkat = "<option value=''>-- Pilih Pangkat--</option>";
+        for(var x = 0; x < data.length; x++){
+          pangkat += "<option value='" + data[x].id_pangkat + "'>" + data[x].nm_pangkat + "</option>";
+        }
+        document.getElementsByName("id_pangkat")[0].innerHTML = pangkat;
+        document.getElementsByName("id_pangkat")[0].value = "<?=$detail['id_pangkat']?>";
+      })
   </script>
 </div>
 </body>
