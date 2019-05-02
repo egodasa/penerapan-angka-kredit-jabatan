@@ -11,7 +11,7 @@
   }
   $data = $db->query("SELECT a.* FROM tbl_sub_unsur a JOIN tbl_unsur b ON a.id_unsur = b.id_unsur WHERE b.id_unsur = :id_unsur", ["id_unsur" => $_SESSION['current_unsur']['id_unsur']])->fetchAll(PDO::FETCH_ASSOC); 
   
-  $judul_halaman = "Daftar Sub Unsur <br> Posisi ".$_SESSION['current_posisi']['nm_posisi']." <br> Tingkat ".$_SESSION['current_jabatan']['nm_jabatan']." <br> Unsur ".$_SESSION['current_unsur']['nm_unsur'];
+  $judul_halaman = "Daftar Sub Unsur Kegiatan";
 ?>
 
 <html>
@@ -24,11 +24,11 @@
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu-staff.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
+    <?php
+      include("breadcrumb.php");
+    ?>
     <section class="content">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?=$judul_halaman?></h3>
-        </div>
         <div class="box-body table-responsive">
             <a href="<?=$alamat_web?>/unsur" class="btn btn-flat btn-primary">Kembali Ke Daftar Unsur</a>
             <a href="<?=$alamat_web?>/sub-unsur/tambah.php" class="btn btn-flat btn-success">Tambah Data</a>
