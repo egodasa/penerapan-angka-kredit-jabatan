@@ -8,8 +8,7 @@
   {
     $_SESSION['current_sub_unsur'] = $db->get("tbl_sub_unsur", "*", ["id_sub_unsur" => $_GET['id_sub_unsur']]);
   }
-  $data = $db->query("SELECT a.* FROM tbl_butir_kegiatan a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE b.id_sub_unsur = :id_sub_unsur", ["id_sub_unsur" => $_SESSION['current_sub_unsur']['id_sub_unsur']])->fetchAll(PDO::FETCH_ASSOC); 
-
+  
   $judul_halaman = "Daftar Butir Kegiatan";
   $data = $db->select("tbl_butir_kegiatan", "*", ["id_sub_unsur" => $_SESSION['current_sub_unsur']['id_sub_unsur']]);
 ?>
@@ -39,6 +38,7 @@
                   <th>Butir Kegiatan</th>
                   <th>Satuan</th>
                   <th>Angka Kredit</th>
+                  <th>Pelaksana</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -62,6 +62,18 @@ if(count($data) > 0){
                     <?=$d['angka_kredit']?>
                   </td>
                   <td>
+                    <?php
+                      // Mengambil data pelaksana butir kegiatan
+                      $pelaksana = $db->query("SELECT b.nm_pangkat FROM tbl_pelaksana_butir_kegiatan a JOIN tbl_pangkat b ON a.id_pangkat = b.id_pangkat WHERE a.id_butir = :id_butir", ["id_butir" => $d['id_butir']])->fetchAll(PDO::FETCH_ASSOC);
+                      echo "<ol>";
+                      foreach($pelaksana as $data_pelaksana)
+                      {
+                        echo "<li>".$data_pelaksana['nm_pangkat']."</li>";
+                      }
+                      echo "</ol>";
+                    ?>
+                  </td>
+                  <td>
                     <a href="<?=$alamat_web?>/butir-kegiatan/proses_hapus.php?id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-danger">Hapus</a>
                     <a href="<?=$alamat_web?>/butir-kegiatan/edit.php?id_butir=<?=$d['id_butir']?>" class="btn btn-flat btn-primary">Edit</a>
                   </td>
@@ -74,7 +86,7 @@ else
 {
 ?>
                 <tr>
-                  <td colspan=5 class="text-center">Tidak ada data yang ditampilkan!</td>
+                  <td colspan=6 class="text-center">Tidak ada data yang ditampilkan!</td>
                 </tr>
                 <?php
 }
