@@ -5,7 +5,7 @@
   //~ cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Daftar Unit Kerja";
   require("../pengaturan/medoo.php");
-  $data = $db->query("SELECT a.*, b.nm_posisi, c.nip, c.nm_lengkap FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi JOIN tbl_pegawai c ON a.nip_atasan = c.nip")->fetchAll();
+  $data = $db->query("SELECT a.*, b.nm_posisi, c.nip, c.nm_lengkap FROM tbl_unit_kerja a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi LEFT JOIN tbl_pegawai c ON a.nip_atasan = c.nip")->fetchAll();
 ?>
 <html>
 <head>
@@ -52,7 +52,7 @@ if(count($data) > 0){
                     <?=$d['nm_posisi']?>
                   </td>
                   <td>
-                    <?=$d['nm_lengkap']." (".$d['nip'].")"?>
+                    <?=$d['nm_lengkap']?>
                   </td>
                   <td>
                     <a href="<?=$alamat_web?>/unit-kerja/proses_hapus.php?id_unit_kerja=<?=$d['id_unit_kerja']?>" class="btn btn-flat btn-danger">Hapus</a>
