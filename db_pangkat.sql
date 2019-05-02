@@ -91,17 +91,18 @@ CREATE TABLE `tbl_pegawai` (
   `pendidikan` varchar(50) NOT NULL,
   `tgl_lulus` date NOT NULL,
   `jk` enum('Laki-laki','Perempuan') NOT NULL,
-  `id_pangkat` int(11) NOT NULL,
-  `id_unit_kerja` int(11) NOT NULL,
+  `id_pangkat` int(11) DEFAULT NULL,
+  `id_unit_kerja` int(11) DEFAULT NULL,
   `foto` text,
   `kredit_awal_utama` float NOT NULL DEFAULT '0',
   `kredit_awal_penunjang` float NOT NULL,
   `tmt_jabatan` date NOT NULL,
+  `is_atasan` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_pegawai`),
   KEY `id_jabatan_pangkat` (`id_pangkat`),
   KEY `id_unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `tbl_pegawai_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `tbl_unit_kerja` (`id_unit_kerja`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tbl_pegawai_ibfk_3` FOREIGN KEY (`id_pangkat`) REFERENCES `tbl_pangkat` (`id_pangkat`) ON DELETE CASCADE
+  CONSTRAINT `tbl_pegawai_ibfk_4` FOREIGN KEY (`id_pangkat`) REFERENCES `tbl_pangkat` (`id_pangkat`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -210,4 +211,4 @@ CREATE TABLE `tbl_usulan_unsur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-05-02 03:16:01
+-- 2019-05-02 15:53:02
