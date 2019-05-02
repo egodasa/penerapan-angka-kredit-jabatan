@@ -6,85 +6,53 @@
     require_once('../pengaturan/medoo.php');
     
     // Cek login pengguna
-    $data = $db->query("SELECT e.nm_posisi,
-                                   e.jenis_posisi,
-                                   a.kredit_awal_utama,
-                                   a.kredit_awal_penunjang,
-                                   a.nip,
-                                   a.nm_lengkap,
-                                   a.jk,
-                                   a.foto,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   b.nm_pangkat,
-                                   a.id_unit_kerja,
-                                   f.nm_unit_kerja,
-                                   f.id_posisi
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_pangkat b
-                                     ON a.id_pangkat = b.id_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan 
-                                   JOIN tbl_posisi e
-                                     ON c.id_posisi = c.id_posisi
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch();
+    $data = $db->query("SELECT a.*,
+                             b.id_pangkat,
+                             b.nm_pangkat,
+                             c.id_jabatan,
+                             c.nm_jabatan,
+                             e.nm_unit_kerja,
+                             d.id_posisi,
+                             d.nm_posisi,
+                             d.jenis_posisi 
+                      FROM   tbl_pegawai a
+                             LEFT JOIN tbl_pangkat b
+                                    ON a.id_pangkat = b.id_pangkat
+                             LEFT JOIN tbl_jabatan c
+                                    ON b.id_jabatan = c.id_jabatan
+                             LEFT JOIN tbl_posisi d
+                                    ON c.id_posisi = d.id_posisi 
+                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch(); 
+                      
     // Cek apakah nip betul atau tidak
-    if($data){
-      // Cek apakah pegawai tersebut atasan disebuah unit kerja atau tidak
-      $atasan = $db->query("SELECT nip_atasan FROM tbl_unit_kerja WHERE nip_atasan = :nip_atasan", ['nip_atasan' => $data['nip']])->fetch();
-      // Jika pegawai tersebut atasan, maka tandai pegawai tersebut lewat session
-      if($atasan)
-      {
-        $_SESSION['atasan'] = "1";
-      }
-      else
-      {
-        $_SESSION['atasan'] = "0";
-      }
-      $_SESSION['nip'] = $data['nip'];
-      $_SESSION['id_posisi'] = $data['id_posisi'];
-      $_SESSION['nm_lengkap'] = $data['nm_lengkap'];
-      $_SESSION['nm_posisi'] = $data['nm_posisi'];
-      $_SESSION['jenis_posisi'] = $data['jenis_posisi'];
-      $_SESSION['jk'] = $data['jk'];
-      $_SESSION['foto'] = $data['foto'];
-      $_SESSION['angka_kredit'] = $data['kredit_awal_utama']+$data['kredit_awal_penunjang'];
-      $_SESSION['kredit_awal_utama'] = $data['kredit_awal_utama'];
-      $_SESSION['kredit_awal_penunjang'] = $data['kredit_awal_penunjang'];
-      $_SESSION['jabatan'] = $data['nm_jabatan'];
-      $_SESSION['pangkat'] = $data['nm_pangkat'];
+    if($data)
+    {
+      $_SESSION = $data;
       
-      $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit, a.peringkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
+      //~ $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit, a.peringkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
       
-      $_SESSION['peringkat_jabatan_sekarang'] = $data[1]['peringkat'];
-      $_SESSION['angka_kredit_selanjutnya'] = $data[1]['nilai_kredit'];
-      $_SESSION['id_jabatan_selanjutnya'] = $data[1]['id_jabatan'];
-      $_SESSION['jabatan_selanjutnya'] = $data[1]['nm_jabatan'];
-      $_SESSION['pangkat_selanjutnya'] = $data[1]['nm_pangkat'];
-      $_SESSION['id_pangkat_selanjutnya'] = $data[1]['id_pangkat'];
-      $_SESSION['id_jabatan_pangkat'] = $data[0]['id_jabatan_pangkat'];
-      $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
+      //~ $_SESSION['peringkat_jabatan_sekarang'] = $data[1]['peringkat'];
+      //~ $_SESSION['angka_kredit_selanjutnya'] = $data[1]['nilai_kredit'];
+      //~ $_SESSION['id_jabatan_selanjutnya'] = $data[1]['id_jabatan'];
+      //~ $_SESSION['jabatan_selanjutnya'] = $data[1]['nm_jabatan'];
+      //~ $_SESSION['pangkat_selanjutnya'] = $data[1]['nm_pangkat'];
+      //~ $_SESSION['id_pangkat_selanjutnya'] = $data[1]['id_pangkat'];
+      //~ $_SESSION['id_jabatan_pangkat'] = $data[0]['id_jabatan_pangkat'];
+      //~ $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
       
-      if($_SESSION['atasan'] == '1')
+      if($_SESSION['is_atasan'] == '1')
       {
-        // Jenis posisi diganti jadi atasan jika staff kepegawaian kedapatan menjadi atasan disebuah unit kerja
-        $_SESSION['jenis_posisi'] = "Atasan";
         header("Location: $alamat_web/usulan");
       }
       
       // Cek level agar halaman di redirect sesuai aktor
-      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian")
+      if($_SESSION['jenis_posisi'] == "Staff Kepegawaian" || $_SESSION['jenis_posisi'] == "Tim Penilai" || $_SESSION['jenis_posisi'] == "Pejabat Pengusul")
       {
         header("Location: $alamat_web/usulan");
       }
       else if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan")
       {
         header("Location: $alamat_web/persyaratan");
-      }
-      else if($_SESSION['jenis_posisi'] == "Tim Penilai")
-      {
-        header("Location: $alamat_web/usulan");
       }
     }else{
       header("Location: $alamat_web/login?status=gagal");
