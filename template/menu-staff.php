@@ -27,7 +27,7 @@
       <ul class="sidebar-menu tree" data-widget="tree">
         <li class="header">MENU</li>
         <?php
-          if($_SESSION['atasan'] != "1"):
+          if($_SESSION['is_atasan'] != "1"):
         ?>
           <li>
             <a href="<?=$alamat_web?>/unit-kerja">
