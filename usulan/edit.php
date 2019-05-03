@@ -5,15 +5,11 @@
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
   $judul_halaman = "Edit Usulan";
-  if(isset($_GET['id_usulan'])){
+  if(isset($_GET['id_usulan']))
+  {
     $detail = $db->get("tbl_usulan", "*", ['id_usulan' => $_GET['id_usulan']]); 
-    $daftar_jabatan = $db->query("SELECT a.*, b.nm_jabatan, c.id_pangkat, c.nm_pangkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat")->fetchAll();
-    // cek dulu, datanya ketemu atau tidak. Kalau gk ketemu, ya redirect ke halaman awal
-    if(empty($detail)){
-      header("Location: $alamat_web/usulan");
-    }
-  }else{
-    header("Location: $alamat_web/usulan");
+    $detail_jabatan_sekarang = $db->query("SELECT a.*, b.*, c.* FROM tbl_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_posisi c ON b.id_posisi = c.id_posisi WHERE a.id_pangkat = :id_pangkat", ["id_pangkat" => $detail['id_pangkat_sekarang']])->fetch();
+    $detail_jabatan_selanjutnya = $db->query("SELECT a.*, b.*, c.* FROM tbl_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_posisi c ON b.id_posisi = c.id_posisi WHERE a.id_pangkat = :id_pangkat", ["id_pangkat" => $detail['id_pangkat_selanjutnya']])->fetch();
   }
 ?>
 <html>
@@ -37,7 +33,7 @@
               <input class="form-control"  type="hidden" name="id_usulan" value="<?=$detail['id_usulan']?>" />
               <div class="form-group">
                 <label class="form-label">Tanggal Usulan</label>
-                <input class="form-control"  type="text" name="tgl_usulan" id="tgl_usulan" readonly required />
+                <input class="form-control" type="text" name="tgl_usulan" id="tgl_usulan" readonly required />
               </div>
               <div class="form-group">
                 <label class="form-label">Masa Penilaian (Mulai)</label>
@@ -48,19 +44,15 @@
                 <input class="form-control"  type="text" name="masa_penilaian_akhir" id="masa_penilaian_akhir" readonly required />
               </div>
               <div class="form-group">
-                <label class="form-label">Jabatan Sekarang</label>
-                <select name="id_jabatan_pangkat_sekarang" class="form-control" readonly>
-                  <?php foreach($daftar_jabatan as $d): ?>
-                    <option value="<?=$d['id_jabatan_pangkat']?>"><?=$d['nm_pangkat']?></option>
-                  <?php endforeach; ?>
+                <label class="form-label">Pangkat/Golongan Sekarang</label>
+                <select name="id_pangkat_sekarang" class="form-control" readonly>
+                  <option><?=$detail_jabatan_sekarang['nm_pangkat']?></option>
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Jabatan Selanjutnya</label>
-                <select name="id_jabatan_pangkat_selanjutnya" class="form-control" readonly>
-                  <?php foreach($daftar_jabatan as $d): ?>
-                    <option value="<?=$d['id_jabatan_pangkat']?>"><?=$d['nm_pangkat']?></option>
-                  <?php endforeach; ?>
+                <label class="form-label">Pangkat/Golongan Selanjutnya</label>
+                <select name="id_pangkat_selanjutnya" class="form-control" readonly>
+                  <option><?=$detail_jabatan_selanjutnya['nm_pangkat']?></option>
                 </select>
               </div>
               <div class="form-group">
@@ -83,8 +75,6 @@
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
   <script>
-    document.getElementsByName("id_jabatan_pangkat_sekarang")[0].value = "<?=$detail['id_jabatan_pangkat_sekarang']?>";
-    document.getElementsByName("id_jabatan_pangkat_selanjutnya")[0].value = "<?=$detail['id_jabatan_pangkat_selanjutnya']?>";
     document.getElementsByName("tgl_usulan")[0].value = "<?=$detail['tgl_usulan']?>";
     document.getElementsByName("masa_penilaian_awal")[0].value = "<?=$detail['masa_penilaian_awal']?>";
     document.getElementsByName("masa_penilaian_akhir")[0].value = "<?=$detail['masa_penilaian_akhir']?>";
