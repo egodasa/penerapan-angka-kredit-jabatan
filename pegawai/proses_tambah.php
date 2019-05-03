@@ -20,6 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     'pendidikan' => $_POST['pendidikan'],
     'tgl_lulus' => $_POST['tgl_lulus'],
     'is_atasan' => $_POST['is_atasan'],
+    'id_posisi' => $_POST['id_posisi'],
     'id_pangkat' => $_POST['id_pangkat'],
     'id_unit_kerja' => $_POST['id_unit_kerja'],
     'kredit_awal_utama' => $_POST['kredit_awal_utama'],
