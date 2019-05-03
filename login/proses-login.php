@@ -6,15 +6,11 @@
     require_once('../pengaturan/medoo.php');
     
     // Cek login pengguna
-    $data = $db->query("SELECT a.*,
-                             b.id_pangkat,
-                             b.nm_pangkat,
-                             c.id_jabatan,
-                             c.nm_jabatan,
-                             e.nm_unit_kerja,
-                             d.id_posisi,
-                             d.nm_posisi,
-                             d.jenis_posisi 
+    $data = $db->query("SELECT 
+                              a.*,
+                              b.*,
+                              c.*,
+                              d.* 
                       FROM   tbl_pegawai a
                              LEFT JOIN tbl_pangkat b
                                     ON a.id_pangkat = b.id_pangkat
@@ -29,16 +25,36 @@
     {
       $_SESSION = $data;
       
-      //~ $data = $db->query("SELECT a.*, b.nm_jabatan, b.id_jabatan, c.nm_pangkat, c.id_pangkat, a.nilai_kredit, a.peringkat FROM tbl_jabatan_pangkat a JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan JOIN tbl_pangkat c ON a.id_pangkat = c.id_pangkat WHERE a.peringkat >= :peringkat ORDER BY a.peringkat ASC LIMIT 2 OFFSET 1", ['peringkat' => $data['peringkat']])->fetchAll(PDO::FETCH_ASSOC);      
-      
-      //~ $_SESSION['peringkat_jabatan_sekarang'] = $data[1]['peringkat'];
-      //~ $_SESSION['angka_kredit_selanjutnya'] = $data[1]['nilai_kredit'];
-      //~ $_SESSION['id_jabatan_selanjutnya'] = $data[1]['id_jabatan'];
-      //~ $_SESSION['jabatan_selanjutnya'] = $data[1]['nm_jabatan'];
-      //~ $_SESSION['pangkat_selanjutnya'] = $data[1]['nm_pangkat'];
-      //~ $_SESSION['id_pangkat_selanjutnya'] = $data[1]['id_pangkat'];
-      //~ $_SESSION['id_jabatan_pangkat'] = $data[0]['id_jabatan_pangkat'];
-      //~ $_SESSION['id_jabatan_pangkat_selanjutnya'] = $data[1]['id_jabatan_pangkat'];
+      // Ambil data pangkat selanjutnya jika yang login tenaga kependidikan
+      if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan")
+      {
+        $sql = "SELECT
+                  a.*,
+                  b.*,
+                  c.* 
+                  FROM tbl_pangkat a 
+                  JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan 
+                  JOIN tbl_posisi c ON b.id_jabatan = c.id_posisi WHERE a.peringkat > :peringkat LIMIT 1";
+        $pangkat_selanjutnya = $db->query($sql, ['peringkat' => $_SESSION['peringkat']])->fetch();
+        
+        $_SESSION['peringkat_jabatan_sekarang'] = $_SESSION['peringkat'];
+        $_SESSION['peringkat_jabatan_selanjutnya'] = $pangkat_selanjutnya['peringkat'];
+        
+        $_SESSION['id_pangkat_sekarang'] = $_SESSION['id_pangkat'];
+        $_SESSION['id_pangkat_selanjutnya'] = $pangkat_selanjutnya['id_pangkat'];
+        
+        $_SESSION['angka_kredit_sekarang'] = $_SESSION['angka_kredit_minimal'];
+        $_SESSION['angka_kredit_selanjutnya'] = $pangkat_selanjutnya['angka_kredit_minimal'];
+        
+        $_SESSION['nm_jabatan_sekarang'] = $_SESSION['nm_jabatan'];
+        $_SESSION['nm_jabatan_selanjutnya'] = $pangkat_selanjutnya['nm_jabatan'];
+        
+        $_SESSION['nm_posisi_sekarang'] = $_SESSION['nm_posisi'];
+        
+        $_SESSION['nm_pangkat_sekarang'] = $_SESSION['nm_pangkat'];
+        $_SESSION['nm_pangkat_selanjutnya'] = $pangkat_selanjutnya['nm_pangkat'];
+        
+      }
       
       if($_SESSION['is_atasan'] == '1')
       {
