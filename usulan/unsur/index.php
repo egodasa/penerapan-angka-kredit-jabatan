@@ -4,7 +4,7 @@
   require("../../pengaturan/helper.php");
   $judul_halaman = "Daftar Unsur Kegiatan";
   require("../../pengaturan/medoo.php");
-  $data = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $data = $db->query("SELECT a.*, b.*, d.* FROM tbl_usulan_unsur a JOIN tbl_butir_kegiatan b ON a.id_butir = b.id_butir JOIN tbl_sub_unsur c ON b.id_sub_unsur = c.id_sub_unsur JOIN tbl_unsur d ON c.id_unsur = d.id_unsur WHERE a.id_usulan = :id_usulan", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
 ?>
 
 <html>
@@ -61,16 +61,16 @@
                   <td><?=$d['jumlah_volume_kegiatan']?></td>
                   <td><?=round($d['angka_kredit'], 4)?></td>
                   <td><?=round($d['angka_kredit_baru'], 4)?></td>
-                  <td><?=$d['jenis_unsur']?></td>
+                  <td><?=$d['kategori']?></td>
                   <td><?=$d['status']?></td>
                   <td>
-                    <?php if($_SESSION['atasan'] == "1"): ?>
+                    <?php if($_SESSION['is_atasan'] == "1"): ?>
                       <a href="<?=$alamat_web?>/usulan/unsur/edit-status-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-primary">Edit Status</a>
                     <?php endif; ?>
                     <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
                       <a href="<?=$alamat_web?>/usulan/unsur/proses_hapus.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-danger">Hapus</a> 
                       <a href="<?=$alamat_web?>/usulan/unsur/edit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-primary">Edit</a>
-                    <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai" || $_SESSION['atasan'] == "1"): ?>
+                    <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai" || $_SESSION['is_atasan'] == "1"): ?>
                       <a href="<?=$alamat_web?>/usulan/unsur/edit-kredit.php?id_usulan_unsur=<?=$d['id_usulan_unsur']?>&id_usulan=<?=$_GET['id_usulan']?>" class="btn btn-flat  btn btn-primary">Edit Angka Kredit</a>
                     <?php endif; ?>
                   </td>

@@ -6,7 +6,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $sql = "INSERT INTO `tbl_usulan_unsur`
             (`tgl_mulai_kegiatan`,
              `tgl_selesai_kegiatan`,
-             `butir_kegiatan`,
              `satuan`,
              `angka_kredit_murni`,
              `angka_kredit_persentase`,
@@ -15,12 +14,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
              `id_usulan`,
              `tingkat_kesulitan`,
              `jumlah_volume_kegiatan`,
-             `id_sub_unsur`,
+             `id_butir`,
+             `keterangan`,
              `bukti_kegiatan`)
             VALUES 
               (:tgl_mulai_kegiatan,
                :tgl_selesai_kegiatan,
-               :butir_kegiatan,
                :satuan,
                :angka_kredit_murni,
                :angka_kredit_persentase,
@@ -29,12 +28,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                :id_usulan,
                :tingkat_kesulitan,
                :jumlah_volume_kegiatan,
-               :id_sub_unsur,
+               :id_butir,
+               :keterangan,
                :bukti_kegiatan)";
   $query = $db->prepare($sql);
   $query->bindParam('tgl_mulai_kegiatan', $_POST['tgl_mulai_kegiatan']);
   $query->bindParam('tgl_selesai_kegiatan', $_POST['tgl_selesai_kegiatan']);
-  $query->bindParam('butir_kegiatan', $_POST['butir_kegiatan']);
   $query->bindParam('satuan', $_POST['satuan']);
   $query->bindParam('angka_kredit_murni', $_POST['angka_kredit_murni']);
   $query->bindParam('angka_kredit_persentase', $_POST['angka_kredit_persentase']);
@@ -43,7 +42,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $query->bindParam('id_usulan', $_POST['id_usulan']);
   $query->bindParam('tingkat_kesulitan', $_POST['tingkat_kesulitan']);
   $query->bindParam('jumlah_volume_kegiatan', $_POST['jumlah_volume_kegiatan']);
-  $query->bindParam('id_sub_unsur', $_POST['id_sub_unsur']);
+  $query->bindParam('id_butir', $_POST['id_butir']);
+  $query->bindParam('keterangan', $_POST['keterangan']);
   $query->bindParam('bukti_kegiatan', $nama_file);
   $query->execute();
 }
