@@ -9,8 +9,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     'tgl_usulan' => $_POST['tgl_usulan'],
     'masa_penilaian_awal' => $_POST['masa_penilaian_awal'],
     'masa_penilaian_akhir' => $_POST['masa_penilaian_akhir'],
-    'id_jabatan_pangkat_sekarang' => $_POST['id_jabatan_pangkat_sekarang'],
-    'id_jabatan_pangkat_selanjutnya' => $_POST['id_jabatan_pangkat_selanjutnya'],
+    'id_pangkat_sekarang' => $_POST['id_pangkat_sekarang'],
+    'id_pangkat_selanjutnya' => $_POST['id_pangkat_selanjutnya'],
     'masa_kerja_golongan_lama' => $_POST['masa_kerja_golongan_lama'],
     'masa_kerja_golongan_baru' => $_POST['masa_kerja_golongan_baru']
   ]);

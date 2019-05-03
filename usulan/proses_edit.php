@@ -24,8 +24,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_usulan'])){
         'tgl_usulan' => $_POST['tgl_usulan'],
         'masa_penilaian_awal' => $_POST['masa_penilaian_awal'],
         'masa_penilaian_akhir' => $_POST['masa_penilaian_akhir'],
-        'id_jabatan_pangkat_sekarang' => $_POST['id_jabatan_pangkat_sekarang'],
-        'id_jabatan_pangkat_selanjutnya' => $_POST['id_jabatan_pangkat_selanjutnya'],
         'masa_kerja_golongan_lama' => $_POST['masa_kerja_golongan_lama'],
         'masa_kerja_golongan_baru' => $_POST['masa_kerja_golongan_baru']
       ], ["id_usulan" => $_POST['id_usulan']]);

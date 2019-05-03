@@ -94,7 +94,7 @@
                   <td><?=$d['status_proses']?></td>
                   <td><?=$d['keterangan']?></td>
                   <td>
-                    <?php if($_SESSION['jenis_posisi'] == "Atasan"): ?>
+                    <?php if($_SESSION['is_atasan'] == 1): ?>
                       <?php if($d['status_proses'] == 'Sedang Proses Verifikasi Oleh Pejabat Pengusul' || $d['status_proses'] == 'Verifikasi Gagal Oleh Pejabat Pengusul'): ?>
                         <a href="<?=$alamat_web?>/usulan/verifikasi-data.php?id_usulan=<?=$d['id_usulan']?>" class="btn btn-flat btn-primary">Cek Data Usulan</a>
                       <?php endif; ?>
@@ -121,7 +121,7 @@
                         <li class="dropdown-header">Data Usulan</li>
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
-                        <?php if($_SESSION['atasan'] == "1" || $_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
+                        <?php if($_SESSION['is_atasan'] == 1 || $_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
                         <?php endif; ?>
