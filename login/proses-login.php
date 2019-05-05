@@ -1,4 +1,4 @@
-<?
+<?php
   session_start();
   require('../pengaturan/helper.php');
   require('../vendor/autoload.php');
@@ -17,8 +17,8 @@
                              LEFT JOIN tbl_jabatan c
                                     ON b.id_jabatan = c.id_jabatan
                              LEFT JOIN tbl_posisi d
-                                    ON c.id_posisi = d.id_posisi 
-                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch(); 
+                                    ON a.id_posisi = d.id_posisi 
+                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip AND a.password = md5(:password) LIMIT 1", ['nip' => $_POST['nip'], 'password' => $_POST['password']])->fetch(PDO::FETCH_ASSOC); 
                       
     // Cek apakah nip betul atau tidak
     if($data)
