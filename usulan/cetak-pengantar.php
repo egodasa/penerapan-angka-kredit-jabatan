@@ -5,49 +5,36 @@
   require_once("../pengaturan/medoo.php");
   use Dompdf\Dompdf;
   $data_usulan = $db->get('tbl_usulan', '*', ['id_usulan' => $_GET['id_usulan']]);
-  $data_usulan_utama = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  
-  $pegawai = $db->query("SELECT e.nm_posisi, a.*,
-                                   e.jenis_posisi,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   f.nm_unit_kerja,
-                                   f.nip_atasan 
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
-  $atasan = $db->query("SELECT e.nm_posisi,
-                                   e.jenis_posisi,
-                                   a.nip,
-                                   a.nm_lengkap,
-                                   a.jk,
-                                   a.foto,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   a.id_unit_kerja,
-                                   f.nm_unit_kerja
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+
+  $pegawai = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.nm_unit_kerja
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
+                          
+  $atasan = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.nm_unit_kerja 
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip_atasan']])->fetch();
   $tahun_usulan_tmp = explode("-", $data_usulan['tgl_usulan']);
   $tahun_usulan = $tahun_usulan_tmp[0]-1;
   ob_start();
@@ -137,7 +124,7 @@
   </div>
   <div style="text-align: justify;">
     Dengan Hormat, <br/>
-    Bersama ini Kami sampaikan kepada Bapak usulan kenaikan pangkat 1(satu) orang tenaga kependidikan <?=$pegawai['nm_jabatan']?> periode <?=tanggal_indo($data_usulan['tgl_usulan'])?> sebagai berikut:
+    Bersama ini Kami sampaikan kepada Bapak usulan kenaikan pangkat 1(satu) orang tenaga kependidikan <?=$pegawai['nm_posisi']." ".$pegawai['nm_jabatan']?> periode <?=tanggal_indo($data_usulan['tgl_usulan'])?> sebagai berikut:
   </div>
   <br/>
   <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
@@ -151,9 +138,9 @@
     <tr>
       <td style="border: 1px solid black; text-align: center;">1</td>
       <td style="border: 1px solid black; text-align: center;"><?=$pegawai['nm_lengkap']?> <br/> Nip. <?=$pegawai['nip']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['pangkat_selanjutnya']?></td>
-      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$_SESSION['jabatan_selanjutnya']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['nm_pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['nm_pangkat_selanjutnya']?></td>
+      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$_SESSION['nm_jabatan_selanjutnya']?></td>
     </tr>
   </table>
   <br/>
