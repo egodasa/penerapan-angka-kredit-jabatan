@@ -4,54 +4,84 @@
   require("../pengaturan/helper.php");
   require_once("../pengaturan/medoo.php");
   use Dompdf\Dompdf;
-  $data_usulan = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  $data_usulan_penunjang = $db->query("SELECT a.id_usulan, a.id_sub_unsur, b.nm_unsur, f.nm_posisi FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur JOIN tbl_usulan c ON a.id_usulan = c.id_usulan JOIN tbl_pegawai d ON c.nip = d.nip JOIN tbl_unit_kerja e ON d.id_unit_kerja = e.id_unit_kerja JOIN tbl_posisi f ON e.id_posisi = f.id_posisi WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' GROUP BY a.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
-  $pegawai = $db->query("SELECT e.nm_posisi,
-                                   e.jenis_posisi,
-                                   a.nip,
-                                   a.nm_lengkap,
-                                   a.jk,
-                                   a.foto,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   a.tmt_jabatan,
-                                   a.id_unit_kerja,
-                                   f.nm_unit_kerja,
-                                   f.nip_atasan 
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
-  $atasan = $db->query("SELECT e.nm_posisi,
-                                   e.jenis_posisi,
-                                   a.nip,
-                                   a.nm_lengkap,
-                                   a.jk,
-                                   a.foto,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   a.id_unit_kerja,
-                                   f.nm_unit_kerja
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+  $sql_unsur = "SELECT 
+                    a.tgl_mulai_kegiatan,
+                    a.tgl_selesai_kegiatan,
+                    a.satuan,
+                    a.angka_kredit_murni,
+                    a.angka_kredit_murni_baru,
+                    a.angka_kredit_persentase,
+                    a.angka_kredit_persentase_baru,
+                    a.angka_kredit,
+                    a.angka_kredit_baru,
+                    a.tempat,
+                    a.tingkat_kesulitan,
+                    a.jumlah_volume_kegiatan,
+                    a.bukti_kegiatan,
+                    a.id_butir,
+                    b.nip,
+                    e.nm_unsur,
+                    b.id_usulan,
+                    e.id_unsur,
+                    e.kategori  
+                    FROM tbl_usulan_unsur a 
+                    JOIN tbl_usulan b ON a.id_usulan = b.id_usulan 
+                    JOIN tbl_butir_kegiatan c ON a.id_butir = c.id_butir 
+                    JOIN tbl_sub_unsur d ON c.id_sub_unsur = d.id_sub_unsur 
+                    JOIN tbl_unsur e ON d.id_unsur = e.id_unsur WHERE b.id_usulan = :id_usulan GROUP BY e.id_unsur ORDER BY e.kategori";
+  $sql_butir_kegiatan = "SELECT 
+                    a.tgl_mulai_kegiatan,
+                    a.tgl_selesai_kegiatan,
+                    a.satuan,
+                    a.angka_kredit_murni,
+                    a.angka_kredit_murni_baru,
+                    a.angka_kredit_persentase,
+                    a.angka_kredit_persentase_baru,
+                    a.angka_kredit,
+                    a.angka_kredit_baru,
+                    a.tempat,
+                    a.tingkat_kesulitan,
+                    a.jumlah_volume_kegiatan,
+                    a.bukti_kegiatan,
+                    a.id_butir,
+                    b.nip,
+                    c.butir_kegiatan 
+                    FROM tbl_usulan_unsur a 
+                    JOIN tbl_usulan b ON a.id_usulan = b.id_usulan 
+                    JOIN tbl_butir_kegiatan c ON a.id_butir = c.id_butir 
+                    JOIN tbl_sub_unsur d ON c.id_sub_unsur = d.id_sub_unsur 
+                    JOIN tbl_unsur e ON d.id_unsur = e.id_unsur WHERE e.id_unsur = :id_unsur AND b.id_usulan = :id_usulan";
+  
+  $data_usulan = $db->query($sql_unsur, ["id_usulan" => $_GET['id_usulan']])->fetchAll();
+  $pegawai = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.nm_unit_kerja
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
+                          
+  $atasan = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.nm_unit_kerja 
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip_atasan']])->fetch();
                                     
   $start_huruf = 13;
   ob_start();
@@ -128,7 +158,7 @@
     </p>
     <div style="clear: both;"></div>
   </div>
-  <div style="text-align: center; font-size: 15pt;">SURAT PERNYATAAN <br/> TELAH MELAKUKAN <?=strtoupper($d['nm_unsur'])?></div>
+  <div style="text-align: center; font-size: 15pt;">SURAT PERNYATAAN <br/> TELAH MELAKUKAN KEGIATAN <?=$d['kategori'] == "Unsur Penunjang" ? "PENUNJANG " : ""?><?=strtoupper($d['nm_unsur'])?></div>
   <p class="rata_kk">Yang bertanda tangan di bawah ini:</p>
   <table class="tabel_rapi" style="padding-left: 1.1cm">
         <tr>
@@ -209,7 +239,7 @@
         <th class="isi_tabel_bergaris" style="text-align: center;">8</th>
       </tr>
   <?php
-      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND a.id_sub_unsur = :id_sub_unsur ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan'], "id_sub_unsur" => $d['id_sub_unsur']])->fetchAll();
+      $detail_usulan = $db->query($sql_butir_kegiatan, ["id_usulan" => $d['id_usulan'], "id_unsur" => $d['id_unsur']])->fetchAll();
       foreach($detail_usulan as $i=>$u):
   ?>
       <tr>
@@ -253,153 +283,6 @@
       <div style="page-break-before: always;"></div>
   <?php
     endforeach;
-  ?>
-  
-  
-  <?php
-    // BAGIAN KEGIATAN PENUNJANG
-    if(count($data_usulan_penunjang) != 0 ):
-  ?>
-  <div style="width: 100%;">
-    <p style="width: 50%; float: right;font-weight: bold;">
-      ANAK LAMPIRAN 1-<?=strtolower(angkaHuruf($start_huruf))?> <br/>
-      PERATURAN BERSAMA <br/>
-      KEPALA PERPUSTAKAAN NASIONAL REPUBLIK INDONESIA <br/>
-      DAN KEPALA BADAN KEPEGAWAIAN NEGARA<br/>
-      TENTANG<br/>
-      KETENTUAN PELAKSANAAN PERATURAN MENTERI <br/>
-      PENDAYAGUNAAN APARATUR NEGARA DAN REFORMASI<br/>
-      BIROKRASI REPUBLIK INDONESIA NOMOR 9 TAHUN 2014 <br/>
-      TENTANG JABATAN FUNGSIONAL <?=strtoupper($d['nm_posisi'])?> DAN <br/>
-      ANGKA KREDITNYA
-    </p>
-    <div style="clear: both;"></div>
-  </div>
-  <div style="text-align: center; font-size: 15pt;">SURAT PERNYATAAN <br/> TELAH MELAKUKAN KEGIATAN PENUNJANG <?=strtoupper($d['nm_posisi'])?></div>
-  <p class="rata_kk">Yang bertanda tangan di bawah ini:</p>
-  <table class="tabel_rapi" style="padding-left: 1.1cm">
-        <tr>
-          <td style="width: 40%;">Nama</td>
-          <td style="width: 1%;">:</td>
-          <td style="width: 59%;"><?=$atasan['nm_lengkap']?></td>
-        </tr>
-        <tr>
-          <td>NIP</td>
-          <td>:</td>
-          <td><?=$atasan['nip']?></td>
-        </tr>
-        <tr>
-          <td>Pangkat/golongan ruang</td>
-          <td>:</td>
-          <td><?=$atasan['nm_pangkat']?></td>
-        </tr>
-        <tr>
-          <td>Jabatan</td>
-          <td>:</td>
-          <td><?=$atasan['nm_jabatan']?></td>
-        </tr>
-        <tr>
-          <td>Unit Kerja</td>
-          <td>:</td>
-          <td><?=$atasan['nm_unit_kerja']?></td>
-        </tr>
-    </table>
-    
-  <p class="rata_kk">Menyatakan bahwa:</p>
-  <table class="tabel_rapi" style="padding-left: 1.1cm">
-        <tr>
-          <td style="width: 40%;">Nama</td>
-          <td style="width: 1%;">:</td>
-          <td style="width: 59%;"><?=$pegawai['nm_lengkap']?></td>
-        </tr>
-        <tr>
-          <td>NIP</td>
-          <td>:</td>
-          <td><?=$pegawai['nip']?></td>
-        </tr>
-        <tr>
-          <td>Pangkat/golongan ruang/TMT</td>
-          <td>:</td>
-          <td><?=$pegawai['nm_pangkat']."/".tanggal_indo($pegawai['tmt_jabatan'])?></td>
-        </tr>
-        <tr>
-          <td>Jabatan</td>
-          <td>:</td>
-          <td><?=$pegawai['nm_jabatan']?></td>
-        </tr>
-        <tr>
-          <td>Unit Kerja</td>
-          <td>:</td>
-          <td><?=$pegawai['nm_unit_kerja']?></td>
-        </tr>
-    </table>
-    <p class="rata_kk">Telah melakukan kegiatan penunjang tugas <?=strtolower($d['nm_posisi'])?> sebagai berikut :</p>
-    <table class="tabel_garis" style="margin: -5px -20px;">
-      <tr>
-        <th class="isi_tabel_bergaris" style="text-align: center;">No</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">Uraian <br/> Kegiatan</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Tanggal</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Satuan <br/> Hasil</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Jumlah Volume <br/> Kegiatan</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Angka <br/> Kredit</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Jumlah Angka <br/> Kredit</th>
-        <th class="isi_tabel_bergaris"  style="text-align: center;">Keterangan/ <br/> bukti fisik</th>
-      </tr>
-      <tr>
-        <th class="isi_tabel_bergaris" style="text-align: center;">1</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">2</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">3</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">4</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">5</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">6</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">7</th>
-        <th class="isi_tabel_bergaris" style="text-align: center;">8</th>
-      </tr>
-  <?php
-      $detail_usulan = $db->query("SELECT a.*, b.nm_unsur, b.jenis_unsur FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur, b.nm_unsur ASC", ["id_usulan" => $d['id_usulan']])->fetchAll();
-      foreach($detail_usulan as $i=>$u):
-  ?>
-      <tr>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=($i+1)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['butir_kegiatan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=tanggal_indo($u['tgl_mulai_kegiatan'])." - ".tanggal_indo($u['tgl_selesai_kegiatan'])?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['satuan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=$u['jumlah_volume_kegiatan']?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round(($u['angka_kredit_murni']*$u['angka_kredit_murni']), 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
-        <td class="isi_tabel_bergaris" style="text-align: center;">
-          <?php
-            if($u['bukti_kegiatan'] != '')
-            {
-              echo "Tidak Terlampir";
-            }
-            else
-            {
-              echo "Terlampir";
-            }
-          ?>
-        </td>
-      </tr>
-  <?php
-      $start_huruf++;
-      endforeach;
-  ?>
-    </table>
-    <p class="rata_kk">Demikian pernyataan ini dibuat untuk dapat dipergunakan sebagaimana mestinya</p>
-      <div style="width: 300px; text-align: center;float: right;">
-        Padang, <?=tanggal_indo(date("Y-m-d"))?> <br/>
-        <b><?=strtoupper($atasan['nm_lengkap'])?></b>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        NIP <?=$atasan['nip']?>
-      </div>
-      <div style="clear: both;"></div>
-      <div style="page-break-before: always;"></div>
-  <?php
-    endif;
   ?>
 </body>
 </html>
