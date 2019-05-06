@@ -31,6 +31,8 @@
     $sql .= " AND a.status_proses IN ('Sedang Proses Verifikasi Oleh Tim Penilai', 'Angka Kredit Diterima', 'Angka Kredit Ditolak')";
   }
   $data = $db->query($sql, $where)->fetchAll(PDO::FETCH_ASSOC);
+  $sql_atasan = "SELECT a.nip, a.nm_lengkap FROM tbl_pegawai a JOIN tbl_posisi b ON a.id_posisi = b.id_posisi WHERE b.id_posisi = :id_posisi AND a.is_atasan = 1";
+  $atasan = $db->query($sql_atasan, ["id_posisi" => $_SESSION['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <html>
@@ -126,7 +128,7 @@
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
                         <?php endif; ?>
                         <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
-                          <li><a href="<?=$alamat_web?>/usulan/cetak-spmk.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak SPMK</a></li>
+                          <li><a href="#" onclick="cetakSpmk(<?=$d['id_usulan']?>)">Cetak SPMK</a></li>
                         <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
                         <?php endif; ?>
@@ -158,8 +160,43 @@
       </div>
     </section>
   </div>
+  <div class="modal fade" id="cetak-spmk" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Cetak SPMK</h4>
+        </div>
+        <div class="modal-body">
+          <form action="<?=$alamat_web?>/usulan/cetak-spmk.php">
+            <input type="hidden" name="id_usulan" />
+            <input type="hidden" name="nip" value="<?=$_SESSION['nip']?>" />
+            <div class="form-group">
+              <label>Pilih Pejabat Pengusul</label>
+              <select class="form-control" name="nip_atasan">
+                <?php foreach($atasan as $d): ?>
+                  <option value="<?=$d['nip']?>"><?=$d['nm_lengkap']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="form-group text-right">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+              <button type="submit" class="btn btn-primary">Cetak</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
+  <script>
+    function cetakSpmk(id_usulan){
+      document.getElementsByName("id_usulan")[0].value = id_usulan;
+      $('#cetak-spmk').modal('show');
+    }
+  </script>
 </div>
 </body>
 </html>

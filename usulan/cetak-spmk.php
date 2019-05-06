@@ -252,7 +252,7 @@
         <td class="isi_tabel_bergaris" style="text-align: center;"><?=round($u['angka_kredit'], 4)?></td>
         <td class="isi_tabel_bergaris" style="text-align: center;">
           <?php
-            if($u['bukti_kegiatan'] != '')
+            if(empty($u['bukti_kegiatan']))
             {
               echo "Tidak Terlampir";
             }
