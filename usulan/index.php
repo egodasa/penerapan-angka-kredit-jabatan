@@ -124,7 +124,7 @@
                         <li><a href="<?=$alamat_web?>/usulan/berkas?id_usulan=<?=$d['id_usulan']?>">Data Berkas</a></li>
                         <li><a href="<?=$alamat_web?>/usulan/unsur?id_usulan=<?=$d['id_usulan']?>">Data Unsur</a></li>
                         <?php if($_SESSION['is_atasan'] == 1 || $_SESSION['jenis_posisi'] == "Staff Kepegawaian"): ?>
-                          <li><a href="<?=$alamat_web?>/usulan/cetak-dupak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak DUPAK</a></li>
+                          <li><a href="#" onclick="cetakDupak(<?=$d['id_usulan']?>)">Cetak DUPAK</a></li>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pengantar.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak Surat Pengantar</a></li>
                         <?php endif; ?>
                         <?php if($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
@@ -189,12 +189,45 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="cetak-dupak" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Cetak DUPAK</h4>
+        </div>
+        <div class="modal-body">
+          <form action="<?=$alamat_web?>/usulan/cetak-dupak.php">
+            <input type="hidden" name="id_usulan" />
+            <input type="hidden" name="nip" value="<?=$_SESSION['nip']?>" />
+            <div class="form-group">
+              <label>Pilih Pejabat Pengusul</label>
+              <select class="form-control" name="nip_atasan">
+                <?php foreach($atasan as $d): ?>
+                  <option value="<?=$d['nip']?>"><?=$d['nm_lengkap']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="form-group text-right">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+              <button type="submit" class="btn btn-primary">Cetak</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
   <script>
     function cetakSpmk(id_usulan){
       document.getElementsByName("id_usulan")[0].value = id_usulan;
       $('#cetak-spmk').modal('show');
+    }
+    function cetakDupak(id_usulan){
+      document.getElementsByName("id_usulan")[0].value = id_usulan;
+      $('#cetak-dupak').modal('show');
     }
   </script>
 </div>
