@@ -1,4 +1,4 @@
-<?
+<?php
   session_start();
   require('../pengaturan/helper.php');
   cekIzinAksesHalaman(null, $alamat_web, true);

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start();
   require('../pengaturan/helper.php');
   if(isset($_SESSION['username'])){
