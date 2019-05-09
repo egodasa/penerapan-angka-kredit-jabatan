@@ -43,19 +43,6 @@ CREATE TABLE `tbl_jabatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `tbl_jabatan_pangkat`;
-CREATE TABLE `tbl_jabatan_pangkat` (
-  `id_jabatan_pangkat` int(11) NOT NULL AUTO_INCREMENT,
-  `id_jabatan` int(11) NOT NULL,
-  `id_pangkat` int(11) NOT NULL,
-  `nilai_kredit` float NOT NULL,
-  `peringkat` int(11) NOT NULL,
-  PRIMARY KEY (`id_jabatan_pangkat`),
-  KEY `id_jabatan` (`id_jabatan`),
-  KEY `id_pangkat` (`id_pangkat`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `tbl_jenis_berkas`;
 CREATE TABLE `tbl_jenis_berkas` (
   `id_berkas` int(11) NOT NULL AUTO_INCREMENT,
@@ -126,7 +113,7 @@ DROP TABLE IF EXISTS `tbl_posisi`;
 CREATE TABLE `tbl_posisi` (
   `id_posisi` int(11) NOT NULL AUTO_INCREMENT,
   `nm_posisi` varchar(255) NOT NULL,
-  `jenis_posisi` enum('Tenaga Kependidikan','Staff Kepegawaian','Tim Penilai') NOT NULL,
+  `jenis_posisi` varchar(100) NOT NULL,
   PRIMARY KEY (`id_posisi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -177,13 +164,13 @@ CREATE TABLE `tbl_usulan` (
   `masa_penilaian_akhir` date NOT NULL,
   `tgl_penyesuaian` date DEFAULT NULL,
   `tgl_pengesahan` date DEFAULT NULL,
-  `id_jabatan_pangkat_selanjutnya` int(11) NOT NULL,
-  `id_jabatan_pangkat_sekarang` int(11) NOT NULL,
+  `id_pangkat_selanjutnya` int(11) NOT NULL,
+  `id_pangkat_sekarang` int(11) NOT NULL,
   `masa_kerja_golongan_lama` varchar(100) NOT NULL,
   `masa_kerja_golongan_baru` varchar(100) NOT NULL,
   PRIMARY KEY (`id_usulan`),
-  KEY `id_jabatan_pangkat_selanjutnya` (`id_jabatan_pangkat_selanjutnya`),
-  KEY `id_jabatan_pangkat_sekarang` (`id_jabatan_pangkat_sekarang`)
+  KEY `id_jabatan_pangkat_selanjutnya` (`id_pangkat_selanjutnya`),
+  KEY `id_jabatan_pangkat_sekarang` (`id_pangkat_sekarang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -214,4 +201,4 @@ CREATE TABLE `tbl_usulan_unsur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-05-03 01:07:19
+-- 2019-05-07 09:48:56
