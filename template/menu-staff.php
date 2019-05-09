@@ -79,6 +79,11 @@
               <i class="fa fa-list-ol"></i> <span>Daftar Usulan</span>
             </a>
           </li>
+          <li>
+            <a href="<?=$alamat_web?>/evaluasi/tabel.php">
+              <i class="fa fa-list-ol"></i> <span>Evaluasi (tabel)</span>
+            </a>
+          </li>
         <?php
           else:
         ?>
