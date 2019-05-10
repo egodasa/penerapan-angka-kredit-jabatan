@@ -7,7 +7,14 @@
   $judul_halaman = "Evaluasi Pegawai";
   
   // Ambil dulu daftar posisi tenaga kependidikan
-  $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan']);
+  $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
+  $tgl_periode = [
+                    date((date('Y') - 1).'-10-01'),
+                    date((date('Y')).'-01-t'),
+                    date((date('Y')).'-04-01'),
+                    date((date('Y')).'-07-t')
+                ];
+  $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
 ?>
 <html>
 <head>
@@ -23,8 +30,9 @@
   <div class="content-wrapper" style="min-height: 901px;">
     <section class="content">
       <div class="box">
-        <div class="box-body">
+        <div class="box-body text-center">
           <h3>Data Usulan</h3>
+          <h3><?=$judul_periode?></h3>
           <?php 
             if(isset($_GET['tgl_mulai']) && isset($_GET['tgl_selesai']) && !empty($_GET['tgl_mulai']) && !empty($_GET['tgl_selesai']))
             {
@@ -34,6 +42,7 @@
               $sql_usulan .= " AND a.tgl_usulan >= :tgl_mulai AND a.tgl_usulan <= :tgl_selesai";
             } 
           ?>
+<!--
           <div class="row">
             <form method="GET">
               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -58,6 +67,7 @@
               document.getElementsByName("tgl_selesai")[0].value = "<?=isset($_GET['tgl_selesai']) ? $_GET['tgl_selesai'] : ""?>";
             </script>
           </div>
+-->
         </div>
       </div>
       <?php
@@ -80,20 +90,30 @@
               </tr>  
       <?php
           $prepared_statement = ['id_posisi' => $d['id_posisi']];
-          $sql_usulan = "SELECT a.nip,
-                                 b.nm_lengkap,
-                                 c.nm_unit_kerja,
-                                 b.jk,
-                                 a.tgl_usulan,
+          $sql_usulan = "SELECT a.id_usulan,
+                                 IFNULL(a.tgl_usulan, 'Belum Mengusulkan') AS tgl_usulan,
                                  a.keterangan,
-                                 d.nm_pangkat
-                          FROM   tbl_usulan a
-                                 JOIN tbl_pegawai b
-                                   ON a.nip = b.nip
-                                 JOIN tbl_unit_kerja c
-                                   ON b.id_unit_kerja = c.id_unit_kerja
-                                 JOIN tbl_pangkat d
-                                   ON b.id_pangkat = d.id_pangkat WHERE b.id_posisi = :id_posisi";
+                                 b.nip,
+                                 b.jk,
+                                 b.nm_lengkap,
+                                  c.nm_unit_kerja,
+                                  d.nm_pangkat
+                          FROM   tbl_pegawai b
+                                 LEFT JOIN (SELECT *
+                                            FROM   tbl_usulan
+                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01')))
+                                                                a
+                                        ON b.nip = a.nip 
+                          JOIN tbl_unit_kerja c ON b.id_unit_kerja = c.id_unit_kerja 
+                          JOIN tbl_pangkat d ON b.id_pangkat = d.id_pangkat WHERE b.id_posisi = :id_posisi ORDER BY b.nm_lengkap";
           if(isset($_GET['tgl_mulai']) && isset($_GET['tgl_selesai']) && !empty($_GET['tgl_mulai']) && !empty($_GET['tgl_selesai']))
           {
             $prepared_statement['tgl_mulai'] = $_GET['tgl_mulai'];
@@ -123,23 +143,6 @@
       <?php
         }
       ?>
-      <div class="box">
-        <div class="box-body table-responsive ">
-          <h4>Arsiparis</h4>
-          <table style="overflow-x: visible; overflow-y:visible;" class="table table-bordered">
-            <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>NIP</th>
-              <th>Jenis Kelamin</th>
-              <th>Pangkat</th>
-              <th>Unit Kerja</th>
-              <th>Pengajuan Usulan</th>
-              <th>Keterangan</th>
-            </tr>
-          </table>
-        </div>
-      </div>
     </section>
   </div>
   <script src="<?=$alamat_web?>/assets/js/moment.js"></script>
