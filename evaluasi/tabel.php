@@ -91,7 +91,7 @@
       <?php
           $prepared_statement = ['id_posisi' => $d['id_posisi']];
           $sql_usulan = "SELECT a.id_usulan,
-                                 IFNULL(a.tgl_usulan, 'Belum Mengusulkan') AS tgl_usulan,
+                                 a.tgl_usulan,
                                  a.keterangan,
                                  b.nip,
                                  b.jk,
@@ -131,7 +131,7 @@
           <td><?=$u['jk']?></td>
           <td><?=$u['nm_pangkat']?></td>
           <td><?=$u['nm_unit_kerja']?></td>
-          <td><?=tanggal_indo($u['tgl_usulan'])?></td>
+          <td><?=empty($u['tgl_usulan']) ? "Belum Mengusulkan" : tanggal_indo($u['tgl_usulan'])?></td>
           <td><?=$u['keterangan']?></td>
         </tr>
       <?php
