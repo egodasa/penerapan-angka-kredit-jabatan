@@ -14,7 +14,8 @@
                     date((date('Y')).'-04-01'),
                     date((date('Y')).'-07-t')
                 ];
-  $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
+  //~ $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
+  $judul_periode = "Periode April dan Oktober";
 ?>
 <html>
 <head>

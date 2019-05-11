@@ -13,9 +13,9 @@
             (SELECT SUM(IFNULL(aa.angka_kredit, 0)) FROM tbl_usulan_unsur aa WHERE aa.id_usulan = a.id_usulan) AS angka_kredit_diusulkan,
             (SELECT SUM(CASE WHEN aa.angka_kredit_baru = 0 THEN aa.angka_kredit ELSE aa.angka_kredit_baru END) FROM tbl_usulan_unsur aa WHERE aa.id_usulan = a.id_usulan AND aa.status = 'Diterima') AS angka_kredit_diterima
           FROM tbl_usulan a 
-          JOIN tbl_pegawai b ON a.nip = b.nip 
-          JOIN tbl_unit_kerja c ON b.id_unit_kerja = c.id_unit_kerja 
-          JOIN tbl_posisi d ON c.id_posisi = d.id_posisi WHERE 1";
+          LEFT JOIN tbl_pegawai b ON a.nip = b.nip 
+          LEFT JOIN tbl_unit_kerja c ON b.id_unit_kerja = c.id_unit_kerja 
+          LEFT JOIN tbl_posisi d ON c.id_posisi = d.id_posisi WHERE 1";
   $where = [];
   if($_SESSION['jenis_posisi'] == 'Tenaga Kependidikan')
   {

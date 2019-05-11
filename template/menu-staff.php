@@ -84,6 +84,11 @@
               <i class="fa fa-list-ol"></i> <span>Evaluasi (tabel)</span>
             </a>
           </li>
+          <li>
+            <a href="<?=$alamat_web?>/evaluasi/grafik.php">
+              <i class="fa fa-list-ol"></i> <span>Evaluasi (grafik)</span>
+            </a>
+          </li>
         <?php
           else:
         ?>
