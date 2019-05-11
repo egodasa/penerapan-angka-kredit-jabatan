@@ -1,5 +1,7 @@
 <?php
   session_start();
+  use \Colors\RandomColor;
+  require("../randomColor.php");
   require("../vendor/autoload.php");
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
@@ -25,41 +27,15 @@
   <link rel="stylesheet" type="text/css" href="<?=$alamat_web?>/assets/css/pikaday.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
 </head>
-<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
+<body class="skin-blue sidebar-mini sidebar-collapse" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
   <?php include "../template/menu.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
     <section class="content">
       <div class="box">
         <div class="box-body text-center">
-          <h3>Data Usulan</h3>
+          <h3>Grafik Data Usulan</h3>
           <h3><?=$judul_periode?></h3>
-<!--
-          <div class="row">
-            <form method="GET">
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                <div class="form-group">
-                  <label for="tgl_mulai" class="form-label">Tanggal Mulai</label>
-                  <input type="text" class="form-control" name="tgl_mulai" />
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                <div class="input-group input-group-sm">
-                  <label for="tgl_selesai" class="form-label">Tanggal Selesai</label>
-                  <input type="text" class="form-control" name="tgl_selesai" />
-                  <span class="input-group-btn">
-                    <button style="margin-top: 25px;" type="submit" class="btn btn-info btn-flat">Lihat
-                      Hasil</button>
-                  </span>
-                </div>
-              </div>
-            </form>
-            <script>
-              document.getElementsByName("tgl_mulai")[0].value = "<?=isset($_GET['tgl_mulai']) ? $_GET['tgl_mulai'] : ""?>";
-              document.getElementsByName("tgl_selesai")[0].value = "<?=isset($_GET['tgl_selesai']) ? $_GET['tgl_selesai'] : ""?>";
-            </script>
-          </div>
--->
         </div>
       </div>
       <?php
@@ -68,12 +44,12 @@
       ?>
         <div class="box">
           <div class="box-body table-responsive ">
-            <h4><?=$d['nm_posisi']?></h4>
+            <h2><?=$d['nm_posisi']?></h2>
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-md-6 col-xs-12">
                 <canvas id="pie-chart-<?=$nomor?>" style="width: 100%;"></canvas>
               </div>
-              <div class="col-xs-12">
+              <div class="col-md-6 col-xs-12">
                 <canvas id="pie-chart-2-<?=$nomor?>" style="width: 100%;"></canvas>
               </div>
             </div>
@@ -104,18 +80,32 @@
                                 JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
                                 JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
                                 JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
+                                LEFT JOIN ((SELECT * FROM   tbl_usulan
+                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01')))) k 
+                                                                               ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
                                  GROUP BY c.nm_sub_unsur ORDER BY d.nm_unsur DESC";
               $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
-              $colors = [];
+              $colors = RandomColor::many(count($data_unsur), array(
+                 'hue' => 'blue',
+                 'luminosity' => 'bright',
+              ));
               $data = [];
               $judul_unsur = [];
               $judul_sub_unsur = [];
+              
               foreach($data_unsur as $i => $dd)
               {
                 $labels[] = $i + 1;
-                $colors[] = "#3e95cd";
                 $data[] = $dd['banyak_butir'];
                 $judul_unsur[] = $dd['nm_unsur'];
                 $judul_sub_unsur[] = $dd['nm_sub_unsur'];
@@ -151,10 +141,10 @@
                   return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
                 }
               },
-              backgroundColor: '#FFF',
+              backgroundColor: '#1EA5FF',
               titleFontSize: 16,
-              titleFontColor: '#0066ff',
-              bodyFontColor: '#000',
+              titleFontColor: '#FFF',
+              bodyFontColor: '#FFF',
               bodyFontSize: 14,
               displayColors: false
             }
@@ -173,18 +163,31 @@
                                 JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
                                 JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
                                 JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
+                                LEFT JOIN ((SELECT * FROM tbl_usulan
+                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01')))) k 
+                                                                               ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
                                  GROUP BY a.butir_kegiatan ORDER BY c.nm_sub_unsur DESC";
               $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
-              $colors = [];
+              $colors = RandomColor::many(count($data_unsur), array(
+                 'hue' => 'red',
+                 'luminosity' => 'light',
+              ));
               $data = [];
               $judul_sub_unsur = [];
               $judul_butir = [];
               foreach($data_unsur as $i => $dd)
               {
                 $labels[] = $i + 1;
-                $colors[] = "#3e95cd";
                 $data[] = $dd['banyak_butir'];
                 $judul_butir[] = $dd['nm_unsur'];
                 $judul_sub_unsur[] = $dd['nm_sub_unsur'];
@@ -207,10 +210,10 @@
             tooltips: {
               callbacks: {
                 title: function(tooltipItem, data) {
-                  return "Sub Unsur : " + data.datasets[0]['sub_unsur'][tooltipItem[0]['index']];
+                  return "Sub Unsur : " + data.datasets[0]['judul_sub_unsur'][tooltipItem[0]['index']];
                 },
                 label: function(tooltipItem, data) {
-                  return "Kegiatan : " + data.datasets[0]['butir_kegiatan'][tooltipItem.index];
+                  return "Kegiatan : " + data.datasets[0]['judul_butir'][tooltipItem.index];
                 },
                 afterLabel: function(tooltipItem, data) {
                   var dataset = data['datasets'][0];
@@ -219,10 +222,10 @@
                   return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
                 }
               },
-              backgroundColor: '#FFF',
+              backgroundColor: '#FF1E91',
               titleFontSize: 16,
-              titleFontColor: '#0066ff',
-              bodyFontColor: '#000',
+              titleFontColor: '#FFF',
+              bodyFontColor: '#FFF',
               bodyFontSize: 14,
               displayColors: false
             }
