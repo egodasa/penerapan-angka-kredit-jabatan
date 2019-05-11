@@ -96,47 +96,135 @@
           type: 'pie',
           data: {
             <?php 
-              $sql_unsur = "SELECT c.nm_sub_unsur,
-                              a.butir_kegiatan, 
-                              a.id_sub_unsur, 
-                              COUNT(b.id_butir) AS banyak_butir 
-                              FROM tbl_butir_kegiatan a 
-                              LEFT JOIN tbl_usulan_unsur b ON a.id_butir = b.id_butir
-                              JOIN tbl_sub_unsur c ON a.id_sub_unsur = c.id_sub_unsur 
-                              JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
-                              JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
-                              JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
-                              WHERE f.id_posisi = 2 
-                               GROUP BY a.id_butir ORDER BY COUNT(b.id_butir) DESC";
+              $sql_unsur = "SELECT d.nm_unsur, c.nm_sub_unsur,
+                                COUNT(b.id_butir) AS banyak_butir 
+                                FROM tbl_butir_kegiatan a 
+                                LEFT JOIN tbl_usulan_unsur b ON a.id_butir = b.id_butir
+                                JOIN tbl_sub_unsur c ON a.id_sub_unsur = c.id_sub_unsur 
+                                JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
+                                JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
+                                JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
+                                WHERE f.id_posisi = :id_posisi 
+                                 GROUP BY c.nm_sub_unsur ORDER BY d.nm_unsur DESC";
+              $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
+              $labels = [];
+              $colors = [];
+              $data = [];
+              $judul_unsur = [];
+              $judul_sub_unsur = [];
+              foreach($data_unsur as $i => $dd)
+              {
+                $labels[] = $i + 1;
+                $colors[] = "#3e95cd";
+                $data[] = $dd['banyak_butir'];
+                $judul_unsur[] = $dd['nm_unsur'];
+                $judul_sub_unsur[] = $dd['nm_sub_unsur'];
+              }
             ?>
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+            labels: [],
             datasets: [{
-              label: "Population (millions)",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
+              label: "Banyak",
+              backgroundColor: <?=json_encode($colors)?>,
+              data: <?=json_encode($data)?>,
+              judul_unsur: <?=json_encode($judul_unsur)?>,
+              judul_sub_unsur: <?=json_encode($judul_sub_unsur)?>
             }]
           },
           options: {
             title: {
               display: true,
-              text: 'Data Unsur Dan Sub Unsur'
+              text: 'Grafik Unsur Dan Sub Unsur',
+            },
+            tooltips: {
+              callbacks: {
+                title: function(tooltipItem, data) {
+                  
+                  return "Unsur : " + data.datasets[0]['judul_unsur'][tooltipItem[0]['index']];
+                },
+                label: function(tooltipItem, data) {
+                  return "Sub Unsur : " + data.datasets[0]['judul_sub_unsur'][tooltipItem.index];
+                },
+                afterLabel: function(tooltipItem, data) {
+                  var dataset = data['datasets'][0];
+                  var keys = Object.keys(dataset["_meta"]);
+                  var percent = Math.round((dataset['data'][tooltipItem['index']] / dataset["_meta"][keys[0]]['total']) * 100)
+                  return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
+                }
+              },
+              backgroundColor: '#FFF',
+              titleFontSize: 16,
+              titleFontColor: '#0066ff',
+              bodyFontColor: '#000',
+              bodyFontSize: 14,
+              displayColors: false
             }
           }
       });
       new Chart(document.getElementById("pie-chart-2-<?=$nomor?>"), {
           type: 'pie',
           data: {
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+            <?php 
+              $sql_unsur = "SELECT d.nm_unsur, c.nm_sub_unsur,
+                                COUNT(b.id_butir) AS banyak_butir,
+                                a.butir_kegiatan 
+                                FROM tbl_butir_kegiatan a 
+                                LEFT JOIN tbl_usulan_unsur b ON a.id_butir = b.id_butir
+                                JOIN tbl_sub_unsur c ON a.id_sub_unsur = c.id_sub_unsur 
+                                JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
+                                JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
+                                JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
+                                WHERE f.id_posisi = :id_posisi 
+                                 GROUP BY a.butir_kegiatan ORDER BY c.nm_sub_unsur DESC";
+              $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
+              $labels = [];
+              $colors = [];
+              $data = [];
+              $judul_sub_unsur = [];
+              $judul_butir = [];
+              foreach($data_unsur as $i => $dd)
+              {
+                $labels[] = $i + 1;
+                $colors[] = "#3e95cd";
+                $data[] = $dd['banyak_butir'];
+                $judul_butir[] = $dd['nm_unsur'];
+                $judul_sub_unsur[] = $dd['nm_sub_unsur'];
+              }
+            ?>
+            labels: [],
             datasets: [{
-              label: "Population (millions)",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: [2478,5267,734,784,433]
+              label: "Banyak",
+              backgroundColor: <?=json_encode($colors)?>,
+              data: <?=json_encode($data)?>,
+              judul_butir: <?=json_encode($judul_butir)?>,
+              judul_sub_unsur: <?=json_encode($judul_sub_unsur)?>
             }]
           },
           options: {
             title: {
               display: true,
-              text: 'Data Sub Unsur Dan Butir Kegiatan'
+              text: 'Grafik Sub Unsur dan Butir Kegiatan',
+            },
+            tooltips: {
+              callbacks: {
+                title: function(tooltipItem, data) {
+                  return "Sub Unsur : " + data.datasets[0]['sub_unsur'][tooltipItem[0]['index']];
+                },
+                label: function(tooltipItem, data) {
+                  return "Kegiatan : " + data.datasets[0]['butir_kegiatan'][tooltipItem.index];
+                },
+                afterLabel: function(tooltipItem, data) {
+                  var dataset = data['datasets'][0];
+                  var keys = Object.keys(dataset["_meta"]);
+                  var percent = Math.round((dataset['data'][tooltipItem['index']] / dataset["_meta"][keys[0]]['total']) * 100)
+                  return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
+                }
+              },
+              backgroundColor: '#FFF',
+              titleFontSize: 16,
+              titleFontColor: '#0066ff',
+              bodyFontColor: '#000',
+              bodyFontSize: 14,
+              displayColors: false
             }
           }
       });
