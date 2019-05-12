@@ -227,7 +227,8 @@
                   var dataset = data['datasets'][0];
                   var keys = Object.keys(dataset["_meta"]);
                   var percent = Math.round((dataset['data'][tooltipItem['index']] / dataset["_meta"][keys[0]]['total']) * 100)
-                  return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
+                  return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index];
+                  //~ return 'Total : ' + data['datasets'][0]['data'][tooltipItem.index] + '/' + dataset["_meta"][keys[0]]['total'] + ' (' + percent + '%)';
                 }
               },
               backgroundColor: '#FF1E91',
