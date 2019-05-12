@@ -17,6 +17,7 @@
                 ];
   //~ $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
   $judul_periode = "Periode April dan Oktober";
+  $judul_halaman = "Evaluasi Pegawai";
 ?>
 <html>
 <head>
