@@ -6,8 +6,7 @@
   require("../pengaturan/medoo.php");
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
-  $judul_halaman = "Evaluasi Pegawai";
-  
+
   // Ambil dulu daftar posisi tenaga kependidikan
   $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
   $tgl_periode = [
@@ -43,13 +42,13 @@
         {
       ?>
         <div class="box">
-          <div class="box-body table-responsive ">
+          <div class="box-body" style="width: 100%;overflow-x: scroll;white-space: nowrap;">
             <h2><?=$d['nm_posisi']?></h2>
             <div class="row">
-              <div class="col-md-6 col-xs-12">
+              <div class="col-xs-12">
                 <canvas id="pie-chart-<?=$nomor?>" style="width: 100%;"></canvas>
               </div>
-              <div class="col-md-6 col-xs-12">
+              <div class="col-xs-12">
                 <canvas id="pie-chart-2-<?=$nomor?>" style="width: 100%;"></canvas>
               </div>
             </div>
@@ -92,26 +91,24 @@
                                                                               '08-01')))) k 
                                                                                ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
-                                 GROUP BY c.nm_sub_unsur ORDER BY d.nm_unsur DESC";
+                                 GROUP BY d.nm_unsur ORDER BY COUNT(b.id_butir) DESC";
               $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
-              $colors = RandomColor::many(count($data_unsur), array(
-                 'hue' => 'blue',
-                 'luminosity' => 'bright',
-              ));
               $data = [];
               $judul_unsur = [];
               $judul_sub_unsur = [];
+              $colors = [];
               
               foreach($data_unsur as $i => $dd)
               {
-                $labels[] = $i + 1;
+                $colors[] = warnaAcak($colors);
+                $labels[] = $dd['nm_unsur'];
                 $data[] = $dd['banyak_butir'];
                 $judul_unsur[] = $dd['nm_unsur'];
                 $judul_sub_unsur[] = $dd['nm_sub_unsur'];
               }
             ?>
-            labels: [],
+            labels: <?=json_encode($labels)?>,
             datasets: [{
               label: "Banyak",
               backgroundColor: <?=json_encode($colors)?>,
@@ -123,16 +120,19 @@
           options: {
             title: {
               display: true,
-              text: 'Grafik Unsur Dan Sub Unsur',
+              text: 'Grafik Unsur',
+            },
+            legend: {
+              position: 'left'
             },
             tooltips: {
               callbacks: {
                 title: function(tooltipItem, data) {
-                  
                   return "Unsur : " + data.datasets[0]['judul_unsur'][tooltipItem[0]['index']];
                 },
                 label: function(tooltipItem, data) {
-                  return "Sub Unsur : " + data.datasets[0]['judul_sub_unsur'][tooltipItem.index];
+                  //~ return "Sub Unsur : " + data.datasets[0]['judul_sub_unsur'][tooltipItem.index];
+                  return null;
                 },
                 afterLabel: function(tooltipItem, data) {
                   var dataset = data['datasets'][0];
@@ -150,8 +150,9 @@
             }
           }
       });
+      
       new Chart(document.getElementById("pie-chart-2-<?=$nomor?>"), {
-          type: 'pie',
+          type: 'horizontalBar',
           data: {
             <?php 
               $sql_unsur = "SELECT d.nm_unsur, c.nm_sub_unsur,
@@ -175,27 +176,29 @@
                                                                               '08-01')))) k 
                                                                                ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
-                                 GROUP BY a.butir_kegiatan ORDER BY c.nm_sub_unsur DESC";
+                                 GROUP BY c.nm_sub_unsur ORDER BY COUNT(b.id_butir) DESC";
               $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
-              $colors = RandomColor::many(count($data_unsur), array(
-                 'hue' => 'red',
-                 'luminosity' => 'light',
-              ));
               $data = [];
               $judul_sub_unsur = [];
               $judul_butir = [];
+              $colors = [];
               foreach($data_unsur as $i => $dd)
               {
-                $labels[] = $i + 1;
+                $colors[] = warnaAcak($colors);
+                $labels[] = $dd['nm_sub_unsur'];
                 $data[] = $dd['banyak_butir'];
                 $judul_butir[] = $dd['nm_unsur'];
                 $judul_sub_unsur[] = $dd['nm_sub_unsur'];
               }
+              if(!empty($data))
+              {
+                $data[] = $data[0] + 3;
+              }
             ?>
-            labels: [],
+            labels: <?=json_encode($labels)?>,
             datasets: [{
-              label: "Banyak",
+              label: [],
               backgroundColor: <?=json_encode($colors)?>,
               data: <?=json_encode($data)?>,
               judul_butir: <?=json_encode($judul_butir)?>,
@@ -205,7 +208,11 @@
           options: {
             title: {
               display: true,
-              text: 'Grafik Sub Unsur dan Butir Kegiatan',
+              text: 'Grafik Sub Unsur',
+            },
+            legend: {
+              display: false,
+              position: 'right'
             },
             tooltips: {
               callbacks: {
@@ -213,7 +220,7 @@
                   return "Sub Unsur : " + data.datasets[0]['judul_sub_unsur'][tooltipItem[0]['index']];
                 },
                 label: function(tooltipItem, data) {
-                  return "Kegiatan : " + data.datasets[0]['judul_butir'][tooltipItem.index];
+                  return null;
                 },
                 afterLabel: function(tooltipItem, data) {
                   var dataset = data['datasets'][0];

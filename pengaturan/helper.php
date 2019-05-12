@@ -143,4 +143,40 @@ function angkaHuruf($angka){
        "Z"];
    return $huruf[$angka];
 }
+/*
+ * 
+ * name: warnaAcak
+ * @param
+ * $acuan_acak : jika array dimasukan kesini, maka warna yang dihasilkan akan unik dengan $acuan_acak
+ * @return string warna
+ * 
+ */
+
+function warnaAcak($acuan_acak = [])
+{
+  $warna = [
+    '#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC',
+    '#0099C6','#DD4477','#FF8C00','#00FF7F','#0000CD','#ADFF2F',
+    '#9ACD32','#9932CC','#F4A460','#008B8B','#B22222','#F0E68C',
+    '#FFDEAD','#BDB76B','#7FFF00','#FF4500','#FF0000','#00FF00',
+    '#0000FF','#FF1493','#1E90FF','#9400D3','#DAA520','#5574A6',
+    '#66AA00','#3B3EAC','#B82E2E','#708090','#316395','#FFF8DC',
+    '#994499','#00FFFF','#22AA99','#FF00FF','#AAAA11','#FFFF00',
+    '#6633CC','#FFD700','#E67300','#00BFFF','#8B0707','#FFA500',
+    '#329262','#483D8B','#5F9EA0','#AFEEEE','#708090','#E0FFFF'
+  ];
+  if(count($acuan_acak) == 0)
+  {
+    return $warna[mt_rand(0, count($warna)-1)];
+  }
+  else
+  {
+    $warna_tmp = warnaAcak();
+    while(in_array($warna_tmp, $acuan_acak))
+    {
+      $warna_tmp = warnaAcak();
+    }
+    return $warna_tmp;
+  }
+}
 ?>
