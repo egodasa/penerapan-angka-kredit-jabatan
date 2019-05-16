@@ -14,8 +14,54 @@
                     date((date('Y')).'-04-01'),
                     date((date('Y')).'-07-t')
                 ];
-  //~ $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
-  $judul_periode = "Periode April dan Oktober";
+  $sql_periode = "";
+  $prepared_statement = [];
+  if(isset($_GET['periode']))
+  {
+    if($_GET['periode'] == "0")
+    {
+      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))";
+      $judul_periode = "Periode Oktober - Januari dan April - Juli";
+    }
+    elseif($_GET['periode'] == "1")
+    {
+      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    ";
+      $judul_periode = "Periode Oktober - Januari";
+    }
+    elseif($_GET['periode'] == "2")
+    {
+      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))"; 
+      $judul_periode = "Periode April - Juli";
+    }
+  }
+  else
+  {
+    $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))";
+  }
 ?>
 <html>
 <head>
@@ -31,6 +77,23 @@
   <div class="content-wrapper" style="min-height: 901px;">
     <section class="content">
       <div class="box">
+        <div class="box-body">
+          <form>
+          <div class="form-group">
+            <label>Pilih Periode :</label>
+            <select name="periode" class="form-control">
+              <option value="0">Semua Periode</option>
+              <option value="1">Oktober - Januari</option>
+              <option value="2">April - Juli</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-flat btn-primary">Tampilkan</button>
+          </div>
+          </form>
+        </div>
+      </div>
+      <div class="box">
         <div class="box-body text-center">
           <h3>Data Usulan</h3>
           <h3><?=$judul_periode?></h3>
@@ -38,9 +101,8 @@
             if(isset($_GET['tgl_mulai']) && isset($_GET['tgl_selesai']) && !empty($_GET['tgl_mulai']) && !empty($_GET['tgl_selesai']))
             {
               echo "<h4>Periode ".tanggal_indo($_GET['tgl_mulai'])." - ".tanggal_indo($_GET['tgl_selesai'])."</h4>";
-              $prepared_statement['tgl_mulai'] = $_GET['tgl_mulai'];
-              $prepared_statement['tgl_selesai'] = $_GET['tgl_selesai'];
-              $sql_usulan .= " AND a.tgl_usulan >= :tgl_mulai AND a.tgl_usulan <= :tgl_selesai";
+              
+
             } 
           ?>
 <!--
@@ -90,7 +152,7 @@
                 <th>Keterangan</th>
               </tr>  
       <?php
-          $prepared_statement = ['id_posisi' => $d['id_posisi']];
+          $prepared_statement['id_posisi'] = $d['id_posisi'];
           $sql_usulan = "SELECT a.id_usulan,
                                  a.tgl_usulan,
                                  a.keterangan,
@@ -102,15 +164,7 @@
                           FROM   tbl_pegawai b
                                  LEFT JOIN (SELECT *
                                             FROM   tbl_usulan
-                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01')))
+                                            $sql_periode)
                                                                 a
                                         ON b.nip = a.nip 
                           JOIN tbl_unit_kerja c ON b.id_unit_kerja = c.id_unit_kerja 
