@@ -8,59 +8,29 @@
   
   // Ambil dulu daftar posisi tenaga kependidikan
   $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
-  $tgl_periode = [
-                    date((date('Y') - 1).'-10-01'),
-                    date((date('Y')).'-01-t'),
-                    date((date('Y')).'-04-01'),
-                    date((date('Y')).'-07-t')
-                ];
-  $judul_periode = "Periode Oktober - Januari dan April - Juli";;
+  $judul_periode = "Seluruh Periode";
   $sql_periode = "";
   $prepared_statement = [];
   if(isset($_GET['periode']))
   {
     if($_GET['periode'] == "0")
     {
-      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))";
+      $sql_periode = "";
     }
     elseif($_GET['periode'] == "1")
     {
-      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    ";
-      $judul_periode = "Periode Oktober - Januari";
+      $sql_periode = " AND MONTH(tgl_usulan) BETWEEN 1 AND 6";
+      $judul_periode = "Periode Januari - Juni";
     }
     elseif($_GET['periode'] == "2")
     {
-      $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))"; 
-      $judul_periode = "Periode April - Juli";
+      $sql_periode = " AND MONTH(tgl_usulan) BETWEEN 7 AND 12"; 
+      $judul_periode = "Periode Juli - Desember";
     }
   }
   else
   {
-    $sql_periode = " WHERE tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))";
+    $sql_periode = "";
   }
 ?>
 <html>
@@ -83,8 +53,8 @@
             <label>Pilih Periode :</label>
             <select name="periode" class="form-control">
               <option value="0">Semua Periode</option>
-              <option value="1">Oktober - Januari</option>
-              <option value="2">April - Juli</option>
+              <option value="1">Januari - Juni</option>
+              <option value="2">Juli - Desember</option>
             </select>
           </div>
           <div class="form-group">
@@ -163,7 +133,7 @@
                                   d.nm_pangkat
                           FROM   tbl_pegawai b
                                  LEFT JOIN (SELECT *
-                                            FROM   tbl_usulan
+                                            FROM   tbl_usulan WHERE 1 
                                             $sql_periode)
                                                                 a
                                         ON b.nip = a.nip 

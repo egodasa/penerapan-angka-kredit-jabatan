@@ -7,14 +7,6 @@
   require("../pengaturan/helper.php");
   // cekIzinAksesHalaman(array('Kasir'), $alamat_web);
 
-  // Ambil dulu daftar posisi tenaga kependidikan
-  $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
-  $tgl_periode = [
-                    date((date('Y') - 1).'-10-01'),
-                    date((date('Y')).'-01-t'),
-                    date((date('Y')).'-04-01'),
-                    date((date('Y')).'-07-t')
-                ];
   //  MONTH(a.tgl_usulan) BETWEEN 1 AND 6 OR MONTH(a.tgl_usulan) BETWEEN 7 AND 12
   $judul_periode = "Seluruh Periode";
   $sql_periode = "";
@@ -53,11 +45,18 @@
       $sql_pegawai = " AND a.nip = :nip";
       $prepared_statement['nip'] = $_GET['nip'];
       $judul_periode .= " <br> ".$detail_pegawai['nm_lengkap'];
+      $posisi = $db->select("tbl_posisi", "*", ['id_posisi' => $detail_pegawai['id_posisi'], 'ORDER' => ['nm_posisi' => "ASC"]]);
+    }
+    else
+    {
+      $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
     }
   }
+  else
+  {
+    $posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan', 'ORDER' => ['nm_posisi' => "ASC"]]);
+  }
   
-  
-  //~ $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
   
   $judul_halaman = "Evaluasi Pegawai";
   
@@ -109,7 +108,7 @@
       </div>
       <div class="box">
         <div class="box-body text-center">
-          <h3>Grafik Data Usulan</h3>
+          <h3>Penilaian Kerja</h3>
           <h3><?=$judul_periode?></h3>
         </div>
       </div>
