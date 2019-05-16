@@ -15,54 +15,31 @@
                     date((date('Y')).'-04-01'),
                     date((date('Y')).'-07-t')
                 ];
-  $judul_periode = "Periode Oktober - Januari dan April - Juli";
+  //  MONTH(a.tgl_usulan) BETWEEN 1 AND 6 OR MONTH(a.tgl_usulan) BETWEEN 7 AND 12
+  $judul_periode = "Seluruh Periode";
   $sql_periode = "";
   $prepared_statement = [];
   if(isset($_GET['periode']))
   {
     if($_GET['periode'] == "0")
     {
-      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))";
-      $judul_periode = "Periode Oktober - Januari dan April - Juli";
+      $sql_periode = "";
+      $judul_periode = "Seluruh Periode";
     }
     elseif($_GET['periode'] == "1")
     {
-      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    ";
-      $judul_periode = "Periode Oktober - Januari";
+      $sql_periode = " AND MONTH(a.tgl_usulan) BETWEEN 1 AND 6";
+      $judul_periode = "Periode Januari - Juni";
     }
     elseif($_GET['periode'] == "2")
     {
-      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))"; 
-      $judul_periode = "Periode April - Juli";
+      $sql_periode = " MONTH(a.tgl_usulan) BETWEEN 7 AND 12"; 
+      $judul_periode = "Periode Juli - Desember";
     }
   }
   else
   {
-    $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01'))";
+    $sql_periode = "";
   }
   
   $sql_pegawai = "";
@@ -73,7 +50,7 @@
     if($_GET['nip'] != "0")
     {
       $detail_pegawai = $db->get("tbl_pegawai", "*", ["nip" => $_GET['nip']]);
-      $sql_pegawai = " AND nip = :nip";
+      $sql_pegawai = " AND a.nip = :nip";
       $prepared_statement['nip'] = $_GET['nip'];
       $judul_periode .= " <br> ".$detail_pegawai['nm_lengkap'];
     }
@@ -120,8 +97,8 @@
               <label>Pilih Periode</label>
               <select name="periode" class="form-control">
                 <option value="0">Semua Periode</option>
-                <option value="1">Oktober - Januari</option>
-                <option value="2">April - Juli</option>
+                <option value="1">Januari - Juni</option>
+                <option value="2">Juli - Oktober</option>
               </select>
             </div>
             <div class="form-group">
@@ -170,19 +147,32 @@
           type: 'pie',
           data: {
             <?php 
-              $sql_unsur = "SELECT d.nm_unsur, c.nm_sub_unsur,
-                                COUNT(b.id_butir) AS banyak_butir 
-                                FROM tbl_butir_kegiatan a 
-                                LEFT JOIN tbl_usulan_unsur b ON a.id_butir = b.id_butir
-                                JOIN tbl_sub_unsur c ON a.id_sub_unsur = c.id_sub_unsur 
-                                JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
-                                JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
-                                JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
-                                LEFT JOIN ((SELECT * FROM tbl_usulan
-                                            WHERE 1 $sql_periode $sql_pegawai)) k 
-                                                                               ON b.id_usulan = k.id_usulan 
-                                WHERE f.id_posisi = :id_posisi 
-                                 GROUP BY d.nm_unsur ORDER BY COUNT(b.id_butir) DESC";
+              $sql_unsur = "SELECT Count(bb.id_butir) AS banyak_butir,
+                                       bb.*,
+                                       aa.butir_kegiatan,
+                                       cc.id_sub_unsur,
+                                       cc.nm_sub_unsur,
+                                       dd.id_unsur,
+                                       dd.nm_unsur,
+                                       ee.id_jabatan
+                                FROM   tbl_butir_kegiatan aa
+                                       LEFT JOIN (SELECT a.tgl_usulan,
+                                                         a.nip,
+                                                         b.id_butir
+                                                  FROM   tbl_usulan_unsur b
+                                                         LEFT JOIN tbl_usulan a
+                                                                ON b.id_usulan = a.id_usulan
+                                                  WHERE 1 $sql_pegawai $sql_periode) bb
+                                              ON aa.id_butir = bb.id_butir
+                                       LEFT JOIN tbl_sub_unsur cc
+                                              ON aa.id_sub_unsur = cc.id_sub_unsur
+                                       LEFT JOIN tbl_unsur dd
+                                              ON cc.id_unsur = dd.id_unsur
+                                       LEFT JOIN tbl_jabatan ee
+                                              ON dd.id_jabatan = ee.id_jabatan
+                                       LEFT JOIN tbl_posisi ff
+                                              ON ee.id_posisi = ff.id_posisi WHERE ff.id_posisi = :id_posisi
+                                GROUP  BY dd.id_unsur";
               $prepared_statement['id_posisi'] = $d['id_posisi'];
               $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
@@ -247,20 +237,31 @@
           type: 'horizontalBar',
           data: {
             <?php 
-              $sql_unsur = "SELECT d.nm_unsur, c.nm_sub_unsur,
-                                COUNT(b.id_butir) AS banyak_butir,
-                                a.butir_kegiatan 
-                                FROM tbl_butir_kegiatan a 
-                                LEFT JOIN tbl_usulan_unsur b ON a.id_butir = b.id_butir
-                                JOIN tbl_sub_unsur c ON a.id_sub_unsur = c.id_sub_unsur 
-                                JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
-                                JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
-                                JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
-                                LEFT JOIN ((SELECT * FROM tbl_usulan
-                                            WHERE 1 $sql_periode $sql_pegawai)) k 
-                                                                               ON b.id_usulan = k.id_usulan 
-                                WHERE f.id_posisi = :id_posisi 
-                                 GROUP BY c.nm_sub_unsur ORDER BY COUNT(b.id_butir) DESC";
+              $sql_unsur = "SELECT Count(bb.id_butir) AS banyak_butir,
+                                 bb.*,
+                                 aa.butir_kegiatan,
+                                 cc.id_sub_unsur,
+                                 cc.nm_sub_unsur,
+                                 dd.nm_unsur,
+                                 ee.id_jabatan
+                          FROM   tbl_butir_kegiatan aa
+                                 LEFT JOIN (SELECT a.tgl_usulan,
+                                                   a.nip,
+                                                   b.id_butir
+                                            FROM   tbl_usulan_unsur b
+                                                   LEFT JOIN tbl_usulan a
+                                                          ON b.id_usulan = a.id_usulan 
+                                            WHERE 1 $sql_pegawai $sql_periode) bb
+                                        ON aa.id_butir = bb.id_butir
+                                 LEFT JOIN tbl_sub_unsur cc
+                                        ON aa.id_sub_unsur = cc.id_sub_unsur
+                                 LEFT JOIN tbl_unsur dd
+                                        ON cc.id_unsur = dd.id_unsur
+                                 LEFT JOIN tbl_jabatan ee
+                                        ON dd.id_jabatan = ee.id_jabatan
+                                 LEFT JOIN tbl_posisi ff
+                                        ON ee.id_posisi = ff.id_posisi WHERE ff.id_posisi = :id_posisi
+                          GROUP  BY cc.id_sub_unsur";
               $prepared_statement['id_posisi'] = $d['id_posisi'];
               $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
@@ -275,7 +276,9 @@
                 $data[] = $dd['banyak_butir'];
                 $judul_butir[] = $dd['nm_unsur'];
                 $judul_sub_unsur[] = $dd['nm_sub_unsur'];
+                
               }
+              
               if(!empty($data))
               {
                 $data[] = $data[0] + 3;
