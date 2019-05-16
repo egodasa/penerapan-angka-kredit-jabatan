@@ -15,9 +15,76 @@
                     date((date('Y')).'-04-01'),
                     date((date('Y')).'-07-t')
                 ];
+  $judul_periode = "Periode Oktober - Januari dan April - Juli";
+  $sql_periode = "";
+  $prepared_statement = [];
+  if(isset($_GET['periode']))
+  {
+    if($_GET['periode'] == "0")
+    {
+      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))";
+      $judul_periode = "Periode Oktober - Januari dan April - Juli";
+    }
+    elseif($_GET['periode'] == "1")
+    {
+      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    ";
+      $judul_periode = "Periode Oktober - Januari";
+    }
+    elseif($_GET['periode'] == "2")
+    {
+      $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))"; 
+      $judul_periode = "Periode April - Juli";
+    }
+  }
+  else
+  {
+    $sql_periode = " AND tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
+                                                                           '10-01'))
+                                                                      AND Date(
+                                                   Concat(Year(Now()), '-', '02-01'))
+                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
+                                                                               '04-01'))
+                                                                          AND Date(
+                                                                              Concat(Year(Now()), '-',
+                                                                              '08-01'))";
+  }
+  
+  $sql_pegawai = "";
+  $detail_pegawai = new stdClass;
+  
+  if(isset($_GET['nip']))
+  {
+    if($_GET['nip'] != "0")
+    {
+      $detail_pegawai = $db->get("tbl_pegawai", "*", ["nip" => $_GET['nip']]);
+      $sql_pegawai = " AND nip = :nip";
+      $prepared_statement['nip'] = $_GET['nip'];
+      $judul_periode .= " <br> ".$detail_pegawai['nm_lengkap'];
+    }
+  }
+  
+  
   //~ $judul_periode = "Periode ".tanggal_indo($tgl_periode[0])." - ".tanggal_indo($tgl_periode[1])." dan ".tanggal_indo($tgl_periode[2])." - ".tanggal_indo($tgl_periode[3]);
-  $judul_periode = "Periode April dan Oktober";
+  
   $judul_halaman = "Evaluasi Pegawai";
+  
+  $pegawai = $db->select("tbl_pegawai", "*");
 ?>
 <html>
 <head>
@@ -32,6 +99,37 @@
   <?php include "../template/menu.php"; ?>
   <div class="content-wrapper" style="min-height: 901px;">
     <section class="content">
+      <div class="box">
+        <div class="box-body">
+          <form>
+            <div class="form-group">
+              <label>Pilih Pegawai</label>
+              <select name="nip" class="form-control">
+                <option value="0">Semua Pegawai</option>
+                <?php
+                  foreach($pegawai as $d)
+                  {
+                ?>
+                  <option value="<?=$d['nip']?>"><?=$d['nm_lengkap']?></option>
+                <?php
+                  }
+                ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Pilih Periode</label>
+              <select name="periode" class="form-control">
+                <option value="0">Semua Periode</option>
+                <option value="1">Oktober - Januari</option>
+                <option value="2">April - Juli</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn bt-flat btn-primary">Tampilkan</button>
+            </div>
+          </form>
+        </div>
+      </div>
       <div class="box">
         <div class="box-body text-center">
           <h3>Grafik Data Usulan</h3>
@@ -80,20 +178,13 @@
                                 JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
                                 JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
                                 JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
-                                LEFT JOIN ((SELECT * FROM   tbl_usulan
-                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01')))) k 
+                                LEFT JOIN ((SELECT * FROM tbl_usulan
+                                            WHERE 1 $sql_periode $sql_pegawai)) k 
                                                                                ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
                                  GROUP BY d.nm_unsur ORDER BY COUNT(b.id_butir) DESC";
-              $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
+              $prepared_statement['id_posisi'] = $d['id_posisi'];
+              $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
               $data = [];
               $judul_unsur = [];
@@ -166,19 +257,12 @@
                                 JOIN tbl_jabatan e ON d.id_jabatan = e.id_jabatan 
                                 JOIN tbl_posisi f ON e.id_posisi = f.id_posisi 
                                 LEFT JOIN ((SELECT * FROM tbl_usulan
-                                            WHERE  tgl_usulan BETWEEN Date(Concat(Year(Now()) - 1, '-',
-                                                                           '10-01'))
-                                                                      AND Date(
-                                                   Concat(Year(Now()), '-', '02-01'))
-                                                    OR tgl_usulan BETWEEN Date(Concat(Year(Now()), '-',
-                                                                               '04-01'))
-                                                                          AND Date(
-                                                                              Concat(Year(Now()), '-',
-                                                                              '08-01')))) k 
+                                            WHERE 1 $sql_periode $sql_pegawai)) k 
                                                                                ON b.id_usulan = k.id_usulan 
                                 WHERE f.id_posisi = :id_posisi 
                                  GROUP BY c.nm_sub_unsur ORDER BY COUNT(b.id_butir) DESC";
-              $data_unsur = $db->query($sql_unsur, ['id_posisi' => $d['id_posisi']])->fetchAll(PDO::FETCH_ASSOC);
+              $prepared_statement['id_posisi'] = $d['id_posisi'];
+              $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
               $data = [];
               $judul_sub_unsur = [];
@@ -243,6 +327,8 @@
   <?php
       }
     ?>
+    document.getElementsByName("nip")[0].value = "<?=isset($_GET['nip']) ? $_GET['nip'] : '0'?>";
+    document.getElementsByName("periode")[0].value = "<?=isset($_GET['periode']) ? $_GET['periode'] : '0'?>";
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>

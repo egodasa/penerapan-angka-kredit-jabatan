@@ -212,6 +212,7 @@
       field: document.getElementsByName('tgl_selesai')[0],
       format: 'YYYY-MM-DD',
     });
+    document.getElementsByName("periode")[0].value = "<?=isset($_GET['periode']) ? $_GET['periode'] : '0'?>";
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
