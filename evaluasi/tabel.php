@@ -14,6 +14,7 @@
                     date((date('Y')).'-04-01'),
                     date((date('Y')).'-07-t')
                 ];
+  $judul_periode = "Periode Oktober - Januari dan April - Juli";;
   $sql_periode = "";
   $prepared_statement = [];
   if(isset($_GET['periode']))
@@ -29,7 +30,6 @@
                                                                           AND Date(
                                                                               Concat(Year(Now()), '-',
                                                                               '08-01'))";
-      $judul_periode = "Periode Oktober - Januari dan April - Juli";
     }
     elseif($_GET['periode'] == "1")
     {
