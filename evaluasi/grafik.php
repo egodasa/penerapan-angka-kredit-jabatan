@@ -60,7 +60,7 @@
   
   $judul_halaman = "Evaluasi Pegawai";
   
-  $pegawai = $db->select("tbl_pegawai", "*");
+  $daftar_posisi = $db->select("tbl_posisi", "*", ['jenis_posisi' => 'Tenaga Kependidikan']);
 ?>
 <html>
 <head>
@@ -79,17 +79,23 @@
         <div class="box-body">
           <form>
             <div class="form-group">
-              <label>Pilih Pegawai</label>
-              <select name="nip" class="form-control">
-                <option value="0">Semua Pegawai</option>
+              <label>Pilih Posisi</label>
+              <select name="id_posisi" class="form-control">
+                <option value="">-- Semua Posisi --</option>
                 <?php
-                  foreach($pegawai as $d)
+                  foreach($daftar_posisi as $d)
                   {
                 ?>
-                  <option value="<?=$d['nip']?>"><?=$d['nm_lengkap']?></option>
+                  <option value="<?=$d['id_posisi']?>"><?=$d['nm_posisi']?></option>
                 <?php
                   }
                 ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Pilih Pegawai</label>
+              <select name="nip" class="form-control">
+                <option value="0">Semua Pegawai</option>
               </select>
             </div>
             <div class="form-group">
@@ -134,10 +140,30 @@
       ?>
     </section>
   </div>
+  <script src="<?=$alamat_web?>/assets/js/axios.min.js"></script>
   <script src="<?=$alamat_web?>/assets/js/moment.js"></script>
   <script src="<?=$alamat_web?>/assets/js/pikaday.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
   <script>
+    function getPegawaiByPosisi()
+    {
+      var id_posisi = document.getElementsByName("id_posisi")[0].value;
+      if(id_posisi.length != 0)
+      {
+        var pegawai = "<option value='0'>Semua Pegawai</option>";
+        document.getElementsByName("nip")[0].innerHTML = "";
+        axios.get('<?=$alamat_web?>/pegawai/get-pegawai.php?id_posisi=' + id_posisi)
+          .then(function(res){
+            var data = res.data;
+            var banyak_data = data.length;
+            for(var x = 0; x < banyak_data; x++)
+            {
+              pegawai += "<option value='" + data[x].nip + "'>" + data[x].nm_lengkap + "</option>";
+            }
+            document.getElementsByName("nip")[0].innerHTML = pegawai;
+          })
+      }
+    }
     <?php
       foreach($posisi as $nomor => $d)
       {
@@ -329,8 +355,30 @@
   <?php
       }
     ?>
-    document.getElementsByName("nip")[0].value = "<?=isset($_GET['nip']) ? $_GET['nip'] : '0'?>";
     document.getElementsByName("periode")[0].value = "<?=isset($_GET['periode']) ? $_GET['periode'] : '0'?>";
+    document.getElementsByName("id_posisi")[0].value = "<?=isset($_GET['id_posisi']) ? $_GET['id_posisi'] : '0'?>";
+    
+    // event
+    document.getElementsByName("id_posisi")[0].addEventListener("change", getPegawaiByPosisi);
+    
+    // Start program
+    var id_posisi = document.getElementsByName("id_posisi")[0].value;
+    if(id_posisi.length != 0)
+    {
+      var pegawai = "<option value='0'>Semua Pegawai</option>";
+      document.getElementsByName("nip")[0].innerHTML = "";
+      axios.get('<?=$alamat_web?>/pegawai/get-pegawai.php?id_posisi=' + id_posisi)
+        .then(function(res){
+          var data = res.data;
+          var banyak_data = data.length;
+          for(var x = 0; x < banyak_data; x++)
+          {
+            pegawai += "<option value='" + data[x].nip + "'>" + data[x].nm_lengkap + "</option>";
+          }
+          document.getElementsByName("nip")[0].innerHTML = pegawai;
+          document.getElementsByName("nip")[0].value = "<?=isset($_GET['nip']) ? $_GET['nip'] : '0'?>";
+        })
+    }
   </script>
   <?php include "../template/footer.php"; ?>
   <?php include("../template/script.php"); ?>
