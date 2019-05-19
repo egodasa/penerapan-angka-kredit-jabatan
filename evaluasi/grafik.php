@@ -197,7 +197,7 @@
                                               ON dd.id_jabatan = ee.id_jabatan
                                        LEFT JOIN tbl_posisi ff
                                               ON ee.id_posisi = ff.id_posisi WHERE ff.id_posisi = :id_posisi
-                                GROUP  BY dd.id_unsur";
+                                GROUP  BY dd.nm_unsur";
               $prepared_statement['id_posisi'] = $d['id_posisi'];
               $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
@@ -286,7 +286,7 @@
                                         ON dd.id_jabatan = ee.id_jabatan
                                  LEFT JOIN tbl_posisi ff
                                         ON ee.id_posisi = ff.id_posisi WHERE ff.id_posisi = :id_posisi
-                          GROUP  BY cc.id_sub_unsur";
+                          GROUP  BY cc.nm_sub_unsur";
               $prepared_statement['id_posisi'] = $d['id_posisi'];
               $data_unsur = $db->query($sql_unsur, $prepared_statement)->fetchAll(PDO::FETCH_ASSOC);
               $labels = [];
