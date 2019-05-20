@@ -35,6 +35,16 @@
                                  LEFT JOIN tbl_posisi d
                                         ON a.id_posisi = d.id_posisi 
                           LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip_atasan']])->fetch();
+  
+  $sql = "SELECT
+                  a.*,
+                  b.*,
+                  c.* 
+                  FROM tbl_pangkat a 
+                  JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan 
+                  JOIN tbl_posisi c ON b.id_jabatan = c.id_posisi WHERE a.peringkat > :peringkat LIMIT 1";
+  $pangkat_selanjutnya = $db->query($sql, ['peringkat' => $pegawai['peringkat']])->fetch();
+  
   $tahun_usulan_tmp = explode("-", $data_usulan['tgl_usulan']);
   $tahun_usulan = $tahun_usulan_tmp[0]-1;
   ob_start();
@@ -138,9 +148,9 @@
     <tr>
       <td style="border: 1px solid black; text-align: center;">1</td>
       <td style="border: 1px solid black; text-align: center;"><?=$pegawai['nm_lengkap']?> <br/> Nip. <?=$pegawai['nip']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['nm_pangkat']?></td>
-      <td style="border: 1px solid black; text-align: center;">Gol <?=$_SESSION['nm_pangkat_selanjutnya']?></td>
-      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$_SESSION['nm_jabatan_selanjutnya']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$pegawai['nm_pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Gol <?=$pangkat_selanjutnya['nm_pangkat']?></td>
+      <td style="border: 1px solid black; text-align: center;">Fungsional <?=$pangkat_selanjutnya['nm_jabatan']?></td>
     </tr>
   </table>
   <br/>
@@ -150,7 +160,7 @@
     <ol style="font-size: 10pt;">
       <li>SK. Pangkat terakhir.</li>
       <li>SK. Kenaikan Gaji Berkala</li>
-      <li>DP3 2(dua) tahun terakhir (<?=($tahun_usulan-1)."/".$tahun_usulan?>)</li>
+      <li>SKP 2(dua) Tahun Terakhir</li>
       <li>SK Fungsional Terakhir</li>
       <li>SK Konversi NIP</li>
       <li>Ijazah Terakhir</li>
@@ -190,5 +200,5 @@ $dompdf->render();
 
 $dompdf->stream("surat-pernyataan-melakukan-kegiatan.pdf", array("Attachment" => false));
 exit(0);
-
+  
 ?>

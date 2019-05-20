@@ -33,21 +33,22 @@
                                         JOIN tbl_unsur d ON c.id_unsur = d.id_unsur 
                                         WHERE  a.id_usulan = :id_usulan AND d.kategori = 'Unsur Penunjang' GROUP BY c.id_sub_unsur", ["id_usulan" => $_GET['id_usulan']])->fetchAll();
   
+  
   $pegawai = $db->query("SELECT 
-                                  a.*,
-                                  b.*,
-                                  c.*,
-                                  d.*,
-                                  e.nm_unit_kerja
-                          FROM   tbl_pegawai a
-                                 LEFT JOIN tbl_pangkat b
-                                        ON a.id_pangkat = b.id_pangkat
-                                 LEFT JOIN tbl_jabatan c
-                                        ON b.id_jabatan = c.id_jabatan
-                                 LEFT JOIN tbl_posisi d
-                                        ON a.id_posisi = d.id_posisi 
-                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
-                          
+                              a.*,
+                              b.*,
+                              c.*,
+                              d.*,
+                              e.*
+                      FROM   tbl_pegawai a
+                             LEFT JOIN tbl_pangkat b
+                                    ON a.id_pangkat = b.id_pangkat
+                             LEFT JOIN tbl_jabatan c
+                                    ON b.id_jabatan = c.id_jabatan
+                             LEFT JOIN tbl_posisi d
+                                    ON a.id_posisi = d.id_posisi 
+                      LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip LIMIT 1", ['nip' => $_GET['nip']])->fetch(PDO::FETCH_ASSOC);              
+  
   $atasan = $db->query("SELECT 
                                   a.*,
                                   b.*,
@@ -70,7 +71,7 @@
                                       JOIN tbl_usulan c ON a.id_usulan = c.id_usulan 
                                       LEFT JOIN tbl_jabatan_pangkat d ON c.id_jabatan_pangkat_sekarang = d.id_jabatan_pangkat
                                       WHERE a.status <> 'Ditolak' AND d.peringkat < :peringkat AND a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' 
-                                      GROUP BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan'], 'peringkat' => $_SESSION['peringkat_jabatan_sekarang']])->fetch();
+                                      GROUP BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan'], 'peringkat' => $pegawai['peringkat']])->fetch();
   if(isset($kredit_awal_utama['angka_kredit']) == FALSE)
   {
     $kredit_awal_utama['angka_kredit'] = $pegawai['kredit_awal_utama'];
@@ -85,8 +86,8 @@
   $ak_penunjang_total = 0;
   $ak_total = 0;
   
-  $ak_utama_sekarang = $_SESSION['kredit_awal_utama'];
-  $ak_penunjang_sekarang = $_SESSION['kredit_awal_penunjang'];
+  $ak_utama_sekarang = $pegawai['kredit_awal_utama'];
+  $ak_penunjang_sekarang = $pegawai['kredit_awal_penunjang'];
   
   // Ambil angka kredit utama dan penunjang dari usulan
   
@@ -99,7 +100,7 @@
                       JOIN tbl_sub_unsur e ON d.id_sub_unsur = e.id_sub_unsur 
                       JOIN tbl_unsur f ON e.id_unsur = f.id_unsur 
                      WHERE c.nip = :nip AND f.kategori = 'Unsur Utama' GROUP BY a.id_usulan_unsur";
-  $ak_utama_sementara = $db->query($sql_ak_utama, ['nip' => $_SESSION['nip']])->fetch();
+  $ak_utama_sementara = $db->query($sql_ak_utama, ['nip' => $_GET['nip']])->fetch();
   
   $sql_ak_penunjang = "SELECT 
                       SUM(IFNULL(a.angka_kredit_baru), a.angka_kredit, a.angka_kredit_baru) AS angka_kredit 
@@ -110,7 +111,7 @@
                       JOIN tbl_sub_unsur e ON d.id_sub_unsur = e.id_sub_unsur 
                       JOIN tbl_unsur f ON e.id_unsur = f.id_unsur 
                      WHERE c.nip = :nip AND f.kategori = 'Unsur Penunjang' GROUP BY a.id_usulan_unsur";
-  $ak_penunjang_sementara = $db->query($sql_ak_penunjang, ['nip' => $_SESSION['nip']])->fetch();
+  $ak_penunjang_sementara = $db->query($sql_ak_penunjang, ['nip' => $_GET['nip']])->fetch();
   
   $ak_utama_total = $ak_utama_sekarang + $ak_utama_sementara['angka_kredit'];
   $ak_penunjang_total = $ak_penunjang_sekarang + $ak_penunjang_sementara['angka_kredit'];
@@ -172,15 +173,15 @@
       KETENTUAN PELAKSANAAN PERATURAN MENTERI <br/>
       PENDAYAGUNAAN APARATUR NEGARA DAN REFORMASI<br/>
       BIROKRASI REPUBLIK INDONESIA 
-      <?php if($_SESSION['nm_posisi'] == 'Pustakawan'): ?>
+      <?php if($pegawai['nm_posisi'] == 'Pustakawan'): ?>
         NOMOR 9 TAHUN 2014 <br/>
         TENTANG JABATAN FUNGSIONAL PUSTAKAWAN DAN <br/>
         ANGKA KREDITNYA
-      <?php elseif($_SESSION['nm_posisi'] == 'Arsiparis'): ?>
+      <?php elseif($pegawai['nm_posisi'] == 'Arsiparis'): ?>
         NOMOR 3 TAHUN 2009  <br/>
         TENTANG JABATAN FUNGSIONAL
         ARSIPARIS DAN <br/> ANGKA KREDITNYA
-      <?php elseif($_SESSION['nm_posisi'] == 'Pranata Laboratorium Pendidikan'): ?>
+      <?php elseif($pegawai['nm_posisi'] == 'Pranata Laboratorium Pendidikan'): ?>
         NOMOR 03 TAHUN 2010 <br/>
         TENTANG JABATAN FUNGSIONAL
         PRANATA LABORATORIUM PENDIDIKAN DAN <br/> ANGKA KREDITNYA

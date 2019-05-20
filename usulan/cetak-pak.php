@@ -7,52 +7,47 @@
   use Dompdf\Dompdf;
   
   $data_usulan = $db->query("SELECT a.* FROM tbl_usulan a WHERE id_usulan = :id_usulan", ["id_usulan" => $_GET['id_usulan']])->fetch();
-  $data_pangkat_sekarang = $db->query("SELECT a.*, b.nm_pangkat, c.nm_jabatan FROM tbl_jabatan_pangkat a JOIN tbl_pangkat b ON a.id_pangkat = b.id_pangkat JOIN tbl_jabatan c ON a.id_jabatan = c.id_jabatan WHERE a.id_jabatan_pangkat = :id", ['id' => $data_usulan['id_jabatan_pangkat_sekarang']])->fetch();
-  $data_pangkat_selanjutnya = $db->query("SELECT a.*, b.nm_pangkat, c.nm_jabatan FROM tbl_jabatan_pangkat a JOIN tbl_pangkat b ON a.id_pangkat = b.id_pangkat JOIN tbl_jabatan c ON a.id_jabatan = c.id_jabatan WHERE a.id_jabatan_pangkat = :id", ['id' => $data_usulan['id_jabatan_pangkat_selanjutnya']])->fetch();
-  
-  $data_kegiatan_utama = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Utama' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
-  $data_kegiatan_penunjang = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_sub_unsur b ON a.id_sub_unsur = b.id_sub_unsur WHERE a.id_usulan = :id_usulan AND b.jenis_unsur = 'Unsur Penunjang' ORDER BY b.jenis_unsur", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
-  $pegawai = $db->query("SELECT e.nm_posisi, a.*,
-                                   e.jenis_posisi,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   f.nm_unit_kerja,
-                                   f.nip_atasan 
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
-  $atasan = $db->query("SELECT e.nm_posisi,
-                                   e.jenis_posisi,
-                                   a.kredit_awal,
-                                   a.nip,
-                                   a.nm_lengkap,
-                                   a.jk,
-                                   a.foto,
-                                   b.peringkat,
-                                   c.nm_jabatan,
-                                   d.nm_pangkat,
-                                   a.id_unit_kerja,
-                                   f.nm_unit_kerja
-                            FROM   tbl_pegawai a
-                                   JOIN tbl_jabatan_pangkat b
-                                     ON a.id_jabatan_pangkat = b.id_jabatan_pangkat
-                                   JOIN tbl_jabatan c
-                                     ON b.id_jabatan = c.id_jabatan
-                                   JOIN tbl_pangkat d
-                                     ON b.id_pangkat = d.id_pangkat
-                                   JOIN tbl_unit_kerja f
-                                     ON a.id_unit_kerja = f.id_unit_kerja
-                                   JOIN tbl_posisi e
-                                     ON f.id_posisi = e.id_posisi WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+
+  $data_kegiatan_utama = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_butir_kegiatan b ON a.id_butir = b.id_butir 
+  JOIN tbl_sub_unsur c ON b.id_sub_unsur = c.id_sub_unsur JOIN tbl_unsur d ON c.id_unsur = d.id_unsur WHERE a.id_usulan = :id_usulan AND d.kategori = 'Unsur Utama'", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
+  $data_kegiatan_penunjang = $db->query("SELECT a.*, b.* FROM tbl_usulan_unsur a JOIN tbl_butir_kegiatan b ON a.id_butir = b.id_butir 
+  JOIN tbl_sub_unsur c ON b.id_sub_unsur = c.id_sub_unsur JOIN tbl_unsur d ON c.id_unsur = d.id_unsur WHERE a.id_usulan = :id_usulan AND d.kategori = 'Unsur Penunjang'", ['id_usulan' => $_GET['id_usulan']])->fetchAll();
+  $pegawai = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.*
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $_GET['nip']])->fetch();
+  $atasan = $db->query("SELECT 
+                                  a.*,
+                                  b.*,
+                                  c.*,
+                                  d.*,
+                                  e.nm_unit_kerja
+                          FROM   tbl_pegawai a
+                                 LEFT JOIN tbl_pangkat b
+                                        ON a.id_pangkat = b.id_pangkat
+                                 LEFT JOIN tbl_jabatan c
+                                        ON b.id_jabatan = c.id_jabatan
+                                 LEFT JOIN tbl_posisi d
+                                        ON a.id_posisi = d.id_posisi 
+                          LEFT JOIN tbl_unit_kerja e ON a.id_unit_kerja = e.id_unit_kerja WHERE a.nip = :nip", ['nip' => $pegawai['nip_atasan']])->fetch();
+  $sql = "SELECT
+                  a.*,
+                  b.*,
+                  c.* 
+                  FROM tbl_pangkat a 
+                  JOIN tbl_jabatan b ON a.id_jabatan = b.id_jabatan 
+                  JOIN tbl_posisi c ON b.id_jabatan = c.id_posisi WHERE a.peringkat > :peringkat LIMIT 1";
+  $pangkat_selanjutnya = $db->query($sql, ['peringkat' => $pegawai['peringkat']])->fetch();
   ob_start();
 ?>
 <!DOCTYPE html>
@@ -294,7 +289,7 @@
       </tr>
       <tr>
         <td class="isi_tabel_bergaris"> </td>
-        <td colspan="9" class="isi_tabel_bergaris" style="text-align: left;">DAPAT DIPERTIMBANGKAN UNTUK PENYESUAIAN DALAM JABATAN <b><?=$data_pangkat_selanjutnya['nm_jabatan']." ".$data_pangkat_selanjutnya['nm_pangkat']." Terhitung ".tanggal_indo($data_usulan['tgl_penyesuaian'])?></b></td>
+        <td colspan="9" class="isi_tabel_bergaris" style="text-align: left;">DAPAT DIPERTIMBANGKAN UNTUK PENYESUAIAN DALAM JABATAN <b><?=$pangkat_selanjutnya['nm_jabatan']." ".$pangkat_selanjutnya['nm_pangkat']." Terhitung ".tanggal_indo($data_usulan['tgl_penyesuaian'])?></b></td>
       </tr>
     </table>
     <br/>
@@ -357,7 +352,7 @@ $dompdf->setPaper('A4', 'portrait');
 // Render the HTML as PDF
 $dompdf->render();
 
-$dompdf->stream("surat-pernyataan-melakukan-kegiatan.pdf", array("Attachment" => false));
+$dompdf->stream("surat-pak.pdf", array("Attachment" => false));
 exit(0);
 
 ?>

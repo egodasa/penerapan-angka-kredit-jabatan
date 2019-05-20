@@ -39,36 +39,13 @@
               <i class="fa fa-list-alt"></i> <span>Data Posisi</span>
             </a>
           </li>
-          <li>
-            <a href="<?=$alamat_web?>/unsur">
-              <i class="fa fa-list-alt"></i> <span>Data Unsur</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?=$alamat_web?>/unsur-kegiatan">
-              <i class="fa fa-list-alt"></i> <span>Data Sub Unsur</span>
-            </a>
-          </li>
+          
           <li>
             <a href="<?=$alamat_web?>/pegawai">
               <i class="fa fa-list-alt"></i> <span>Data Pegawai</span>
             </a>
           </li>
-          <li>
-            <a href="<?=$alamat_web?>/jabatan">
-              <i class="fa fa-list"></i> <span>Data Jabatan</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?=$alamat_web?>/pangkat">
-              <i class="fa fa-toggle-up"></i> <span>Data Pangkat</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?=$alamat_web?>/kredit-pangkat">
-              <i class="fa fa-list-ol"></i> <span>Data Kredit Pangkat</span>
-            </a>
-          </li>
+          
           <li>
             <a href="<?=$alamat_web?>/jenis-berkas">
               <i class="fa fa-list-ol"></i> <span>Data Jenis Berkas</span>
