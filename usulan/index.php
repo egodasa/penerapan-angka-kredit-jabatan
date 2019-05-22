@@ -128,6 +128,7 @@ JOIN tbl_pegawai b ON a.nip = b.nip join tbl_posisi d ON b.id_posisi = d.id_posi
                           <li><a href="#" onclick="cetakDupak(<?=$d['id_usulan'].",'".$d['nip']."'"?>)">Cetak DUPAK</a></li>
                           <li><a href="#" onclick="cetakSuratPengantar(<?=$d['id_usulan'].",'".$d['nip']."'"?>)">Cetak Surat Pengantar</a></li>
                         <?php elseif($_SESSION['jenis_posisi'] == "Tenaga Kependidikan"): ?>
+                          <li><a href="#" onclick="cetakDupak(<?=$d['id_usulan'].",'".$d['nip']."'"?>)">Cetak DUPAK</a></li>
                           <li><a href="#" onclick="cetakSpmk(<?=$d['id_usulan'].",'".$d['nip']."'"?>)">Cetak SPMK</a></li>
                         <?php elseif($_SESSION['jenis_posisi'] == "Tim Penilai"): ?>
                           <li><a href="<?=$alamat_web?>/usulan/cetak-pak.php?id_usulan=<?=$d['id_usulan']?>&nip=<?=$d['nip']?>">Cetak PAK</a></li>
